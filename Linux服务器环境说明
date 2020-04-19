@@ -1,0 +1,65 @@
+# Linux服务器环境
+## 使用须知
+- 因为时间有限，就不弄多权限的账号了，感jio有点麻烦，大家使用的时候小心一些就好啦
+- 安装软件时或者进行一些你不能估计结果的操作前尽量做好记录，以免意外花生。
+- 不要使用服务器做些不好的事情！
+- 自己有服务器的也可以依照以下内容进行配置。
+- 有服务器使用需求的SSH账号密码&Mysql服务器账号密码请联系各组长或团长
+## 配置信息
+- 操作系统
+  - Ubuntu Server 18.04 1 LTS 64位
+- CPU
+  - 1核
+- 内存
+  - 2GB
+- 公网带宽
+  - 1Mbps
+## 服务器远程登录信息
+- 公网ip地址
+  - 192.144.239.176
+- port
+  - 22
+- 用户名
+  - ******
+- 密码
+  - ****************
+## 基本环境配置步骤(已配置，无需重复执行)
+- 更新默认安装的软件包
+  - `sudo apt-get upgrade`
+- 搭建Node相关环境
+  - 搭建Nodejs环境
+    - `sudo apt-get install nodejs`
+  - 安装Npm包管理器
+    - `sudo apt-get install npm`
+  - 安装CNpm包管理器
+    - `npm install -g cnpm --registry=https://registry.npm.taobao.org`
+- Python相关环境
+  - Python2 & Python3 系统默认已安装
+  - Python2版本PiP
+    - `sudo apt-get install python-pip`
+  - Python3版本PiP
+    - `sudo apt-get install python3-pip`
+- Mysql服务器
+  - 安装Mysql服务器&客户端
+    - `sudo apt-get install mysql-server mysql-client`
+  - 配置Mysql服务器允许远程访问(MysqlWorkbench测试)
+    - 修改mysql配置文件
+      - `sudo vim /etc/mysql/mysql.conf.d/mysql.conf.d`
+      - `注释 以bind-address开头的行(就一行)`
+      - `重启mysql服务器 sudo service mysql restart`
+    - 修改root默认密码、用户允许访问的ip地址、加密方式(为了让mysqlworkbench能访问)
+      - `use mysql`
+      - `update user set authentication_string = password("password"), host = "%", plugin = 'mysql_native_password' where user = 'username';`
+      - `flush privileges;`
+    - Mysql服务器配置信息
+      - ip地址
+        - 192.144.239.176
+      - 端口
+        - ****
+      - 用户名
+        - ****
+      - 密码
+        - ****************
+  - MysqlWorkbench测试
+
+
