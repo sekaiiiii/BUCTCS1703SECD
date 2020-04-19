@@ -2,8 +2,20 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-
-
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res/layout',
+                    'src/main/res/layout/mainpage',
+                    'src/main/res/layout/news',
+                    'src/main/res/layout/user',
+                    'src/main/res'
+            ]
+        }
+    }
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
     defaultConfig {
         applicationId "com.buct.museumguide"
         minSdkVersion 23
@@ -33,6 +45,15 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation("com.squareup.okhttp3:okhttp:4.4.0")
+    implementation 'androidx.media:media:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.preference:preference:1.1.0-rc01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
