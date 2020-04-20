@@ -1,0 +1,15 @@
+# 代码结构
+- /
+  - api(api接口代码存放位置)
+    - android
+    - web
+  - config(存放各种配置文件)
+    - xxx.js
+  - dist(存放web页面静态资源)
+  - tool(存放一些封装的工具函数)
+  - middleware(存放一些实现业务的中间件)
+  - public(存放服务器的资源文件)
+  - node_modules(npm安装的文件存放位置)
+  - package.json(依赖配置文件)
+  - router.js(处理路由的文件)
+  - server.js(服务器的入口)
