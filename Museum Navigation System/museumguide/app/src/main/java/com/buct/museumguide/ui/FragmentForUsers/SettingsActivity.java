@@ -1,6 +1,7 @@
 package com.buct.museumguide.ui.FragmentForUsers;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.buct.museumguide.R;
 
@@ -12,6 +13,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         getSupportFragmentManager()
@@ -28,6 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        }
+        public void GetBack(View v){
+
         }
     }
 }

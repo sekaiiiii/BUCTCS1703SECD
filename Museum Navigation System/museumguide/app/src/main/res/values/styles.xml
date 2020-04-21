@@ -7,5 +7,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="Button_UserMainPage_Style">
+        <item name="android:background">
+            @android:color/transparent
+        </item>
+        <item name="android:paddingLeft">
+            10dp
+        </item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">
+            10dp
+        </item>
+    </style>
 </resources>

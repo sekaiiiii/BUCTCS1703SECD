@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.ui.map.MapGuide;
 
 /*
 * 系统的默认页面，直接在这里构建页面0以及跳转逻辑，该页面的显示应按fragment实现
@@ -45,6 +47,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_searchResult);
+            }
+        });
+        final Button button2=root.findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), MapGuide.class));
             }
         });
         return root;
