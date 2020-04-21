@@ -15,6 +15,6 @@ public class WebViewer extends AppCompatActivity {
         //setContentView(R.layout.activity_web_viewer);
         WebView myWebView = new WebView(WebViewer.this);
         setContentView(myWebView);
-        myWebView.loadUrl("https://www.baidu.com");
+        myWebView.loadUrl("https://www.baidu.com");//在这里输入新闻对应的地址
     }
 }

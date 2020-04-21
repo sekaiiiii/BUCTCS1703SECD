@@ -5,5 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.map.MapGuide">
+    <com.amap.api.maps.MapView
 
+        android:id="@+id/map"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

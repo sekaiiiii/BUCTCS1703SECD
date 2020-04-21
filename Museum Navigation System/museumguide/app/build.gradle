@@ -6,9 +6,6 @@ android {
         main {
             res.srcDirs = [
                     'src/main/res/layout',
-                    'src/main/res/layout/mainpage',
-                    'src/main/res/layout/news',
-                    'src/main/res/layout/user',
                     'src/main/res'
             ]
         }
