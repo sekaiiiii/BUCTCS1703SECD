@@ -15,5 +15,7 @@ class MuseumnewsItem(scrapy.Item):
     author = scrapy.Field()
     time = scrapy.Field()
     content = scrapy.Field()
-    href = scrapy.Field()
+    description = scrapy.Field()
+    url = scrapy.Field()
+    tag = scrapy.Field()
     pass
