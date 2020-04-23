@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_searchResult"
             app:destination="@id/searchResult" />
+        <action
+            android:id="@+id/action_navigation_home_to_museumInfo"
+            app:destination="@id/museumInfo" />
     </fragment>
 
     <fragment
@@ -55,4 +58,9 @@
         android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio"
         android:label="upload_audio_fragment"
         tools:layout="@layout/upload_audio_fragment" />
+    <fragment
+        android:id="@+id/museumInfo"
+        android:name="com.buct.museumguide.ui.FragmentForMain.MuseumInfo.MuseumInfo"
+        android:label="museum_info_fragment"
+        tools:layout="@layout/museum_info_fragment" />
 </navigation>

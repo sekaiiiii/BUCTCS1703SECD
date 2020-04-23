@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,14 +34,6 @@ public class HomeFragment extends Fragment {
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         /**/
-        final TextView textView = root.findViewById(R.id.text_home);
-        //
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         final Button button1=root.findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +48,15 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getActivity(), MapGuide.class));
+            }
+        });
+        final Button button9=root.findViewById(R.id.button9);
+        button9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getActivity(), MapGuide.class));
+                Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_museumInfo);
             }
         });
         return root;
