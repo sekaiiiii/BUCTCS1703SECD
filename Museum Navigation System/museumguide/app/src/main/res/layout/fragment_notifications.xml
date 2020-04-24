@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="0dp"
-    android:background="#E7DF7F"
+    android:background="#CCCC99"
     android:paddingTop="0dp"
     tools:context=".ui.User.NotificationsFragment">
 
@@ -76,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:paddingTop="0dp"
-        app:cardBackgroundColor="#517C63"
+        app:cardBackgroundColor="#006633"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
