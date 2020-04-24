@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="0dp"
-    android:background="?android:attr/colorActivatedHighlight"
+    android:background="#E7DF7F"
     android:paddingTop="0dp"
     tools:context=".ui.User.NotificationsFragment">
 
@@ -14,10 +14,11 @@
         style="@style/Button_UserMainPage_Style"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:layout_marginTop="5dp"
         android:drawableLeft="@drawable/ic_user"
         android:drawableRight="@drawable/ic_next"
-        android:text="更改个人信息"
 
+        android:text="更改个人信息"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -75,7 +76,7 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:paddingTop="0dp"
-        app:cardBackgroundColor="?android:attr/textColorLinkInverse"
+        app:cardBackgroundColor="#517C63"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

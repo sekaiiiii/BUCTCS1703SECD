@@ -9,4 +9,32 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <!--  省份选择  -->
+    <string-array name="privince">
+        <item>省</item>
+        <item>北京</item>
+    </string-array>
+
+    <!--  市选择   -->
+    <string-array name="city">
+        <item>市</item>
+        <item>北京市</item>
+    </string-array>
+
+    <!--  博物馆选择  -->
+    <string-array name="museum">
+        <item>博物馆</item>
+        <item>故宫</item>
+    </string-array>
+
+    <!--  展览选择  -->
+    <string-array name="show">
+        <item>展览</item>
+    </string-array>
+
+    <!--  藏品选择  -->
+    <string-array name="collection">
+        <item>藏品</item>
+    </string-array>
 </resources>

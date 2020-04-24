@@ -9,7 +9,7 @@
     </style>
     <style name="Button_UserMainPage_Style">
         <item name="android:background">
-            @android:color/transparent
+            #F3F0E9
         </item>
         <item name="android:paddingLeft">
             10dp
