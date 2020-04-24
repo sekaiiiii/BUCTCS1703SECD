@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?意见反馈界面?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.FragmentForUsers.FeedBack">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#006633">
+
+        <Button
+            android:id="@+id/bt_backup"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:drawableRight="@drawable/ic_fanhui" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="意见反馈"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="60dp"
+        android:background="#CCCC99"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="left"
+            android:text="如果您对我们的应用有什么好的建议，欢迎您提出，我们会争取采纳"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="问题名称（可上传截图）："
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/etext_issue"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#FFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="问题的改进措施等："
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/etext_meassure"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#FFFFFF" />
+    </LinearLayout>
+
 
 </FrameLayout>
