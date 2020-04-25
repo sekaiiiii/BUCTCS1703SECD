@@ -9,7 +9,16 @@ public class MuseumNews {
     private String content;
     private String url;
     private int tag;
-
+    public MuseumNews(int id,String title,String author,String time,String description,String content,String url,int tag){
+        this.id=id;
+        this.title=title;
+        this.author=author;
+        this.time=time;
+        this.description=description;
+        this.content=content;
+        this.url=url;
+        this.tag=tag;
+    }
     public void setId(int id) {
         this.id = id;
     }

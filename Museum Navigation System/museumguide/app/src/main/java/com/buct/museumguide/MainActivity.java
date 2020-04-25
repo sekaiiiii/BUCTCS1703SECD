@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 * 记得在nav里注册
 * */
 public class MainActivity extends AppCompatActivity {
+    //public static String url = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
