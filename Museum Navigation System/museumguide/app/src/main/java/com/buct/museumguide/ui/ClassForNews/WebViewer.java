@@ -2,6 +2,7 @@ package com.buct.museumguide.ui.ClassForNews;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 
@@ -13,8 +14,10 @@ public class WebViewer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_web_viewer);
+        Intent intent = getIntent();
+        String uri=intent.getStringExtra("uri");
         WebView myWebView = new WebView(WebViewer.this);
         setContentView(myWebView);
-        myWebView.loadUrl("https://www.baidu.com");//在这里输入新闻对应的地址
+        myWebView.loadUrl(uri);//在这里输入新闻对应的地址
     }
 }
