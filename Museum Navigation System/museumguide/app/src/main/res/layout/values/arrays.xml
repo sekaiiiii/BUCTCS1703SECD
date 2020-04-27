@@ -37,4 +37,11 @@
     <string-array name="collection">
         <item>藏品</item>
     </string-array>
+    <string-array name="searchChoice">
+        <item>展览</item>
+        <item>博物馆</item>
+        <item>地点</item>
+        <item>人物</item>
+        <item>时间</item>
+    </string-array>
 </resources>
