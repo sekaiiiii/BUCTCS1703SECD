@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../MuseumGuide.iml" filepath="$PROJECT_DIR$/../MuseumGuide.iml" group="MuseumGuide" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" group="MuseumGuide/app" />
+      <module fileurl="file://$PROJECT_DIR$/../museumguide-MuseumGuide.iml" filepath="$PROJECT_DIR$/../museumguide-MuseumGuide.iml" group="MuseumGuide" />
+      <module fileurl="file://$PROJECT_DIR$/museumguide-app.iml" filepath="$PROJECT_DIR$/museumguide-app.iml" group="MuseumGuide/app" />
     </modules>
   </component>
 </project>

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,18 +50,26 @@ public class DashboardFragment extends Fragment {
             }
         });
         for(int i=0;i<50;i++){
-            newsList.add(new MuseumNews(1,"溧阳看馆藏|元代梵文准提咒镜",
+            newsList.add(new MuseumNews(1,i + "溧阳看馆藏|元代梵文准提咒镜",
                     "地方焦点",
                     "2020-04-22 20:31:44",
                     "1",
                     "今天为大家带来溧阳馆藏第三十二期——元代梵文准提咒镜。铜镜直径8.2厘米,边厚0.3厘米。银锭形钮,主体纹饰为环绕镜钮两圈的梵文铭文圈,内圈为十六字梵...",
                     "https://baijiahao.baidu.com/s?id=1664675906753328795&wfr=spider&for=pc",
-                    1));
+                    1,"http://08imgmini.eastday.com//mobile//20200427//20200427223051_212a5125226069466102e497168b127f_2_mwpm_03200403.jpg"));
         }
+
         RecyclerView recyclerView=root.findViewById(R.id.recyclerrView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        NewsAdapter adapter = new NewsAdapter(newsList);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        NewsAdapter adapter = new NewsAdapter();
+        recyclerView.setAdapter(adapter);
+        adapter.addDatas(newsList);
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.news_header_banner,recyclerView, false);
+        adapter.setHeaderView(header);
+
         adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -76,7 +85,6 @@ public class DashboardFragment extends Fragment {
 
             }
         });
-        recyclerView.setAdapter(adapter);
         return root;
     }
 
