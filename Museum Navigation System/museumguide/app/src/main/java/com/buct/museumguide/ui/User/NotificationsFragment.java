@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +16,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
 
 public class NotificationsFragment extends Fragment {
@@ -43,10 +46,10 @@ public class NotificationsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        if(state==0){
-            notificationsViewModel =
-                    ViewModelProviders.of(this).get(NotificationsViewModel.class);
-            View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        notificationsViewModel =
+            ViewModelProviders.of(this).get(NotificationsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        if(state==0){//已登录
             final TextView textView = root.findViewById(R.id.textView3);
             final ImageView imageView=root.findViewById(R.id.imageView);
             final Button button0=root.findViewById(R.id.button3);//更改信息
@@ -84,11 +87,15 @@ public class NotificationsFragment extends Fragment {
                     startActivity(new Intent(getActivity(), SettingsActivity.class));
                 }
             });
-            return root;
-        }else{
-            View root = inflater.inflate(R.layout.login_fragment, container, false);
-            return root;
         }
-        //return null;
+        return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (state == 1) {
+            Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
+        }
     }
 }

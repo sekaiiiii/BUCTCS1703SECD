@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_navigation_notifications_to_feedBack"
             app:destination="@id/feedBack" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/searchResult"
@@ -63,4 +66,21 @@
         android:name="com.buct.museumguide.ui.FragmentForMain.MuseumInfo.MuseumInfo"
         android:label="museum_info_fragment"
         tools:layout="@layout/museum_info_fragment" />
+    <fragment
+        android:id="@+id/login"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Login.Login"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_login_to_regist"
+            app:destination="@id/regist" />
+        <action
+            android:id="@+id/action_login_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+    </fragment>
+    <fragment
+        android:id="@+id/regist"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Regist.Regist"
+        android:label="regist_fragment"
+        tools:layout="@layout/regist_fragment" />
 </navigation>
