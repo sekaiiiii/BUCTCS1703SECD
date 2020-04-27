@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_navigation_home_to_museumInfo"
             app:destination="@id/museumInfo" />
+        <action
+            android:id="@+id/action_navigation_home_to_myComment"
+            app:destination="@id/myComment" />
+        <action
+            android:id="@+id/action_navigation_home_to_userComment"
+            app:destination="@id/userComment" />
     </fragment>
 
     <fragment
@@ -63,4 +69,18 @@
         android:name="com.buct.museumguide.ui.FragmentForMain.MuseumInfo.MuseumInfo"
         android:label="museum_info_fragment"
         tools:layout="@layout/museum_info_fragment" />
+    <fragment
+        android:id="@+id/myComment"
+        android:name="com.buct.museumguide.ui.FragmentForMain.Comment.myComment"
+        android:label="my_comment"
+        tools:layout="@layout/my_comment_fragment" />
+    <fragment
+        android:id="@+id/userComment"
+        android:name="com.buct.museumguide.ui.FragmentForMain.Comment.UserComment"
+        android:label="user_comment"
+        tools:layout="@layout/user_comment_fragment">
+        <action
+            android:id="@+id/action_userComment_to_myComment"
+            app:destination="@id/myComment" />
+    </fragment>
 </navigation>
