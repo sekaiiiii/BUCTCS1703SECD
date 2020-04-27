@@ -11,71 +11,82 @@ import com.buct.museumguide.R;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-    private ArrayList<MuseumNews>news;
+import org.jetbrains.annotations.NotNull;
+
+public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<MuseumNews>news = new ArrayList<>();
     private NewsAdapter.OnItemClickListener onItemClickListener;
-    static class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView textView1;//概述
-        private TextView textView2;//作者
-        //private TextView textView3;
-        private TextView textView4;//时间
-        private TextView textView5;//标题
-        private String url;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            textView1=itemView.findViewById(R.id.textView5);
-            textView2=itemView.findViewById(R.id.textView6);
-            //textView3=itemView.findViewById(R.id.textView7);
-            textView4=itemView.findViewById(R.id.textView8);
-            textView5=itemView.findViewById(R.id.textView9);
-        }
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_NORMAL = 1;
+    private View mHeaderView;
+
+    void setHeaderView(View headerView) {
+        mHeaderView = headerView;
+        notifyItemInserted(0);
     }
-    public NewsAdapter(ArrayList<MuseumNews> newsitem){
-        news=newsitem;
+    public View getHeaderView() {
+        return mHeaderView;
     }
+    @Override
+    public int getItemViewType(int position) {
+        if(mHeaderView == null) return TYPE_NORMAL;
+        if(position == 0) return TYPE_HEADER;
+        return TYPE_NORMAL;
+    }
+
+    void addDatas(ArrayList<MuseumNews> datas) {
+        news.addAll(datas);
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
         void onItemLongClick(View view, int position);
     }
 
     // ② 定义一个设置点击监听器的方法
-    public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
+    void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.newitem,parent,false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(mHeaderView != null && viewType == TYPE_HEADER) return new NewsHolder(mHeaderView);
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.newitem,parent,false);
+        return new NewsHolder(layout);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        MuseumNews museumNews=news.get(position);
-        holder.textView5.setText(museumNews.getTitle());
-        holder.textView2.setText(museumNews.getAuthor());
-        holder.textView4.setText(museumNews.getTime());
-        holder.textView1.setText(museumNews.getContent());
-        holder.url=museumNews.getUrl();
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NotNull RecyclerView.ViewHolder viewHolder, int position) {
+        if(getItemViewType(position) == TYPE_HEADER) return;
+
+        final int pos = getRealPosition(viewHolder);
+        MuseumNews museumNews=news.get(pos);
+        final NewsHolder myHolder = (NewsHolder) viewHolder;
+        myHolder.newsTitle.setText(museumNews.getTitle());
+        myHolder.newsContent.setText(museumNews.getContent());
+        myHolder.newsTime.setText(museumNews.getTime());
+        myHolder.url=museumNews.getUrl();
+        myHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if(onItemClickListener != null) {
-                    int pos = holder.getLayoutPosition();
-                    onItemClickListener.onItemClick(holder.itemView, pos);
+                    int pos = getRealPosition(myHolder);
+                    onItemClickListener.onItemClick(myHolder.cardView, pos);
                 }
             }
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        myHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if(onItemClickListener != null) {
-                    int pos = holder.getLayoutPosition();
-                    onItemClickListener.onItemLongClick(holder.itemView, pos);
+                    int pos = getRealPosition(myHolder);
+                    onItemClickListener.onItemLongClick(myHolder.cardView, pos);
                 }
                 //表示此事件已经消费，不会触发单击事件
                 return true;
@@ -83,9 +94,29 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         });
     }
 
+    private int getRealPosition(RecyclerView.ViewHolder holder) {
+        int position = holder.getLayoutPosition();
+        return mHeaderView == null ? position : position - 1;
+    }
 
     @Override
     public int getItemCount() {
-        return news.size();
+        return mHeaderView == null ? news.size() : news.size() + 1;
+    }
+
+    class NewsHolder extends RecyclerView.ViewHolder{
+        TextView newsContent;//概述
+        TextView newsTime;//时间
+        TextView newsTitle;//标题
+        CardView cardView;
+        String url;
+        NewsHolder(@NonNull View itemView) {
+            super(itemView);
+            if(itemView == mHeaderView) return;
+            newsTitle=itemView.findViewById(R.id.newsTitle);
+            newsContent=itemView.findViewById(R.id.newsContent);
+            newsTime=itemView.findViewById(R.id.newsTime);
+            cardView=itemView.findViewById(R.id.card_view);
+        }
     }
 }
