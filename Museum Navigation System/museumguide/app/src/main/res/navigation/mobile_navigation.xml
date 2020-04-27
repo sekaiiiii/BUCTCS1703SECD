@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_navigation_notifications_to_feedBack"
             app:destination="@id/feedBack" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/searchResult"
