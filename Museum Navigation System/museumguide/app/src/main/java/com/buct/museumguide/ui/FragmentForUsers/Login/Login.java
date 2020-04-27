@@ -76,12 +76,10 @@ public class Login extends Fragment {
                 }
                 if(jsonObject.length()>0){
                     String body=jsonObject.toString();
-                    Request request=new Request.Builder()
+                    final Request request=new Request.Builder()
                             .url("http://192.144.239.176:8080/api/android/login")
                             .post(RequestBody.create(body,mediaType)).build();
                     okHttpClient.newCall(request).enqueue(new Callback() {
-
-
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             Log.e(TAG, "onFailure: ",e );
@@ -89,7 +87,7 @@ public class Login extends Fragment {
 
                         @Override
                         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            
+                            System.out.println(response.body().string());;
                         }
                     });
                 }
