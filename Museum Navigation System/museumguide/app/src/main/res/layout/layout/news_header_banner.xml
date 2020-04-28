@@ -21,7 +21,7 @@
             android:id="@+id/searchNews"
             android:layout_width="300dp"
             android:layout_height="40dp"
-            android:layout_margin="20dp"
+            android:layout_margin="15dp"
             android:background="@color/colorWhite" />
     </LinearLayout>
 
