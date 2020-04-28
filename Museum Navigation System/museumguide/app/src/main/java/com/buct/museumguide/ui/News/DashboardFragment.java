@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 import com.buct.museumguide.ui.ClassForNews.WebViewer;
+import com.youth.banner.Banner;
+import com.youth.banner.indicator.CircleIndicator;
 
 import java.util.ArrayList;
 
@@ -28,6 +33,21 @@ import java.util.ArrayList;
 public class DashboardFragment extends Fragment {
     private ArrayList<MuseumNews>newsList=new ArrayList<>();
     private DashboardViewModel dashboardViewModel;
+    private Banner banner;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stop();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
@@ -41,15 +61,7 @@ public class DashboardFragment extends Fragment {
                 textView.setText(s);
             }
         });*/
-        final Button button=root.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(getActivity(), WebViewer.class);
-                startActivity(intent);
-            }
-        });
-        for(int i=0;i<50;i++){
+        for(int i=0;i<20;i++){
             newsList.add(new MuseumNews(1,i + "溧阳看馆藏|元代梵文准提咒镜",
                     "地方焦点",
                     "2020-04-22 20:31:44",
@@ -67,8 +79,21 @@ public class DashboardFragment extends Fragment {
         NewsAdapter adapter = new NewsAdapter();
         recyclerView.setAdapter(adapter);
         adapter.addDatas(newsList);
+
+        // get and set header
         View header = LayoutInflater.from(getContext()).inflate(R.layout.news_header_banner,recyclerView, false);
+        banner = (Banner) header.findViewById(R.id.banner);
+        SearchView searchView = header.findViewById(R.id.searchNews);
+        searchView.setOnClickListener(v -> {
+            // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(v).navigate(R.id.action_navigation_dashboard_to_searchResult);
+        });
         adapter.setHeaderView(header);
+
+        banner.setAdapter(new ImageNetAdapter(MuseumNews.getTestData()))
+                .setIndicator(new CircleIndicator(getContext()))
+                .start();
+//        adapter.setHeaderView(banner);
 
         adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
