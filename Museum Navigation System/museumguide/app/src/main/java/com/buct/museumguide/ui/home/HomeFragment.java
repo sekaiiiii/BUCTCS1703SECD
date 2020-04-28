@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
@@ -31,7 +32,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+                new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         /**/
         final Button button1=root.findViewById(R.id.button1);
@@ -57,6 +58,24 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(getActivity(), MapGuide.class));
                 Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_museumInfo);
+            }
+        });
+        final Button button14=root.findViewById(R.id.button14);
+        button14.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getActivity(), MapGuide.class));
+                Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_myComment);
+            }
+        });
+        final Button button15=root.findViewById(R.id.button15);
+        button15.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getActivity(), MapGuide.class));
+                Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_userComment);
             }
         });
         return root;

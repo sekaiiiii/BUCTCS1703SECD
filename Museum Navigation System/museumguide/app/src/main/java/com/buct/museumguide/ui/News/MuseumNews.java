@@ -9,7 +9,8 @@ public class MuseumNews {
     private String content;
     private String url;
     private int tag;
-    public MuseumNews(int id,String title,String author,String time,String description,String content,String url,int tag){
+    private String imgUrl;
+    public MuseumNews(int id,String title,String author,String time,String description,String content,String url,int tag, String imgUrl){
         this.id=id;
         this.title=title;
         this.author=author;
@@ -18,6 +19,7 @@ public class MuseumNews {
         this.content=content;
         this.url=url;
         this.tag=tag;
+        this.imgUrl = imgUrl;
     }
     public void setId(int id) {
         this.id = id;
@@ -55,6 +57,10 @@ public class MuseumNews {
         return url;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -82,4 +88,8 @@ public class MuseumNews {
     public void setUrl(String url) {
         this.url = url;
     }
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
 }
