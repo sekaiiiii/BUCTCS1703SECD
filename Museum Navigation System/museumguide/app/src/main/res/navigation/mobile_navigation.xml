@@ -28,7 +28,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.buct.museumguide.ui.News.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_searchResult"
+            app:destination="@id/searchResult" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
