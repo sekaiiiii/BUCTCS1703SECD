@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loginurl">http://192.144.239.176:8080/api/android/login</string>
+</resources>
