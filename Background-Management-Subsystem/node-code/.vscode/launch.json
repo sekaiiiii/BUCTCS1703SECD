@@ -1,0 +1,16 @@
+//node 配置
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type":"node",
+            "request": "launch",
+            "name": "node",
+            "runtimeExecutable": "node",
+            "program": "${workspaceFolder}\\server.js",
+            "restart":true,
+            "console":"internalConsole",
+            "internalConsoleOptions": "openOnFirstSessionStart"
+        }
+    ]
+}
