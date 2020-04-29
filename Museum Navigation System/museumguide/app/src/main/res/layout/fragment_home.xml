@@ -43,7 +43,7 @@
             android:id="@+id/cardViewIntro"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="10dp"
@@ -76,7 +76,7 @@
             android:id="@+id/cardViewVisit"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="10dp"
@@ -105,26 +105,17 @@
                     android:maxLines="4"/>
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
-        <androidx.cardview.widget.CardView
+        <com.youth.banner.Banner
+            android:id="@+id/homeBanner"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="15dp"
-            android:layout_marginBottom="100dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="testCardView" />
-        </androidx.cardview.widget.CardView>
+            android:layout_height="220dp"
+            android:layout_margin="10dp"
+            app:is_auto_loop="false"/>
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewComment"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="15dp"
+            android:layout_margin="10dp"
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="10dp"
@@ -246,3 +237,18 @@
             android:text="地图跳转" />
     </LinearLayout>
 </ScrollView>
+<!--<androidx.cardview.widget.CardView-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="200dp"-->
+<!--android:layout_margin="15dp"-->
+<!--android:layout_marginBottom="100dp"-->
+<!--android:clickable="true"-->
+<!--android:focusable="true"-->
+<!--app:cardCornerRadius="10dp"-->
+<!--app:cardElevation="10dp">-->
+<!--<TextView-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_gravity="center"-->
+<!--    android:text="testCardView" />-->
+<!--</androidx.cardview.widget.CardView>-->
