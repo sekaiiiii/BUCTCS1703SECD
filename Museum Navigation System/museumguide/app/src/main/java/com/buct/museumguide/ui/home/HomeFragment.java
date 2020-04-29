@@ -20,7 +20,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.ui.News.ImageNetAdapter;
+import com.buct.museumguide.ui.News.MuseumNews;
 import com.buct.museumguide.ui.map.MapGuide;
+import com.youth.banner.Banner;
+import com.youth.banner.indicator.CircleIndicator;
+
+import java.util.Objects;
 
 /*
 * 系统的默认页面，直接在这里构建页面0以及跳转逻辑，该页面的显示应按fragment实现
@@ -60,6 +66,30 @@ public class HomeFragment extends Fragment {
         homeMyComment.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_myComment);
         });
+
+        Banner homeBanner = root.findViewById(R.id.homeBanner);
+        homeBanner.setAdapter(new HomeBannerAdapter(getContext() ,MuseumItem.getTestData()))
+//                .setIndicator(new CircleIndicator(getContext()))
+                .setOnBannerListener((data, position) -> {
+                    MuseumItem mData = (MuseumItem) data;
+                    View mView = getView();
+                    assert mView != null;
+                    switch (mData.viewType) {
+                        case 1:
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_museumInfo);
+                            break;
+                        case 2:
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_userComment);
+                            break;
+                        case 3:
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_userComment);
+                            break;
+                        case 4:
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_userComment);
+                            break;
+                    }
+                })
+                .start();
         return root;
     }
 
