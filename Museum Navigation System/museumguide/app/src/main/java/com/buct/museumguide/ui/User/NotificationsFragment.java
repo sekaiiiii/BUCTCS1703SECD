@@ -77,7 +77,10 @@ public class NotificationsFragment extends Fragment {
             button3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+                    Infos.edit().putString("cookie","").apply();
                     Toast.makeText(getActivity(),"假装退出登录了",Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
                 }
             });
             final Button button4=root.findViewById(R.id.button7);//更多设置

@@ -101,10 +101,13 @@
         <action
             android:id="@+id/action_login_to_navigation_notifications"
             app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/action_login_to_modifypsw"
+            app:destination="@id/modifypsw" />
     </fragment>
     <fragment
         android:id="@+id/regist"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Regist.Regist"
         android:label="regist_fragment"
         tools:layout="@layout/regist_fragment" />
-</navigation>
+
