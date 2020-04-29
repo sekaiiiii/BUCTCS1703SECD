@@ -20,13 +20,39 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="login">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="757" />
+                            <option name="y" value="549" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_login_to_navigation_notifications">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_login_to_regist">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="museumInfo">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="368" />
+                            <option name="x" value="568" />
+                            <option name="y" value="364" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -37,8 +63,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="350" />
-                            <option name="y" value="619" />
+                            <option name="x" value="414" />
+                            <option name="y" value="656" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -49,8 +75,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-16" />
-                            <option name="y" value="39" />
+                            <option name="x" value="-18" />
+                            <option name="y" value="57" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -108,6 +134,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_navigation_notifications_to_login">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_navigation_notifications_to_uploadAudio">
                               <value>
                                 <LayoutPositions />
@@ -119,6 +150,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="regist">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="278" />
+                            <option name="y" value="382" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
