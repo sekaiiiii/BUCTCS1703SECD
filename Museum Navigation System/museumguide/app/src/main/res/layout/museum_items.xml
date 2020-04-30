@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_gravity="center"
+                android:id="@+id/museum_image"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/museum_name"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/museum_level"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:id="@+id/museum_number"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+<!-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/museum_test"
+        android:text="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!烦死了啊!!"
+        android:textSize="25sp" /><!-->
+</LinearLayout>

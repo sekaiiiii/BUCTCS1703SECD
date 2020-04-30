@@ -45,7 +45,9 @@
                         android:text="中国国家博物馆"
                         android:drawableLeft="@drawable/ic_house"
                         android:textSize="25sp"
-                        android:drawableStart="@drawable/ic_house" />
+                        android:drawableStart="@drawable/ic_house"
+                        android:clickable="true"
+                        android:id="@+id/museumList_button"/>
                 </LinearLayout>
             </LinearLayout>
             <androidx.cardview.widget.CardView
