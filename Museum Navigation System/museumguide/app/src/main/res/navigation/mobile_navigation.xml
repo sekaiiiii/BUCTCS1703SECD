@@ -127,16 +127,5 @@
         android:id="@+id/modifypsw"
         android:name="com.buct.museumguide.ui.FragmentForUsers.modifypsw"
         android:label="modifypsw" />
-    <fragment
-        android:id="@+id/modify_photo"
-        android:name="com.buct.museumguide.ui.FragmentForUsers.modify_photo"
-        android:label="modify_photo" />
-    <fragment
-        android:id="@+id/modify_username"
-        android:name="com.buct.museumguide.ui.FragmentForUsers.modify_username"
-        android:label="modify_username" />
-    <fragment
-        android:id="@+id/bind_email"
-        android:name="com.buct.museumguide.ui.FragmentForUsers.bind_email"
-        android:label="bind_email" />
 </navigation>
+
