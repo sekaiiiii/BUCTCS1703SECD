@@ -36,6 +36,21 @@ public class HomeFragment extends Fragment {
 
     private static final String TAG =HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
+    private Banner homeBanner;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //开始轮播
+        homeBanner.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //结束轮播
+        homeBanner.stop();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +90,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Banner homeBanner = root.findViewById(R.id.homeBanner);
+        homeBanner = root.findViewById(R.id.homeBanner);
         homeBanner.setAdapter(new HomeBannerAdapter(getContext() ,MuseumItem.getTestData()))
 //                .setIndicator(new CircleIndicator(getContext()))
                 .setOnBannerListener((data, position) -> {
@@ -84,16 +99,16 @@ public class HomeFragment extends Fragment {
                     assert mView != null;
                     switch (mData.viewType) {
                         case 1:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_museumInfo);
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_ExhibitionList);
                             break;
                         case 2:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_userComment);
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_CollectionList);
                             break;
                         case 3:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_userComment);
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_NewsList);
                             break;
                         case 4:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_userComment);
+                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_EducationList);
                             break;
                     }
                 })
