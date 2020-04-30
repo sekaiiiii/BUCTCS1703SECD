@@ -93,7 +93,6 @@ public class Login extends Fragment {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_login_to_regist);
-                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         // TODO: Use the ViewModel
