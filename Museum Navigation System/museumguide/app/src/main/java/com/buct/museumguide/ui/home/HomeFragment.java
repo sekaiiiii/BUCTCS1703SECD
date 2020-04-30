@@ -67,6 +67,14 @@ public class HomeFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_myComment);
         });
 
+        final TextView museumListButton = root.findViewById(R.id.museumList_button);
+        museumListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_museumList);
+            }
+        });
+
         Banner homeBanner = root.findViewById(R.id.homeBanner);
         homeBanner.setAdapter(new HomeBannerAdapter(getContext() ,MuseumItem.getTestData()))
 //                .setIndicator(new CircleIndicator(getContext()))

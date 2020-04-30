@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_home_to_userComment"
             app:destination="@id/userComment" />
+        <action
+            android:id="@+id/action_navigation_home_to_museumList"
+            app:destination="@id/museumList" />
     </fragment>
 
     <fragment
@@ -139,5 +142,10 @@
         android:id="@+id/bind_email"
         android:name="com.buct.museumguide.ui.FragmentForUsers.bind_email"
         android:label="bind_email" />
+    <fragment
+        android:id="@+id/museumList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.MuseumList.MuseumList"
+        android:label="museum_list_fragment"
+        tools:layout="@layout/museum_list_fragment" />
 </navigation>
 

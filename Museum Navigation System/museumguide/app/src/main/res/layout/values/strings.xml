@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="loginurl">http://192.144.239.176:8080/api/android/login</string>
+    <string name="feedback_ask">如果您对我们的应用有什么好的建议，欢迎您提出，我们会争取采纳</string>
 </resources>
