@@ -44,9 +44,10 @@
                         android:layout_height="wrap_content"
                         android:text="中国国家博物馆"
                         android:drawableLeft="@drawable/ic_house"
-                        android:textSize="25sp"
+                        android:textSize="24sp"
                         android:drawableStart="@drawable/ic_house"
                         android:clickable="true"
+                        android:textStyle="bold"
                         android:id="@+id/museumList_button"/>
                 </LinearLayout>
             </LinearLayout>
@@ -120,8 +121,7 @@
                 android:id="@+id/homeBanner"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:layout_margin="10dp"
-                app:is_auto_loop="false"/>
+                android:layout_margin="10dp"/>
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewComment"
                 android:layout_width="match_parent"

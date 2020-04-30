@@ -25,6 +25,18 @@
         <action
             android:id="@+id/action_navigation_home_to_museumList"
             app:destination="@id/museumList" />
+        <action
+            android:id="@+id/action_navigation_home_to_ExhibitionList"
+            app:destination="@id/ExhibitionList" />
+        <action
+            android:id="@+id/action_navigation_home_to_CollectionList"
+            app:destination="@id/CollectionList" />
+        <action
+            android:id="@+id/action_navigation_home_to_NewsList"
+            app:destination="@id/NewsList" />
+        <action
+            android:id="@+id/action_navigation_home_to_EducationList"
+            app:destination="@id/EducationList" />
     </fragment>
 
     <fragment
@@ -147,5 +159,25 @@
         android:name="com.buct.museumguide.ui.FragmentForMain.MuseumList.MuseumList"
         android:label="museum_list_fragment"
         tools:layout="@layout/museum_list_fragment" />
+    <fragment
+        android:id="@+id/ExhibitionList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.ExhibitionList.ExhibitionList"
+        android:label="exhibition_list"
+        tools:layout="@layout/exhibition_list_fragment"/>
+    <fragment
+        android:id="@+id/CollectionList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.CollectionList.CollectionList"
+        android:label="collection_list"
+        tools:layout="@layout/collection_list_fragment"/>
+    <fragment
+        android:id="@+id/NewsList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.NewsList.NewsList"
+        android:label="news_list"
+        tools:layout="@layout/news_list_fragment"/>
+    <fragment
+        android:id="@+id/EducationList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.EducationList.EducationList"
+        android:label="education_list"
+        tools:layout="@layout/education_list_fragment"/>
 </navigation>
 
