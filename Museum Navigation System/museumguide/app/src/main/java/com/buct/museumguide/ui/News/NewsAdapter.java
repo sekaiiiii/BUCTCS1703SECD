@@ -26,7 +26,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_NORMAL = 1;
     private View mHeaderView;
 
-    void setHeaderView(View headerView) {
+    public void setHeaderView(View headerView) {
         mHeaderView = headerView;
         notifyItemInserted(0);
     }
@@ -40,7 +40,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return TYPE_NORMAL;
     }
 
-    void addDatas(ArrayList<MuseumNews> datas) {
+    public void addDatas(ArrayList<MuseumNews> datas) {
         news.addAll(datas);
         notifyDataSetChanged();
     }
@@ -51,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     // ② 定义一个设置点击监听器的方法
-    void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
     @NonNull
