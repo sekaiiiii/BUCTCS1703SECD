@@ -8,58 +8,67 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:layout_margin="10dp"
         android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="5dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:focusable="true">
+        app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp">
+
             <RelativeLayout
-                android:layout_weight="3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/newsTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginBottom="5dp"
+                    android:text="newsTitle"
                     android:textSize="16sp"
-                    android:text="newsTitle"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/newsContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="4"
                     android:layout_below="@+id/newsTitle"
-                    android:textSize="13sp"
-                    android:text="newsContent"/>
+                    android:maxLines="3"
+                    android:text="newsContent"
+                    android:textSize="13sp" />
+
                 <TextView
                     android:id="@+id/newsTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="newsTime"
-                    android:textSize="10sp"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_margin="5dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_margin="5dp"
+                    android:text="newsTime"
+                    android:textSize="10sp" />
             </RelativeLayout>
 
             <ImageView
+                android:id="@+id/newsImg"
                 android:layout_width="100dp"
                 android:layout_height="130dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginEnd="5dp" />
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

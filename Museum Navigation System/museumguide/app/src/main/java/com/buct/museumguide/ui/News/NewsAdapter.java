@@ -4,9 +4,11 @@ package com.buct.museumguide.ui.News;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.buct.museumguide.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -24,7 +26,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_NORMAL = 1;
     private View mHeaderView;
 
-    void setHeaderView(View headerView) {
+    public void setHeaderView(View headerView) {
         mHeaderView = headerView;
         notifyItemInserted(0);
     }
@@ -38,7 +40,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return TYPE_NORMAL;
     }
 
-    void addDatas(ArrayList<MuseumNews> datas) {
+    public void addDatas(ArrayList<MuseumNews> datas) {
         news.addAll(datas);
         notifyDataSetChanged();
     }
@@ -49,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     // ② 定义一个设置点击监听器的方法
-    void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
     @NonNull
@@ -71,26 +73,23 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         myHolder.newsContent.setText(museumNews.getContent());
         myHolder.newsTime.setText(museumNews.getTime());
         myHolder.url=museumNews.getUrl();
-        myHolder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if(onItemClickListener != null) {
-                    int pos = getRealPosition(myHolder);
-                    onItemClickListener.onItemClick(myHolder.cardView, pos);
-                }
+        Glide.with(myHolder.itemView)
+                .load(museumNews.getImgUrl())
+                .into(myHolder.newsImg);
+        myHolder.cardView.setOnClickListener(v -> {
+            if(onItemClickListener != null) {
+                int pos1 = getRealPosition(myHolder);
+                onItemClickListener.onItemClick(myHolder.cardView, pos1);
             }
         });
 
-        myHolder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(onItemClickListener != null) {
-                    int pos = getRealPosition(myHolder);
-                    onItemClickListener.onItemLongClick(myHolder.cardView, pos);
-                }
-                //表示此事件已经消费，不会触发单击事件
-                return true;
+        myHolder.cardView.setOnLongClickListener(v -> {
+            if(onItemClickListener != null) {
+                int pos12 = getRealPosition(myHolder);
+                onItemClickListener.onItemLongClick(myHolder.cardView, pos12);
             }
+            //表示此事件已经消费，不会触发单击事件
+            return true;
         });
     }
 
@@ -109,6 +108,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView newsTime;//时间
         TextView newsTitle;//标题
         CardView cardView;
+        ImageView newsImg;
         String url;
         NewsHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,6 +117,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             newsContent=itemView.findViewById(R.id.newsContent);
             newsTime=itemView.findViewById(R.id.newsTime);
             cardView=itemView.findViewById(R.id.card_view);
+            newsImg=itemView.findViewById(R.id.newsImg);
         }
     }
 }

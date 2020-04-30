@@ -1,8 +1,11 @@
 package com.buct.museumguide.ui.FragmentForUsers.Login;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,29 +14,35 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.internal.http2.Header;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.buct.museumguide.R;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Login extends Fragment {
-    private static final String TAG ="Login" ;
+    public static final String TAG ="Login" ;
     private LoginViewModel mViewModel;
 
     public static Login newInstance() {
@@ -58,50 +67,52 @@ public class Login extends Fragment {
         button_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Navigation.findNavController(getView()).navigate(R.id.action_login_to_modifypsw);
             }
         });
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OkHttpClient okHttpClient=new OkHttpClient();
-                MediaType mediaType = MediaType.parse("application/json");
-                //Request request=new Request().
-                JSONObject jsonObject=new JSONObject();
-                try {
-                    jsonObject.put("name",name.getText().toString());
-                    jsonObject.put("password",password.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if(jsonObject.length()>0){
-                    String body=jsonObject.toString();
-                    Request request=new Request.Builder()
-                            .url("http://192.144.239.176:8080/api/android/login")
-                            .post(RequestBody.create(body,mediaType)).build();
-                    okHttpClient.newCall(request).enqueue(new Callback() {
-
-
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.e(TAG, "onFailure: ",e );
+                String names = name.getText().toString();
+                String psw = password.getText().toString();
+                //传参交给viewmodel处理，使得fragment只需要处理
+                mViewModel.getState(names,psw,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String s) {
+                        System.out.println("观察到"+s);
+                        if(s.equals(0)){
+                            Toast.makeText(getActivity(),"密码错误",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Navigation.findNavController(getView()).navigate(R.id.action_login_to_navigation_notifications);
                         }
-
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            
-                        }
-                    });
-                }
+                    }
+                });
             }
         });
         button_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_login_to_regist);
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
+                    //Toast.makeText(getActivity(), "按了返回键", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 }

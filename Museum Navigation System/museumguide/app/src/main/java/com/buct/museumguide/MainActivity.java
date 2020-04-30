@@ -34,5 +34,4 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
         Infos.edit().putString("cookie","").apply();
     }
-
 }

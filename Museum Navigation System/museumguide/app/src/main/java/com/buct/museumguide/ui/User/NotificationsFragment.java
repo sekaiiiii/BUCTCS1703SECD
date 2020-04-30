@@ -4,25 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
-
 import com.buct.museumguide.R;
-import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
 
 public class NotificationsFragment extends Fragment {
@@ -77,7 +72,10 @@ public class NotificationsFragment extends Fragment {
             button3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+                    Infos.edit().putString("cookie","").apply();
                     Toast.makeText(getActivity(),"假装退出登录了",Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
                 }
             });
             final Button button4=root.findViewById(R.id.button7);//更多设置
@@ -97,5 +95,24 @@ public class NotificationsFragment extends Fragment {
         if (state == 1) {
             Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
         }
+    }
+    @Override
+    public void onResume() {
+        /*
+        * 获取焦点重写onresume监听按钮
+        * */
+        super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
+                    //Toast.makeText(getActivity(), "按了返回键", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

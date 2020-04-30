@@ -22,13 +22,32 @@
         <action
             android:id="@+id/action_navigation_home_to_userComment"
             app:destination="@id/userComment" />
+        <action
+            android:id="@+id/action_navigation_home_to_museumList"
+            app:destination="@id/museumList" />
+        <action
+            android:id="@+id/action_navigation_home_to_ExhibitionList"
+            app:destination="@id/ExhibitionList" />
+        <action
+            android:id="@+id/action_navigation_home_to_CollectionList"
+            app:destination="@id/CollectionList" />
+        <action
+            android:id="@+id/action_navigation_home_to_NewsList"
+            app:destination="@id/NewsList" />
+        <action
+            android:id="@+id/action_navigation_home_to_EducationList"
+            app:destination="@id/EducationList" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.buct.museumguide.ui.News.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_searchResult"
+            app:destination="@id/searchResult" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -61,7 +80,20 @@
     <fragment
         android:id="@+id/userPage"
         android:name="com.buct.museumguide.ui.FragmentForUsers.UserPage"
-        android:label="UserPage" />
+        android:label="UserPage" >
+        <action
+            android:id="@+id/action_userPage_to_modifypsw"
+            app:destination="@id/modifypsw" />
+        <action
+            android:id="@+id/action_userPage_to_bind_email"
+            app:destination="@id/bind_email" />
+        <action
+            android:id="@+id/action_userPage_to_modify_photo"
+            app:destination="@id/modify_photo" />
+        <action
+            android:id="@+id/action_userPage_to_modify_username"
+            app:destination="@id/modify_username" />
+    </fragment>
     <fragment
         android:id="@+id/uploadAudio"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio"
@@ -86,4 +118,66 @@
             android:id="@+id/action_userComment_to_myComment"
             app:destination="@id/myComment" />
     </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Login.Login"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_login_to_regist"
+            app:destination="@id/regist" />
+        <action
+            android:id="@+id/action_login_to_navigation_notifications"
+            app:destination="@id/navigation_notifications" />
+        <action
+            android:id="@+id/action_login_to_modifypsw"
+            app:destination="@id/modifypsw" />
+    </fragment>
+    <fragment
+        android:id="@+id/regist"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Regist.Regist"
+        android:label="regist_fragment"
+        tools:layout="@layout/regist_fragment" />
+    <fragment
+        android:id="@+id/modifypsw"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.modifypsw"
+        android:label="modifypsw" />
+    <fragment
+        android:id="@+id/modify_photo"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.modify_photo"
+        android:label="modify_photo" />
+    <fragment
+        android:id="@+id/modify_username"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.modify_username"
+        android:label="modify_username" />
+    <fragment
+        android:id="@+id/bind_email"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.bind_email"
+        android:label="bind_email" />
+    <fragment
+        android:id="@+id/museumList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.MuseumList.MuseumList"
+        android:label="museum_list_fragment"
+        tools:layout="@layout/museum_list_fragment" />
+    <fragment
+        android:id="@+id/ExhibitionList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.ExhibitionList.ExhibitionList"
+        android:label="exhibition_list"
+        tools:layout="@layout/exhibition_list_fragment"/>
+    <fragment
+        android:id="@+id/CollectionList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.CollectionList.CollectionList"
+        android:label="collection_list"
+        tools:layout="@layout/collection_list_fragment"/>
+    <fragment
+        android:id="@+id/NewsList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.NewsList.NewsList"
+        android:label="news_list"
+        tools:layout="@layout/news_list_fragment"/>
+    <fragment
+        android:id="@+id/EducationList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.EducationList.EducationList"
+        android:label="education_list"
+        tools:layout="@layout/education_list_fragment"/>
 </navigation>
+
