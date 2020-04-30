@@ -65,7 +65,20 @@
     <fragment
         android:id="@+id/userPage"
         android:name="com.buct.museumguide.ui.FragmentForUsers.UserPage"
-        android:label="UserPage" />
+        android:label="UserPage" >
+        <action
+            android:id="@+id/action_userPage_to_modifypsw"
+            app:destination="@id/modifypsw" />
+        <action
+            android:id="@+id/action_userPage_to_bind_email"
+            app:destination="@id/bind_email" />
+        <action
+            android:id="@+id/action_userPage_to_modify_photo"
+            app:destination="@id/modify_photo" />
+        <action
+            android:id="@+id/action_userPage_to_modify_username"
+            app:destination="@id/modify_username" />
+    </fragment>
     <fragment
         android:id="@+id/uploadAudio"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio"
@@ -115,3 +128,4 @@
         android:name="com.buct.museumguide.ui.FragmentForUsers.modifypsw"
         android:label="modifypsw" />
 </navigation>
+

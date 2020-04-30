@@ -1,14 +1,14 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#CCCC99">
 
-    <PreferenceCategory app:title="@string/messages_header">
-        <SwitchPreferenceCompat
-            app:key="nofi"
-            app:title="新消息通知" />
+    <PreferenceCategory
+        android:background="#CCCC99"
+        app:title="@string/messages_header">
         <EditTextPreference
             app:key="signature"
             app:title="@string/signature_title"
             app:useSimpleSummaryProvider="true" />
-
         <ListPreference
             app:defaultValue="reply"
             app:entries="@array/reply_entries"
@@ -16,6 +16,10 @@
             app:key="reply"
             app:title="@string/reply_title"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:key="nofi"
+            app:title="新消息通知" />
 
     </PreferenceCategory>
 
