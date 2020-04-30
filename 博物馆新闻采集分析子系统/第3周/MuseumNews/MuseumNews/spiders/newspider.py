@@ -27,10 +27,14 @@ class NewspiderSpider(scrapy.Spider):
             title = news.xpath('./h3[@class="c-title"]/a/text()').extract()
             title = "".join(title).replace("\n", "").replace(" ", "")
 
-            content = news.xpath('./div/div[2]/text()').extract()
+            content = news.xpath('./div[@class="c-summary c-row "]/text()').extract()
+            content = "".join(content).replace("\n", "").replace(" ", "")
+            if content == "":
+                content = news.xpath('./div[@class="c-summary c-row "]/div[2]/text()').extract()
             content = "".join(content).replace("\n", "").replace(" ", "")
 
-            author_time = news.xpath('./div/div[2]/p[@class="c-author"]/text()').extract()
+            author_time = news.xpath(
+                './div[@class="c-summary c-row "]//p[@class="c-author"]/text()').extract()
             author_time = "".join(author_time).replace("\n", "").replace(" ", "").split()
             author = ""
             time = ""
@@ -55,7 +59,7 @@ class NewspiderSpider(scrapy.Spider):
             yield item
 
         print('page = {}'.format(self.page))
-        if self.page < 5:
+        if self.page < 30:
             self.page += 1
             new_url = URL.format(page=self.page * 10)
             print(new_url)
@@ -63,9 +67,10 @@ class NewspiderSpider(scrapy.Spider):
 
     def parse_time(self, s_time):
         result_time = ''
-        # 1、2017-06-15
-        if re.findall(r'\d{1,4}-\d{1,2}-\d{1,2}', s_time):
-            result_time = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime(s_time, "%Y-%m-%d"))
+        regex = re.compile(r"[0-9]{4}年[0-9]{1,2}月[0-9]{1,2}日")
+        # 1、2017年06月15日 13:41
+        if regex.match(s_time):
+            result_time = datetime.datetime.strptime(s_time, '%Y年%m月%d日%H:%M')
         # 6天前
         elif u'天前' in s_time:
             days = re.findall(u'(\d+)天前', s_time)[0]
@@ -84,12 +89,6 @@ class NewspiderSpider(scrapy.Spider):
             minutes = re.findall(u'(\d+)分钟', s_time)[0]
             minutes_ago = (datetime.datetime.now() - timedelta(minutes=int(minutes))).strftime("%Y-%m-%d %H:%M:%S")
             result_time = minutes_ago
-
-        # 06-29
-        elif re.findall(r'\d{1,2}-\d{1,2}', s_time) and len(s_time) <= 5:
-            now_year = str(datetime.datetime.now().year)
-            _time = now_year + '-' + s_time
-            result_time = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime(_time, "%Y-%m-%d"))
 
         # 1小时前
         elif u'小时前' in s_time:
