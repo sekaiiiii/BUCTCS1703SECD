@@ -1,4 +1,4 @@
-package com.buct.museumguide.ui.FragmentForMain.CollectionList;
+package com.buct.museumguide.ui.FragmentForMain;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,24 +12,24 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.buct.museumguide.R;
 
-public class CollectionList extends Fragment {
+public class CollectionDetails extends Fragment {
 
-    private CollectionListViewModel mViewModel;
+    private CollectionDetailsViewModel mViewModel;
 
-    public static CollectionList newInstance() {
-        return new CollectionList();
+    public static CollectionDetails newInstance() {
+        return new CollectionDetails();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.collection_list_fragment, container, false);
+        return inflater.inflate(R.layout.collection_details_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CollectionListViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(CollectionDetailsViewModel.class);
         // TODO: Use the ViewModel
     }
 

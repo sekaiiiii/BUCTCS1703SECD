@@ -5,24 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
+import com.buct.museumguide.bean.News;
 import com.buct.museumguide.ui.ClassForNews.WebViewer;
 import com.youth.banner.Banner;
 import com.youth.banner.indicator.CircleIndicator;
@@ -31,7 +26,7 @@ import java.util.ArrayList;
 
 /*带参数的直接把新闻url链接拉到这里*/
 public class DashboardFragment extends Fragment {
-    private ArrayList<MuseumNews>newsList=new ArrayList<>();
+    private ArrayList<News>newsList=new ArrayList<>();
     private DashboardViewModel dashboardViewModel;
     private Banner banner;
 
@@ -63,7 +58,7 @@ public class DashboardFragment extends Fragment {
             }
         });*/
         for(int i=0;i<20;i++){
-            newsList.add(new MuseumNews(1,i + "溧阳看馆藏|元代梵文准提咒镜",
+            newsList.add(new News(1,i + "溧阳看馆藏|元代梵文准提咒镜",
                     "地方焦点",
                     "2020-04-22 20:31:44",
                     "1",
@@ -77,7 +72,7 @@ public class DashboardFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        NewsAdapter adapter = new NewsAdapter();
+        NewsRecyclerAdapter adapter = new NewsRecyclerAdapter();
         recyclerView.setAdapter(adapter);
         adapter.addDatas(newsList);
 
@@ -91,12 +86,12 @@ public class DashboardFragment extends Fragment {
         });
         adapter.setHeaderView(header);
 
-        banner.setAdapter(new ImageNetAdapter(MuseumNews.getTestData()))
+        banner.setAdapter(new NewsBannerAdapter(News.getTestData()))
                 .setIndicator(new CircleIndicator(getContext()))
                 .start();
 //        adapter.setHeaderView(banner);
 
-        adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //MainActivity.url=
@@ -108,7 +103,6 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onItemLongClick(View view, int position) {
-
             }
         });
         return root;

@@ -24,11 +24,6 @@ import java.util.List;
 public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.ViewHolder> {
     private Context context;
 
-    private static final int TYPE_EXHIBITION = 0;
-    private static final int TYPE_COLLECTION = 1;
-    private static final int TYPE_NEWS = 2;
-    private static final int TYPE_EDUCATION = 3;
-
     public HomeBannerAdapter(Context context, List<MuseumItem> datas) {
         super(datas);
         this.context = context;
@@ -36,13 +31,11 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        Log.d("MainActivity", "viewType:" + getData(getRealPosition(position)).viewType + "   type: "+ getData(getRealPosition(position)).getType());
         return getData(getRealPosition(position)).viewType;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-        Log.d("MainActivity", "onCreate viewType: " + viewType);
         switch (viewType) {
             case 1:
                 return new HomeExhibitionHolder(context, BannerUtils.getView(parent, R.layout.home_banner_exhibition));
