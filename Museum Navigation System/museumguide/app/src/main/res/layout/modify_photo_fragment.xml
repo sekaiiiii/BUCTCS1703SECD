@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?修改头像?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CCCC99">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#006633">
+
+        <Button
+            android:id="@+id/bt_backup"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:drawableRight="@drawable/ic_fanhui"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="更改头像"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iview_photo"
+        android:layout_marginTop="40dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_touxiang"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="点击头像可更换照片"
+        android:textSize="25dp"
+        android:textColor="#000000"
+        android:gravity="center"/>
+</LinearLayout>

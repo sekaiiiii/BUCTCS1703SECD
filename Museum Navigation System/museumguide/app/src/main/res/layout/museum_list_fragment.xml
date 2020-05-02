@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:id="@+id/museumList_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#517c63"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/museumList_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_fanhui" />
+
+        <TextView
+            android:id="@+id/museumList_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="博物馆列表"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/museumList_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#00ff00"
+        app:tabSelectedTextColor="#000000">
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/museum_viewpager"
+        android:layout_width="409dp"
+        android:layout_height="601dp">
+
+    </androidx.viewpager.widget.ViewPager>
+
+</LinearLayout>

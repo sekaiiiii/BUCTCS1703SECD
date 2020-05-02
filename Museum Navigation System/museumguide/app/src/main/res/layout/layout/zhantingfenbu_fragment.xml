@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.FragmentForMain.MuseumInfo.zhantingfenbu">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="大数据开发时间发数据发送附件解开了发顺丰哈试飞了撒谎v拉上了过去看看和是flak放假啦是否库哈斯了哈客户v拉萨"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+</FrameLayout>

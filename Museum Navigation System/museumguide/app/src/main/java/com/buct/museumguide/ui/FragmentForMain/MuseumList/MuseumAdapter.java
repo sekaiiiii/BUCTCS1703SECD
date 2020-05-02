@@ -1,0 +1,64 @@
+package com.buct.museumguide.ui.FragmentForMain.MuseumList;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.buct.museumguide.R;
+
+import java.util.List;
+
+public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder> {
+    private Context context;
+    private List<Museum> mMuseumList;
+    static class ViewHolder extends RecyclerView.ViewHolder{
+        ImageView museumImage;
+        TextView museumName;
+        TextView museumLevel;
+        TextView museumNumber;
+        TextView museumTest;
+        public ViewHolder(View view){
+            super(view);
+            museumImage = view.findViewById(R.id.museum_image);
+            museumName = view.findViewById(R.id.museum_name);
+            museumNumber = view.findViewById(R.id.museum_number);
+            museumLevel = view.findViewById(R.id.museum_level);
+            //museumTest = view.findViewById(R.id.museum_test);
+        }
+    }
+
+
+    public MuseumAdapter(List<Museum> museumList){
+
+        mMuseumList = museumList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.museum_items,parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Museum museum = mMuseumList.get(position);
+        holder.museumName.setText(museum.getName());
+        holder.museumImage.setImageResource(museum.getImageId());
+        holder.museumLevel.setText(museum.getLevel());
+        holder.museumNumber.setText(museum.getNumber());
+        //holder.museumTest.setText(museum.getTest());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMuseumList.size();
+    }
+}
