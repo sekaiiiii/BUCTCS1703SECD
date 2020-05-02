@@ -10,7 +10,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /*
-* 接口回调
+* 接口回调,调用方法OkHttpClient client= WebHelper.getInstance().client;
+*  别新建线程了，全部回调
 * */
 public class WebHelper {
     //必须在子线程运行，非子线程运行会报错

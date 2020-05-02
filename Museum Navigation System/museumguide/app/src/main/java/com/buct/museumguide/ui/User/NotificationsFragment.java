@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import com.buct.museumguide.R;
@@ -73,9 +74,18 @@ public class NotificationsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     SharedPreferences Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-                    Infos.edit().putString("cookie","").apply();
-                    Toast.makeText(getActivity(),"假装退出登录了",Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
+                    String cookie=Infos.getString("cookie","");
+                    System.out.println(cookie);
+                    notificationsViewModel.logout(cookie).observe(getViewLifecycleOwner(), new Observer<Integer>(){
+                        @Override
+                        public void onChanged(Integer integer) {
+                            if(integer==1){
+                                Infos.edit().putString("cookie","").apply();
+                                //Toast.makeText(getActivity(),"假装退出登录了",Toast.LENGTH_SHORT).show();
+                                Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
+                            }
+                        }
+                    });
                 }
             });
             final Button button4=root.findViewById(R.id.button7);//更多设置
