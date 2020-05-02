@@ -26,17 +26,8 @@
             android:id="@+id/action_navigation_home_to_museumList"
             app:destination="@id/museumList" />
         <action
-            android:id="@+id/action_navigation_home_to_ExhibitionList"
-            app:destination="@id/ExhibitionList" />
-        <action
-            android:id="@+id/action_navigation_home_to_CollectionList"
-            app:destination="@id/CollectionList" />
-        <action
-            android:id="@+id/action_navigation_home_to_NewsList"
-            app:destination="@id/NewsList" />
-        <action
-            android:id="@+id/action_navigation_home_to_EducationList"
-            app:destination="@id/EducationList" />
+            android:id="@+id/action_navigation_home_to_commonList"
+            app:destination="@id/commonList" />
     </fragment>
 
     <fragment
@@ -160,24 +151,34 @@
         android:label="museum_list_fragment"
         tools:layout="@layout/museum_list_fragment" />
     <fragment
-        android:id="@+id/ExhibitionList"
-        android:name="com.buct.museumguide.ui.FragmentForMain.ExhibitionList.ExhibitionList"
-        android:label="exhibition_list"
-        tools:layout="@layout/exhibition_list_fragment"/>
+        android:id="@+id/commonList"
+        android:name="com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList"
+        android:label="common_list"
+        tools:layout="@layout/common_list_fragment">
+        <action
+            android:id="@+id/action_commonList_to_collectionDetails"
+            app:destination="@id/collectionDetails" />
+        <action
+            android:id="@+id/action_commonList_to_exhibitionDetails"
+            app:destination="@id/exhibitionDetails" />
+        <action
+            android:id="@+id/action_commonList_to_educationDetails"
+            app:destination="@id/educationDetails" />
+    </fragment>
     <fragment
-        android:id="@+id/CollectionList"
-        android:name="com.buct.museumguide.ui.FragmentForMain.CollectionList.CollectionList"
-        android:label="collection_list"
-        tools:layout="@layout/collection_list_fragment"/>
+        android:id="@+id/collectionDetails"
+        android:name="com.buct.museumguide.ui.FragmentForMain.CollectionDetails"
+        android:label="collection_details"
+        tools:layout="@layout/collection_details_fragment" />
     <fragment
-        android:id="@+id/NewsList"
-        android:name="com.buct.museumguide.ui.FragmentForMain.NewsList.NewsList"
-        android:label="news_list"
-        tools:layout="@layout/news_list_fragment"/>
+        android:id="@+id/exhibitionDetails"
+        android:name="com.buct.museumguide.ui.FragmentForMain.ExhibitionDetails"
+        android:label="exhibition_details"
+        tools:layout="@layout/exhibition_details_fragment"/>
     <fragment
-        android:id="@+id/EducationList"
-        android:name="com.buct.museumguide.ui.FragmentForMain.EducationList.EducationList"
-        android:label="education_list"
-        tools:layout="@layout/education_list_fragment"/>
+        android:id="@+id/educationDetails"
+        android:name="com.buct.museumguide.ui.FragmentForMain.EducationDetails"
+        android:label="education_details"
+        tools:layout="@layout/education_details_fragment"/>
 </navigation>
 

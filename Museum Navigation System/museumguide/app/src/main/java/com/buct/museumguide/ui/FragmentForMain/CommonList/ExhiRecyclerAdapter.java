@@ -1,4 +1,4 @@
-package com.buct.museumguide.ui.News;
+package com.buct.museumguide.ui.FragmentForMain.CommonList;
 
 
 import android.view.LayoutInflater;
@@ -7,20 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.buct.museumguide.R;
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.buct.museumguide.R;
+import com.buct.museumguide.bean.Exhibition;
+import com.bumptech.glide.Glide;
+
 import org.jetbrains.annotations.NotNull;
 
-public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<MuseumNews>news = new ArrayList<>();
-    private NewsAdapter.OnItemClickListener onItemClickListener;
+import java.util.ArrayList;
+
+public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private ArrayList<Exhibition> exhis = new ArrayList<>();
+    private ExhiRecyclerAdapter.OnItemClickListener onItemClickListener;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_NORMAL = 1;
@@ -33,6 +34,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public View getHeaderView() {
         return mHeaderView;
     }
+
     @Override
     public int getItemViewType(int position) {
         if(mHeaderView == null) return TYPE_NORMAL;
@@ -40,8 +42,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return TYPE_NORMAL;
     }
 
-    public void addDatas(ArrayList<MuseumNews> datas) {
-        news.addAll(datas);
+    public void addDatas(ArrayList<Exhibition> datas) {
+        exhis.addAll(datas);
         notifyDataSetChanged();
     }
 
@@ -51,15 +53,15 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     // ② 定义一个设置点击监听器的方法
-    public void setOnItemClickListener(NewsAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(ExhiRecyclerAdapter.OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if(mHeaderView != null && viewType == TYPE_HEADER) return new NewsHolder(mHeaderView);
-        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.newitem,parent,false);
-        return new NewsHolder(layout);
+        if(mHeaderView != null && viewType == TYPE_HEADER) return new ExhiHolder(mHeaderView);
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.exhi_item, parent,false);
+        return new ExhiHolder(layout);
     }
 
     @Override
@@ -67,26 +69,25 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(getItemViewType(position) == TYPE_HEADER) return;
 
         final int pos = getRealPosition(viewHolder);
-        MuseumNews museumNews=news.get(pos);
-        final NewsHolder myHolder = (NewsHolder) viewHolder;
-        myHolder.newsTitle.setText(museumNews.getTitle());
-        myHolder.newsContent.setText(museumNews.getContent());
-        myHolder.newsTime.setText(museumNews.getTime());
-        myHolder.url=museumNews.getUrl();
+        Exhibition exhi = exhis.get(pos);
+        final ExhiHolder myHolder = (ExhiHolder) viewHolder;
+        myHolder.exhiTitle.setText(exhi.getTitle());
+        myHolder.exhiTime.setText(exhi.getTime());
+        myHolder.exhiMuseumName.setText(exhi.getMuseumName());
         Glide.with(myHolder.itemView)
-                .load(museumNews.getImgUrl())
-                .into(myHolder.newsImg);
-        myHolder.cardView.setOnClickListener(v -> {
+                .load(exhi.getImgUrl())
+                .into(myHolder.exhiImg);
+        myHolder.exhiCardView.setOnClickListener(v -> {
             if(onItemClickListener != null) {
                 int pos1 = getRealPosition(myHolder);
-                onItemClickListener.onItemClick(myHolder.cardView, pos1);
+                onItemClickListener.onItemClick(myHolder.exhiCardView, pos1);
             }
         });
 
-        myHolder.cardView.setOnLongClickListener(v -> {
+        myHolder.exhiCardView.setOnLongClickListener(v -> {
             if(onItemClickListener != null) {
                 int pos12 = getRealPosition(myHolder);
-                onItemClickListener.onItemLongClick(myHolder.cardView, pos12);
+                onItemClickListener.onItemLongClick(myHolder.exhiCardView, pos12);
             }
             //表示此事件已经消费，不会触发单击事件
             return true;
@@ -100,24 +101,23 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mHeaderView == null ? news.size() : news.size() + 1;
+        return mHeaderView == null ? exhis.size() : exhis.size() + 1;
     }
 
-    class NewsHolder extends RecyclerView.ViewHolder{
-        TextView newsContent;//概述
-        TextView newsTime;//时间
-        TextView newsTitle;//标题
-        CardView cardView;
-        ImageView newsImg;
-        String url;
-        NewsHolder(@NonNull View itemView) {
+    class ExhiHolder extends RecyclerView.ViewHolder{
+        TextView exhiTitle;
+        TextView exhiTime;
+        TextView exhiMuseumName;
+        ImageView exhiImg;
+        CardView exhiCardView;
+        ExhiHolder(@NonNull View itemView) {
             super(itemView);
             if(itemView == mHeaderView) return;
-            newsTitle=itemView.findViewById(R.id.newsTitle);
-            newsContent=itemView.findViewById(R.id.newsContent);
-            newsTime=itemView.findViewById(R.id.newsTime);
-            cardView=itemView.findViewById(R.id.card_view);
-            newsImg=itemView.findViewById(R.id.newsImg);
+            exhiTitle=itemView.findViewById(R.id.exhiTitle);
+            exhiTime=itemView.findViewById(R.id.exhiTime);
+            exhiMuseumName=itemView.findViewById(R.id.exhiMuseumName);
+            exhiImg=itemView.findViewById(R.id.exhiImg);
+            exhiCardView=itemView.findViewById(R.id.exhiCardView);
         }
     }
 }

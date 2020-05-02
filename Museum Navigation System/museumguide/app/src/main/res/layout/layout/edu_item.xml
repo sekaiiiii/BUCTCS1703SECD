@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/eduCardView"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_margin="10dp"
@@ -32,45 +30,44 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/newsTitle"
+                    android:id="@+id/eduTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_marginBottom="5dp"
-                    android:text="newsTitle"
+                    android:text="eduTitle"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/newsContent"
+                    android:id="@+id/eduContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/newsTitle"
+                    android:layout_below="@+id/eduTitle"
                     android:maxLines="3"
-                    android:text="newsContent"
+                    android:text="eduContent"
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/newsTime"
+                    android:id="@+id/eduTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="5dp"
-                    android:text="newsTime"
+                    android:text="eduTime"
                     android:textSize="10sp" />
             </RelativeLayout>
 
             <ImageView
-                android:id="@+id/newsImg"
+                android:id="@+id/eduImg"
                 android:layout_width="100dp"
                 android:layout_height="130dp"
+                android:layout_gravity="center"
                 android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center"/>
+                android:layout_marginRight="5dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
