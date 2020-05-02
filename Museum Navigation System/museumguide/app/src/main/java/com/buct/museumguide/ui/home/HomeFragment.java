@@ -8,25 +8,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
-import com.buct.museumguide.ui.News.ImageNetAdapter;
-import com.buct.museumguide.ui.News.MuseumNews;
+import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.map.MapGuide;
 import com.youth.banner.Banner;
-import com.youth.banner.indicator.CircleIndicator;
-
-import java.util.Objects;
 
 /*
 * 系统的默认页面，直接在这里构建页面0以及跳转逻辑，该页面的显示应按fragment实现
@@ -95,22 +87,9 @@ public class HomeFragment extends Fragment {
 //                .setIndicator(new CircleIndicator(getContext()))
                 .setOnBannerListener((data, position) -> {
                     MuseumItem mData = (MuseumItem) data;
-                    View mView = getView();
-                    assert mView != null;
-                    switch (mData.viewType) {
-                        case 1:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_ExhibitionList);
-                            break;
-                        case 2:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_CollectionList);
-                            break;
-                        case 3:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_NewsList);
-                            break;
-                        case 4:
-                            Navigation.findNavController(mView).navigate(R.id.action_navigation_home_to_EducationList);
-                            break;
-                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("showType", mData.viewType);
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_commonList, bundle);
                 })
                 .start();
         return root;

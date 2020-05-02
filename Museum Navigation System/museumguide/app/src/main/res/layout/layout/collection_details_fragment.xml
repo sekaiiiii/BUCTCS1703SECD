@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.FragmentForMain.ExhibitionList.ExhibitionList">
+    tools:context=".ui.FragmentForMain.CollectionDetails">
 
-
-    <androidx.recyclerview.widget.RecyclerView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="藏品详情"
+        android:textSize="30dp"/>
+
 </FrameLayout>
