@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
+import com.gjiazhe.wavesidebar.WaveSideBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,14 @@ public class DefaultFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         MuseumAdapter museumAdapter = new MuseumAdapter(museumList);
         recyclerView.setAdapter(museumAdapter);
-
+        WaveSideBar sideBar = (WaveSideBar) view.findViewById(R.id.museum_default_sidebar);
+        sideBar.setIndexItems("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+//        sideBar.setOnSelectIndexItemListener(new WaveSideBar.OnSelectIndexItemListener() {
+//            @Override
+//            public void onSelectIndexItem(String index) {
+//                for(int i =0; i<museumList.size();i++)
+//            }
+//        });
         return view;
     }
 
