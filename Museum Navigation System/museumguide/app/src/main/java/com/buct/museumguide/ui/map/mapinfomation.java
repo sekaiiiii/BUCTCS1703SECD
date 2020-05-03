@@ -1,10 +1,11 @@
 package com.buct.museumguide.ui.map;
 
+import java.io.Serializable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class mapinfomation {
+public class mapinfomation implements Serializable {
     private String status;
     private datas data;
 
