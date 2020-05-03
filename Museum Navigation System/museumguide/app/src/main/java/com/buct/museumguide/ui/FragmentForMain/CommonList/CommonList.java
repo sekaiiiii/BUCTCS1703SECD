@@ -2,6 +2,7 @@ package com.buct.museumguide.ui.FragmentForMain.CommonList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -30,8 +32,10 @@ import com.buct.museumguide.ui.News.NewsRecyclerAdapter;
 import java.util.ArrayList;
 
 public class CommonList extends Fragment {
-
-    private CommonListViewModel mViewModel;
+    public static final String TAG ="CommonList" ;
+    private CommonListViewModel commonListViewModel;
+    private ArrayList<Exhibition> exhiList = new ArrayList<>();
+    private ArrayList<Collection> collList = new ArrayList<>();
     private ArrayList<News> newsList = new ArrayList<>();
     private ArrayList<Education> eduList = new ArrayList<>();
 
@@ -42,6 +46,7 @@ public class CommonList extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        commonListViewModel = ViewModelProviders.of(this).get(CommonListViewModel.class);
         Bundle bundle = getArguments();
         assert bundle != null;
         int showType = bundle.getInt("showType");
@@ -64,13 +69,19 @@ public class CommonList extends Fragment {
             commonList.setLayoutManager(linearLayoutManager);
         }
         commonList.setItemAnimator(new DefaultItemAnimator());
-
+        commonListViewModel.getAllData(getActivity());
         switch (showType) {
             case 1:
                 topNavTitle.setText("展览");
                 ExhiRecyclerAdapter exhiAdapter = new ExhiRecyclerAdapter();
                 commonList.setAdapter(exhiAdapter);
-                exhiAdapter.addDatas(Exhibition.getTestData());
+                commonListViewModel.getExhi(getActivity(), root).observe(getViewLifecycleOwner(), new Observer<ArrayList<Exhibition>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Exhibition> s) {
+                        exhiList = s;
+                        exhiAdapter.addDatas(s);
+                    }
+                });
                 exhiAdapter.setOnItemClickListener(new ExhiRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -85,11 +96,17 @@ public class CommonList extends Fragment {
                 topNavTitle.setText("馆藏精品");
                 CollRecyclerAdapter collAdapter = new CollRecyclerAdapter();
                 commonList.setAdapter(collAdapter);
-                collAdapter.addDatas(Collection.getTestData());
+                commonListViewModel.getColl(getActivity(), root).observe(getViewLifecycleOwner(), new Observer<ArrayList<Collection>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Collection> s) {
+                        collList = s;
+                        collAdapter.addDatas(s);
+                    }
+                });
                 collAdapter.setOnItemClickListener(new CollRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Navigation.findNavController(getView()).navigate(R.id.action_commonList_to_collectionDetails);
+                        Navigation.findNavController(root).navigate(R.id.action_commonList_to_collectionDetails);
                     }
                     @Override
                     public void onItemLongClick(View view, int position) {
@@ -121,7 +138,14 @@ public class CommonList extends Fragment {
                 topNavTitle.setText("教育活动");
                 EduRecyclerAdapter eduAdapter = new EduRecyclerAdapter();
                 commonList.setAdapter(eduAdapter);
-                eduAdapter.addDatas(Education.getTestData());
+//                eduAdapter.addDatas(Education.getTestData());
+                commonListViewModel.getEdu(getActivity(), root).observe(getViewLifecycleOwner(), new Observer<ArrayList<Education>>() {
+                    @Override
+                    public void onChanged(@Nullable ArrayList<Education> s) {
+                        eduList = s;
+                        eduAdapter.addDatas(s);
+                    }
+                });
                 eduAdapter.setOnItemClickListener(new EduRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -140,8 +164,6 @@ public class CommonList extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CommonListViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     public void initData() {

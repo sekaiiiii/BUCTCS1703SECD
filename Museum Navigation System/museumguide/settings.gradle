@@ -1,2 +1,3 @@
 rootProject.name='MuseumGuide'
 include ':app'
+include ':sidebar'

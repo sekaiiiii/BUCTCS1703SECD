@@ -29,6 +29,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -41,6 +42,8 @@ import com.buct.museumguide.Service.StateBroadCast;
 import com.buct.museumguide.Service.StringMessage;
 import com.buct.museumguide.Service.loginstatemessage;
 import com.buct.museumguide.bean.LoginState;
+
+import com.buct.museumguide.bean.Museum;
 import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.map.MapGuide;
@@ -59,8 +62,11 @@ import java.util.List;
 * 计划按逻辑实现为每个主要的方式（如地图/博物馆各种信息为一个具体的信息，其他的为fragment）
 * */
 public class HomeFragment extends Fragment {
-
-    private static final String TAG = HomeFragment.class.getSimpleName();
+//    private static final String TAG = HomeFragment.class.getSimpleName();
+    public static final String TAG ="HomeFragment" ;
+    private MediaBrowserCompat mediaBrowser;
+    private MediaControllerCompat mediaController;
+    private  MediaSessionCompat.Token token;
     private HomeViewModel homeViewModel;
     private Banner homeBanner;
     private Button playbutton;
@@ -100,6 +106,18 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        final TextView museumName = root.findViewById(R.id.museumList_button);
+        final TextView introContent = root.findViewById(R.id.introContent);
+        final TextView visitContent = root.findViewById(R.id.visitContent);
+        homeViewModel.getState(getActivity(), root);
+        homeViewModel.getFirstMuseum(getActivity(), root).observe(getViewLifecycleOwner(), s -> {
+            assert s != null;
+            if (!s.getName().equals("")) museumName.setText(s.getName());
+            if (!s.getIntroduction().equals("")) introContent.setText(s.getIntroduction());
+            if (!s.getAttention().equals("") || !s.getTime().equals("")) visitContent.setText(s.getTime() + s.getAttention());
+        });
+
         System.out.println(getActivity());
 
         final SearchView homeSearch = root.findViewById(R.id.homeSearch);
@@ -114,11 +132,7 @@ public class HomeFragment extends Fragment {
         cardViewComment.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_userComment);
         });
-        final Button button2 = root.findViewById(R.id.button2);
-        button2.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), MapGuide.class));
-        });
-        final Button homeMyComment = root.findViewById(R.id.homeMyComment);
+        final Button homeMyComment=root.findViewById(R.id.homeMyComment);
         homeMyComment.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_myComment);
         });

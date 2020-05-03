@@ -19,4 +19,5 @@
     <string name="comment_url">http://192.144.239.176:8080/api/android/comment</string>
     <string name="feedback_url">http://192.144.239.176:8080/api/android/feedback</string>
     <string name="get_login_state_url">http://192.144.239.176:8080/api/android/get_login_state</string>
+    <string name="baseUrl">http://192.144.239.176:8080</string>
 </resources>

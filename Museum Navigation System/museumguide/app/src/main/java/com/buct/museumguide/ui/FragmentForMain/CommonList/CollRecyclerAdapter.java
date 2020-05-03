@@ -70,7 +70,7 @@ public class CollRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final int pos = getRealPosition(viewHolder);
         Collection coll = colls.get(pos);
         final CollHolder myHolder = (CollHolder) viewHolder;
-        myHolder.collName.setText(coll.getTitle());
+        myHolder.collName.setText(coll.getName());
         Glide.with(myHolder.itemView)
                 .load(coll.getImgUrl())
                 .into(myHolder.collImg);
