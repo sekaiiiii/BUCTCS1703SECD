@@ -1,8 +1,12 @@
 package com.buct.museumguide;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.buct.museumguide.ui.map.MapGuide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -24,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        Intent intent=getIntent();
+        String info=intent.getStringExtra("info");
+
+        SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
+        Infos.edit().putString("cookie","").apply();
+        Infos.edit().putString("info",info).apply();
         AppBarConfiguration appBarConfiguration;
             appBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
@@ -31,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
-        Infos.edit().putString("cookie","").apply();
+
     }
 }
