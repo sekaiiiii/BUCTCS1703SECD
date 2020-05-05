@@ -7,5 +7,10 @@
 
 
 class DemospiderPipeline(object):
+    # 数据分析与清理
     def process_item(self, item, spider):
-        return item
+        # 从爬取的item中去掉空字符串
+        if item['content']:
+                return item
+        else:
+            raise DropItem("Missing content in %s" % item)
