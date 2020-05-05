@@ -28,10 +28,13 @@ class TxtPipeline(object):
         title = item['title']
         author = item['author']
         time = item['time']
+        description = item['description']
         content = item['content']
-        href = item['href']
+        url = item['url']
+        tag = item['tag']
 
-        contents = '{}\n{}\n{}\n{}\n{}\n\n'.format(title, author, time, content, href)
+        contents = '{}\n{}\n{}\n{}\n{}\n{}\n{}\n\n'.format(
+            title, author, time, description, content, url, tag)
         self.fp.write(contents)
         return item
     
@@ -50,33 +53,41 @@ class MysqlPipeline(object):
 
     def open_spider(self, spider):
         self.connect = pymysql.Connect(
-            host='localhost',
+            # host='localhost',
+            # port=3306,
+            # user='root',
+            # password='mysql',
+            # db='group2-zjf-news',
+            # charset='utf8'
+            host='192.144.239.176',
             port=3306,
             user='root',
-            password='mysql',
-            db='group2-zjf-news',
-            charset='utf8mb4'
+            password='2F5gMs4jIabeFuOB',
+            db='db',
+            charset='utf8'
         )
     
     def process_item(self, item, spider):
         title = item['title']
         author = item['author']
         time = item['time']
+        description = item['description']
         content = item['content']
-        href = item['href']
+        url = item['url']
+        tag = item['tag']
         self.cursor = self.connect.cursor()
 
         try:
             self.cursor.execute(
-                "select title from museumnews where title ='{}'".format(title)
+                "select title from new where title ='{}'".format(title)
             )
             repetiton = self.cursor.fetchone()
             if repetiton:
                 pass
             else:
                 self.cursor.execute(
-                    "insert into museumnews(title, author, time, content, href) values ('{}','{}','{}','{}','{}')".format(
-                        title, author, time, content, href
+                    "insert into new(title, author, time, description, content, url, tag) values ('{}','{}','{}','{}','{}','{}','{}')".format(
+                        title, author, time, description, content, url, tag
                     )
                 )
                 self.connect.commit()

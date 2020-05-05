@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?更改个人信息?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.FragmentForUsers.UserPage">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#006633">
+
+        <Button
+            android:id="@+id/bt_backup"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            android:drawableRight="@drawable/ic_fanhui"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="更改个人信息"
+            android:textColor="#FFFFFF"
+            android:textSize="25dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        android:background="#CCCC99">
+
+        <Button
+            android:id="@+id/bt_modify_photo"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="0dp"
+            android:text="   修改头像"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/ic_next"
+            android:background="#FFFFFF" />
+
+        <Button
+            android:id="@+id/bt_modify_username"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="   修改用户名"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/ic_next"
+            android:background="#FFFFFF"  />
+
+        <Button
+            android:id="@+id/bt_bindemail"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="   绑定邮箱"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/ic_next"
+            android:background="#FFFFFF" />
+
+        <Button
+            android:id="@+id/bt_modify_password"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="   修改密码"
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/ic_next"
+            android:background="#FFFFFF"  />
+    </LinearLayout>
+</FrameLayout>

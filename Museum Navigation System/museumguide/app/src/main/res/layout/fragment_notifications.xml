@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="0dp"
+    android:background="#CCCC99"
+    android:paddingTop="0dp"
+    tools:context=".ui.User.NotificationsFragment">
+
+    <Button
+        android:id="@+id/button3"
+        style="@style/Button_UserMainPage_Style"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:drawableLeft="@drawable/ic_user"
+        android:drawableRight="@drawable/ic_next"
+
+        android:text="更改个人信息"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <Button
+        android:id="@+id/button4"
+        style="@style/Button_UserMainPage_Style"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:drawableLeft="@drawable/ic_increase"
+        android:drawableRight="@drawable/ic_next"
+        android:text="自制导览管理"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <Button
+        android:id="@+id/button5"
+        style="@style/Button_UserMainPage_Style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_office_supplies"
+        android:drawableRight="@drawable/ic_next"
+        android:text="意见反馈"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+    <Button
+        android:id="@+id/button6"
+        style="@style/Button_UserMainPage_Style"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:drawableLeft="@drawable/ic_close_filled"
+        android:drawableRight="@drawable/ic_next"
+        android:text="退出账号"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+    <Button
+        android:id="@+id/button7"
+        style="@style/Button_UserMainPage_Style"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:drawableLeft="@drawable/ic_setting"
+        android:drawableRight="@drawable/ic_next"
+        android:text="更多设置"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button6" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:paddingTop="0dp"
+        app:cardBackgroundColor="#006633"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="121dp"
+                android:layout_height="91dp"
+                android:layout_marginStart="50dp"
+                android:src="@android:drawable/sym_def_app_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="146dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="30dp"
+                android:text="游客"
+                android:textSize="36sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
