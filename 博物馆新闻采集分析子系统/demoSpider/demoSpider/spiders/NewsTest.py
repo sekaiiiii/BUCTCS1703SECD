@@ -15,7 +15,7 @@ class NewstestSpider(scrapy.Spider):
         db=settings.MYSQL_DBNAME,
         user=settings.MYSQL_USER,
         passwd=settings.MYSQL_PASSWD,
-        charset='utf-8',
+        charset='utf8',
         use_unicode=True
     )
 
@@ -38,9 +38,9 @@ class NewstestSpider(scrapy.Spider):
         
         # 将正文的所有句子连接成字符串
         content_string = ""
-        for item in content.extract():
-            if item != "":
-                content_string += item
+        for item in content:
+            if item.extract() != "":
+                content_string += item.extract()
 
         # 将获取到的字符串存入item中
         item = DemospiderItem()
