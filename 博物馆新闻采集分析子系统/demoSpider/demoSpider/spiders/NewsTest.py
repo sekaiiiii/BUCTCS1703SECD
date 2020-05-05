@@ -1,32 +1,35 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from demoSpider.items import DemospiderItem
-import mysql.connector
+from demoSpider import settings
+import pymysql
 
 class NewstestSpider(scrapy.Spider):
     name = 'NewsTest'
     allowed_domains = ['baijiahao.baidu.com']
 
-    # 连接到数据库
-    mydb = mysql.connector.connect(
-        host="192.144.239.176",       # 数据库主机地址
-        user="root",    # 数据库用户名
-        passwd="2F5gMs4jIabeFuOB",   # 数据库密码
-        database="db",  # 使用的数据库
-        
+    # 连接到远程数据库
+    mydatabase = pymysql.connect(
+        host=settings.MYSQL_HOST,
+        port=3306,
+        db=settings.MYSQL_DBNAME,
+        user=settings.MYSQL_USER,
+        passwd=settings.MYSQL_PASSWD,
+        charset='utf-8',
+        use_unicode=True
     )
 
-    # 从服务器中获取新闻url
-    mycursor = mydb.cursor()
+    # 从服务器远程数据库中获取新闻url
+    mycursor = mydatabase.cursor()
     mycursor.execute("SELECT id, url FROM new")
     myresult = mycursor.fetchall()     # fetchall() 获取所有记录
     
+    # 获取start_urls列表
     start_urls = []
-
     for id, url in myresult:
         start_urls.append(url)
-
     
+    id = 1
 
     def parse(self, response):
         # 从html中提取出所有的正文内容
@@ -36,9 +39,13 @@ class NewstestSpider(scrapy.Spider):
         # 将正文的所有句子连接成字符串
         content_string = ""
         for item in content.extract():
-            content_string += item
+            if item != "":
+                content_string += item
 
         # 将获取到的字符串存入item中
         item = DemospiderItem()
+        item['id'] = self.id
         item['content'] = content_string
+        
+        self.id += 1
         yield item
