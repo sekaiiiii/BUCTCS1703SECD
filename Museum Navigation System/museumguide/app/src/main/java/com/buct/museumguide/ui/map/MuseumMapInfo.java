@@ -1,10 +1,12 @@
 package com.buct.museumguide.ui.map;
 
+import java.io.Serializable;
+
 import androidx.annotation.NonNull;
 
-public class MuseumMapInfo {
-    MuseumMapInfo(double latitude,double logitude){
-        setLatitude(latitude);setLogitude(logitude);setTitle(latitude+" "+logitude);
+public class MuseumMapInfo implements Serializable {
+    MuseumMapInfo(double latitude,double logitude,String name){
+        setLatitude(latitude);setLogitude(logitude);setTitle(name);
     }
     private double latitude;//维度
     private double logitude;//精度

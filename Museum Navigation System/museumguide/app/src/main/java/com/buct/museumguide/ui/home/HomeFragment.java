@@ -1,6 +1,8 @@
 package com.buct.museumguide.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -15,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.map.MapGuide;
@@ -29,6 +33,16 @@ public class HomeFragment extends Fragment {
     private static final String TAG =HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
     private Banner homeBanner;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String info=Infos.getString("info","");
+        if(info.equals("")==false){
+            Toast.makeText(getActivity(),info,Toast.LENGTH_SHORT).show();System.out.println(info);
+        }
+    }
 
     @Override
     public void onStart() {
