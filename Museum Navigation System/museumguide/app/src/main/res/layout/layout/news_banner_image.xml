@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/bannerNewsImage"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:layout_margin="20dp"
+            android:scaleType="fitXY"
+            android:contentDescription="TODO" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp">
+            <TextView
+                android:id="@+id/bannerNewsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:maxLines="3"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/bannerNewsTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:textSize="10sp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+</LinearLayout>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content">-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

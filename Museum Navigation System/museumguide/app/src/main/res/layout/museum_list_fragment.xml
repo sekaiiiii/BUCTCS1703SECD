@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:id="@+id/museumList_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#517c63"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/museumList_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_fanhui" />
+
+        <TextView
+            android:id="@+id/museumList_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="博物馆列表"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/museumList_tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:theme = "@style/Base.Widget.Design.TabLayout"
+        app:tabSelectedTextColor="#517c63"
+        app:tabTextColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/museumList_LinearLayout"
+        app:layout_constraintVertical_bias="0.0"
+        >
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/museum_viewpager"
+        android:layout_width="409dp"
+        android:layout_height="601dp"
+        android:background="#ECDFCF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/museumList_tablayout"
+        app:layout_constraintVertical_bias="0.0">
+
+    </androidx.viewpager.widget.ViewPager>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

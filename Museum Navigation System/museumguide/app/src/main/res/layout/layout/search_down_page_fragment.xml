@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorLLBrown"
+    tools:context=".ui.FragmentForMain.Search.SearchDownPageFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_huoyan"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_gravity="center"
+            android:textSize="16dp"
+            android:text="热门搜索"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp">
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Button_hot1"
+            android:textColor="@color/colorBrown"
+            android:background="@drawable/button_hot_search"
+            android:layout_margin="2px"
+            android:text="国家博物馆"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Button_hot2"
+            android:textColor="@color/colorBrown"
+            android:background="@drawable/button_hot_search"
+            android:layout_margin="2px"
+            android:text="后母戊鼎"/>
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Button_hot3"
+            android:textColor="@color/colorBrown"
+            android:background="@drawable/button_hot_search"
+            android:layout_margin="2px"
+            android:text="故宫博物院"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Button_hot4"
+            android:textColor="@color/colorBrown"
+            android:background="@drawable/button_hot_search"
+            android:layout_margin="2px"
+
+            android:text="黄玉夔龙纹扁壶"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:orientation="vertical"
+                android:background="@color/colorGreen">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <SearchView
+                        android:id="@+id/homeSearch"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="15dp"
+                        android:background="@color/colorWhite"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="60dp"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="中国国家博物馆"
+                        android:drawableLeft="@drawable/ic_house"
+                        android:textSize="24sp"
+                        android:drawableStart="@drawable/ic_house"
+                        android:clickable="true"
+                        android:textStyle="bold"
+                        android:id="@+id/museumList_button"/>
+                </LinearLayout>
+            </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewIntro"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp">
+                    <TextView
+                        android:id="@+id/introTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_museumintro"
+                        android:text="  场馆简介"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/introContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/introTitle"
+                        android:layout_margin="10dp"
+                        android:textSize="15sp"
+                        android:text="中国国家博物馆（National Museum of China）简称国博，位于北京市中心天安门广场东侧，东长安街南侧，与人民大会堂东西相对称，是历史与艺术并重，集收藏、展览、研究、考古、公共教育、文化交流于一体的综合性博物馆。隶属于中华人民共和国文化部。"
+                        android:maxLines="4"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewVisit"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp">
+                    <TextView
+                        android:id="@+id/visitTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_visitinfo"
+                        android:text="  参观信息"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/visitContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/visitTitle"
+                        android:layout_margin="10dp"
+                        android:textSize="15sp"
+                        android:text="开放时间：9:00—17:00（15:30止票，16:00停止入馆，16:30清场，17:00闭馆）周一闭馆（含国家法定节假日）2018年9月22日，国家博物馆发布公告，因展览施工原因，国家博物馆自2018年9月25日起暂停对公众开放，恢复开放时间另行公告。 [37]"
+                        android:maxLines="4"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+            <com.youth.banner.Banner
+                android:id="@+id/homeBanner"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_margin="10dp"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewComment"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp">
+                    <RelativeLayout
+                        android:id="@+id/homeCommentTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/commentTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:drawableLeft="@drawable/ic_comment"
+                            android:text="  游客热评"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:id="@+id/homeMyComment"
+                            android:layout_width="100dp"
+                            android:layout_margin="5dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:shadowRadius="5"
+                            android:text="我要评价" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_below="@+id/homeCommentTitle"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_margin="5dp"
+                            android:background="@color/colorLGrey">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_margin="2dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="展览：" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="4.7" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_margin="2dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="环境：" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="4.8" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_margin="2dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="服务：" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="4.9" />
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_height="match_parent"
+                            android:layout_width="150dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_margin="5dp"
+                            android:background="@color/colorLGrey"
+                            android:layout_alignParentEnd="true"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:text="地图跳转" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
