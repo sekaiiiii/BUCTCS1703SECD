@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import android.widget.Button;
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 
+import java.io.IOException;
+
 public class UploadAudio extends Fragment {
 
     private static final int REQUEST_CODE =102;
@@ -37,30 +40,6 @@ public class UploadAudio extends Fragment {
     }
     public void getdata(Uri uri){
         this.uri=uri;
-    }
-    public static String getRealPathFromUri(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            Log.i(TAG, "getRealPathFromUri: " + contentUri);
-            String[] proj = { "_data" };
-            cursor = context.getContentResolver().query(contentUri, null, null, null, null);
-            if (cursor != null && cursor.getColumnCount() > 0) {
-                cursor.moveToFirst();
-                int column_index = cursor.getColumnIndexOrThrow("_data");
-                String path = cursor.getString(column_index);
-                Log.i(TAG, "getRealPathFromUri: column_index=" + column_index + ", path=" + path);
-                return path;
-            } else {
-                Log.w(TAG, "getRealPathFromUri: invalid cursor=" + cursor + ", contentUri=" + contentUri);
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "getRealPathFromUri failed: " + e  + ", contentUri=" + contentUri, e);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return "";
     }
 
     @Override
@@ -95,8 +74,17 @@ public class UploadAudio extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(UploadAudioViewModel.class);
         // TODO: Use the ViewModel
-        /*if(this.uri!=null){
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(String.valueOf(this.uri));
+            mediaPlayer.prepare();
+            System.out.println("time"+mediaPlayer.getDuration());;
             ContentResolver resolver = getActivity().getContentResolver();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*if(this.uri!=null){
+
             Cursor cursor = resolver.query(uri, new String[]{MediaStore.Images.Media.DATA}, null, null, null);
             System.out.println(cursor.getColumnCount());
             if (cursor == null) {
@@ -112,7 +100,7 @@ public class UploadAudio extends Fragment {
             cursor.close();
             System.out.println(filepath);
         }*/
-        System.out.println(getRealPathFromUri(getActivity(),this.uri));
+        //System.out.println(getRealPathFromUri(getActivity(),this.uri));
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
