@@ -21,6 +21,7 @@ import android.widget.ImageView;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.ui.map.MuseumMapInfo;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,54 +52,30 @@ public class MuseumInfo extends Fragment {
         list.add(new Canguanxuzhi());
         list.add(new zhantingfenbu());
         list.add(new jiaotong());
+        TabLayout tabLayout=root.findViewById(R.id.tablayout_info);
+        tabLayout.addTab(tabLayout.newTab().setText("博物馆简介"));
+        tabLayout.addTab(tabLayout.newTab().setText("参观须知"));
+        tabLayout.addTab(tabLayout.newTab().setText("展厅分布"));
+        tabLayout.addTab(tabLayout.newTab().setText("交通位置"));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         pager.setAdapter(new InfoAdapter(getFragmentManager(),list));
         pager.setCurrentItem(0);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                System.out.println("选择页面"+position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        //按钮顺序为13，10，11，12
-        Button button0=root.findViewById(R.id.button13);
-        Button button1=root.findViewById(R.id.button10);
-        Button button2=root.findViewById(R.id.button11);
-        Button button3=root.findViewById(R.id.button12);
-        button0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(0);
-            }
-        });
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(1);
-            }
-        });
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(2);
-            }
-        });
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.setCurrentItem(3);
-            }
-        });
-        //Bitmap bitmap=getH
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         return root;
     }
 
