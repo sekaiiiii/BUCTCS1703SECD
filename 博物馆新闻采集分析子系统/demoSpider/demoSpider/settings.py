@@ -64,9 +64,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'demoSpider.pipelines.DemospiderPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'demoSpider.pipelines.DemospiderPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -132,3 +132,10 @@ MY_USER_AGENT = [
     "Mozilla/5.0 (X11; U; Linux x86_64; zh-CN; rv:1.9.2.10) Gecko/20100922 Ubuntu/10.10 (maverick) Firefox/3.6.10",
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
 ]
+
+# 远程服务器数据库配置
+MYSQL_HOST = '192.144.239.176'
+MYSQL_DBNAME = 'db'
+MYSQL_USER = 'root'
+MYSQL_PASSWD = '2F5gMs4jIabeFuOB'
+MYSQL_PORT = 3306
