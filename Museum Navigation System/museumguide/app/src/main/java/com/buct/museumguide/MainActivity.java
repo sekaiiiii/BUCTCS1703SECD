@@ -47,18 +47,4 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //upload选择文件的回调
-        //如果还有需要回调此函数的请通过switch选择requestcode操作
-        super.onActivityResult(requestCode, resultCode, data);
-        //这里执行你的代码
-        System.out.println(requestCode+" "+resultCode);
-        Fragment fragment=this.getSupportFragmentManager().findFragmentById(R.id.uploadAudio);//
-        if(fragment==null){
-            fragment = new UploadAudio();
-            this.getSupportFragmentManager().beginTransaction().add(fragment,UploadAudio.class.getSimpleName()).commit();
-        }
-        fragment.onActivityResult(requestCode, resultCode, data);
-    }
 }

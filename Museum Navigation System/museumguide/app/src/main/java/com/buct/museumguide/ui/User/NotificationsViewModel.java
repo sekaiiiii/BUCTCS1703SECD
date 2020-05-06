@@ -42,7 +42,7 @@ public class NotificationsViewModel extends ViewModel {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-               // System.out.println(cookie+" "+response.body().string());
+                System.out.println(cookie+" "+response.body().string());
                 state.postValue(1);
             }
         });
