@@ -6,9 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio;
 import com.buct.museumguide.ui.map.MapGuide;
+import com.buct.museumguide.util.WebHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         Intent intent=getIntent();
         String info=intent.getStringExtra("info");
-
         SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
         Infos.edit().putString("cookie","").apply();
         Infos.edit().putString("info",info).apply();
@@ -42,5 +46,19 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //upload选择文件的回调
+        //如果还有需要回调此函数的请通过switch选择requestcode操作
+        super.onActivityResult(requestCode, resultCode, data);
+        //这里执行你的代码
+        System.out.println(requestCode+" "+resultCode);
+        Fragment fragment=this.getSupportFragmentManager().findFragmentById(R.id.uploadAudio);//
+        if(fragment==null){
+            fragment = new UploadAudio();
+            this.getSupportFragmentManager().beginTransaction().add(fragment,UploadAudio.class.getSimpleName()).commit();
+        }
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 }
