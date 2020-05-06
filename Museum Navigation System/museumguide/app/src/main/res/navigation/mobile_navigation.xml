@@ -128,7 +128,11 @@
         android:id="@+id/regist"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Regist.Regist"
         android:label="regist_fragment"
-        tools:layout="@layout/regist_fragment" />
+        tools:layout="@layout/regist_fragment" >
+        <action
+            android:id="@+id/action_regist_to_login"
+            app:destination="@id/login" />
+    </fragment>
     <fragment
         android:id="@+id/modifypsw"
         android:name="com.buct.museumguide.ui.FragmentForUsers.modifypsw"
