@@ -105,7 +105,7 @@ public class UploadAudio extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.upload_audio_fragment, container, false);
-        TextView textView = root.findViewById(R.id.resultget);  textView.setText("666");
+        TextView textView = root.findViewById(R.id.textView15);  textView.setText("666");
 
         Button searchfile = root.findViewById(R.id.bt_upload_vioce);
             searchfile.setOnClickListener(new View.OnClickListener() {
