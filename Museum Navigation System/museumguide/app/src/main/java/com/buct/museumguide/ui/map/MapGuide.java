@@ -86,6 +86,7 @@ public class MapGuide extends AppCompatActivity {
             // 返回 true 则表示接口已响应事件，否则返回false
             @Override
             public boolean onMarkerClick(Marker marker) {
+                /**/
                 count++;
                 if(count%2==1){
                     marker.showInfoWindow();
