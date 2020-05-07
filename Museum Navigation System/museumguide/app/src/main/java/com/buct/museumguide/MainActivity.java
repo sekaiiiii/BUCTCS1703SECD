@@ -1,11 +1,23 @@
 package com.buct.museumguide;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.RemoteException;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.media.MediaDescriptionCompat;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buct.museumguide.Service.MediaPlaybackService;
 import com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio;
 import com.buct.museumguide.ui.map.MapGuide;
 import com.buct.museumguide.util.WebHelper;
@@ -23,11 +35,13 @@ import androidx.navigation.ui.NavigationUI;
 * 记得在nav里注册
 * */
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG ="mainactivity" ;
     //public static String url = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -47,18 +61,5 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //upload选择文件的回调
-        //如果还有需要回调此函数的请通过switch选择requestcode操作
-        super.onActivityResult(requestCode, resultCode, data);
-        //这里执行你的代码
-        System.out.println(requestCode+" "+resultCode);
-        Fragment fragment=this.getSupportFragmentManager().findFragmentById(R.id.uploadAudio);//
-        if(fragment==null){
-            fragment = new UploadAudio();
-            this.getSupportFragmentManager().beginTransaction().add(fragment,UploadAudio.class.getSimpleName()).commit();
-        }
-        fragment.onActivityResult(requestCode, resultCode, data);
-    }
+
 }

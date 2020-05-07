@@ -1,9 +1,13 @@
-package com.buct.museumguide.ui.FragmentForUsers.Login;
+package com.buct.museumguide.ui.FragmentForUsers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.util.WebHelper;
@@ -16,10 +20,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.navigation.Navigation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -29,28 +29,28 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LoginViewModel extends ViewModel {
-    private MutableLiveData<String>liveData;
-    public void GetLoginState(String name, String password, final Context activity, final View view){
+public class modifypswViewModel extends ViewModel {
+    private MutableLiveData<String> liveData;
+    public void GetModifypswState(String psw_old, String psw_new, final Context activity, final View view){
         liveData=new MutableLiveData<>();
-        OkHttpClient okHttpClient=WebHelper.getInstance().client;//这里最好是写死的，将情况按参数匹配
+        OkHttpClient okHttpClient= WebHelper.getInstance().client;//这里最好是写死的，将情况按参数匹配
         MediaType mediaType = MediaType.parse("application/json");
         final JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("name",name);
-            jsonObject.put("password",password);
+            jsonObject.put("old_password",psw_old);
+            jsonObject.put("new_password",psw_new);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         if(jsonObject.length()>0){
             String body=jsonObject.toString();
             final Request request=new Request.Builder()
-                    .url(activity.getResources().getString(R.string.loginurl))
+                    .url("http://192.144.239.176:8080/api/android/set_user_password")
                     .post(RequestBody.create(body,mediaType)).build();
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.e(Login.TAG, "onFailure: ",e );
+                    Log.e(com.buct.museumguide.ui.FragmentForUsers.modifypsw.TAG, "onFailure: ",e );
                 }
 
                 @Override
@@ -66,7 +66,6 @@ public class LoginViewModel extends ViewModel {
                             String session=header.values("Set-Cookie").get(0);
                             String sessionID = session.substring(0, session.indexOf(";"));
                             SharedPreferences Infos = activity.getSharedPreferences("data", Context.MODE_PRIVATE);
-                            System.out.println("登录接受的cookie是 "+sessionID);
                             Infos.edit().putString("cookie",sessionID).apply();
                             //
                         }
@@ -75,14 +74,14 @@ public class LoginViewModel extends ViewModel {
                         }
                         liveData.postValue(state);
                     }catch (Exception e){
-                        Log.e(Login.TAG, "onResponse: ", e);
+                        Log.e(com.buct.museumguide.ui.FragmentForUsers.modifypsw.TAG, "onResponse: ", e);
                     }
                 }
             });
         }
     }
-    public LiveData<String>getState(String name, String password, final Context activity, final View view){
-        GetLoginState( name,password,activity,view);
+    public LiveData<String> getState(String psw_old, String psw_new, final Context activity, final View view){
+        GetModifypswState(psw_old,psw_new,activity,view);
         return liveData;
     }
 }
