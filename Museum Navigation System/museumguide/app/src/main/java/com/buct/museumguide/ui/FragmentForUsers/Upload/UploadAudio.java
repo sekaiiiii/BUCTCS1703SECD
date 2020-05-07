@@ -26,6 +26,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
@@ -46,11 +49,16 @@ import com.buct.museumguide.R;
 import com.buct.museumguide.util.CountingRequestBody;
 import com.buct.museumguide.util.FileHelper;
 import com.buct.museumguide.util.WebHelper;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
 public class UploadAudio extends Fragment {
@@ -70,6 +78,15 @@ public class UploadAudio extends Fragment {
     private Button submit;
     private EditText setdescribe;
     private EditText settitle;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==0x01){
+                textView.setText("上传失败!");
+            }
+        }
+    };
     public static UploadAudio newInstance() {
         return new UploadAudio();
     }
@@ -169,8 +186,18 @@ public class UploadAudio extends Fragment {
                             @Override
                             public void onRequestProgress(long byteWritted, long contentLength) {
                                 //打印进度
-                                if(byteWritted<=contentLength)
-                                Log.d("pyh", "进度 ：" + byteWritted + "/" + contentLength);
+                                if(byteWritted<=contentLength){
+                                    Log.d("pyh", "进度 ：" + byteWritted + "/" + contentLength);
+                                    DecimalFormat df = new DecimalFormat("0.00");
+                                    if(getActivity()!=null){
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                textView.setText("已上传"+String.valueOf(df.format((1.0*byteWritted/contentLength)*100))+"%");
+                                            }
+                                        });
+                                    }
+                                }
                             }
                         });
                         Request request = new Request.Builder()
@@ -183,9 +210,33 @@ public class UploadAudio extends Fragment {
 
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
-                                System.out.println(response.body().string());
+                                String res=response.body().string();
+                                System.out.println(res);
+                                try {
+                                    JSONObject jsonObject=new JSONObject(res);
+                                    String status=jsonObject.get("status").toString();
+                                    System.out.println(status);
+                                    if(status.equals("1")){
+                                        if(getActivity()!=null){
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    textView.setText("上传成功!");
+                                                }
+                                            });
+                                        }
+                                    }else{
+                                        Message message=new Message();
+                                        message.what=0x01;
+                                        handler.sendMessage(message);
+                                        Looper.prepare();
+                                        Toast.makeText(getActivity(),"上传失败",Toast.LENGTH_SHORT).show();
+                                        Looper.loop();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-
                             @Override
                             public void onFailure(Call arg0, IOException e) {
                                 // TODO Auto-generated method stub
