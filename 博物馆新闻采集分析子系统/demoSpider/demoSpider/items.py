@@ -13,3 +13,7 @@ class DemospiderItem(scrapy.Item):
     # name = scrapy.Field()
     id = scrapy.Field()
     content = scrapy.Field()
+    tf_idf_keywords = scrapy.Field()
+    tf_idf_score = scrapy.Field()
+    TextRank_keywords = scrapy.Field()
+    TextRank_score = scrapy.Field()
