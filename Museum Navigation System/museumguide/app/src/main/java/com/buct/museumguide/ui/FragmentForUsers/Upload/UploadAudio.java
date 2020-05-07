@@ -32,12 +32,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
+import com.buct.museumguide.util.CountingRequestBody;
 import com.buct.museumguide.util.FileHelper;
 import com.buct.museumguide.util.WebHelper;
 
@@ -52,63 +58,46 @@ public class UploadAudio extends Fragment {
     private static final int REQUEST_CODE =102;
     private static final String TAG ="upload" ;
     private UploadAudioViewModel mViewModel;
-    public Uri uri;
-    public String filepath;
+    private Uri uri;//相对路径
+    private String filepath;//绝对路径
+    private int durtime;//音频时长
+    private int itemid;//音频类型
+    private String title;//音频标题
+    private String describtion;//音频描述
+    private TextView textView;//显示音乐文件
+    private Spinner spinner;//下拉选择
+    private Button searchfile;//选择文件
+    private Button submit;
+    private EditText setdescribe;
+    private EditText settitle;
     public static UploadAudio newInstance() {
         return new UploadAudio();
-    }
-    public void getdata(Uri uri){
-        this.uri=uri;
-    }
-    public  String getFilepath(){
-        return this.filepath;
-    }
-    private static String getFilePathForN(Uri uri, Context context) {
-        Uri returnUri = uri;
-        Cursor returnCursor = context.getContentResolver().query(returnUri, null, null, null, null);
-        /*
-         * Get the column indexes of the data in the Cursor,
-         *     * move to the first row in the Cursor, get the data,
-         *     * and display it.
-         * */
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-        returnCursor.moveToFirst();
-        String name = (returnCursor.getString(nameIndex));
-        String size = (Long.toString(returnCursor.getLong(sizeIndex)));
-        File file = new File(context.getFilesDir(), name);
-        try {
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            int read = 0;
-            int maxBufferSize = 1 * 1024 * 1024;
-            int bytesAvailable = inputStream.available();
-
-            //int bufferSize = 1024;
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-
-            final byte[] buffers = new byte[bufferSize];
-            while ((read = inputStream.read(buffers)) != -1) {
-                outputStream.write(buffers, 0, read);
-            }
-            Log.e("File Size", "Size " + file.length());
-            inputStream.close();
-            outputStream.close();
-            Log.e("File Path", "Path " + file.getPath());
-            Log.e("File Size", "Size " + file.length());
-        } catch (Exception e) {
-            Log.e("Exception", e.getMessage());
-        }
-        return file.getPath();
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.upload_audio_fragment, container, false);
-        TextView textView = root.findViewById(R.id.textView15);  textView.setText("666");
+        textView = root.findViewById(R.id.textView15);
+        spinner=root.findViewById(R.id.spinner3);
+        final String[]items={"藏品讲解","博物馆讲解","展览讲解"};
+        final ArrayAdapter<String> adapter
+                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UploadAudio.this.itemid=position;
+                //Toast.makeText(getActivity(),position,Toast.LENGTH_SHORT).show();
+            }
 
-        Button searchfile = root.findViewById(R.id.bt_upload_vioce);
-            searchfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        searchfile = root.findViewById(R.id.bt_upload_vioce);
+        searchfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     System.out.println();
@@ -118,52 +107,52 @@ public class UploadAudio extends Fragment {
                     startActivityForResult(intent, REQUEST_CODE);
                 }
             });
-        Button submit = root.findViewById(R.id.bt_submit_newfile);
+        submit = root.findViewById(R.id.bt_submit_newfile);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"请先选择文件",Toast.LENGTH_SHORT).show();
             }
         });
+        settitle=root.findViewById(R.id.editText);
+        setdescribe=root.findViewById(R.id.editText4);
         return root;
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(UploadAudioViewModel.class);
-        // TODO: Use the ViewModel
         }
 
     @Override
     public void onResume() {
         super.onResume();
         if (this.uri != null) {
-
             System.out.println(filepath);
+            textView.setText(filepath);
             MediaPlayer mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(filepath);
                 mediaPlayer.prepare();
-                System.out.println("time" + mediaPlayer.getDuration());
-                ;
+                this.durtime=mediaPlayer.getDuration();
+                System.out.println("time" + durtime);
                 mediaPlayer.release();
-                // Cursor cursor = resolver.query(uri, new String[]{MediaStore.Audio.Media.EXTERNAL_CONTENT_URI}, null, null, null);
-                // System.out.println(cursor.getColumnCount());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // ac=getActivity();
-            Button submit = getView().findViewById(R.id.bt_submit_newfile);
+            submit = getView().findViewById(R.id.bt_submit_newfile);
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println(UploadAudio.this.uri);
                     try {
                         File file = new File(UploadAudio.this.filepath);
-                        System.out.println(UploadAudio.this.filepath);
+                        UploadAudio.this.title=settitle.getText().toString();
+                        UploadAudio.this.describtion=setdescribe.getText().toString();
                         SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
                         String cookie = Infos.getString("cookie", "");
-                        System.out.println("cookie:" + cookie);
+                        System.out.println(UploadAudio.this.filepath+UploadAudio.this.title+UploadAudio.this.describtion+
+                                UploadAudio.this.durtime+UploadAudio.this.itemid+"cookie:" + cookie);
+                        /**/
                         OkHttpClient client = WebHelper.getInstance().client;
                         MediaType mediaType = MediaType.parse("application/json");
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -171,12 +160,22 @@ public class UploadAudio extends Fragment {
                                 .addFormDataPart("music",file.getName(),
                                         RequestBody.create(MediaType.parse("audio/mpeg"),
                                                 file))
-                                .addFormDataPart("title", "test")
-                                .addFormDataPart("museum_id", "1")
+                                .addFormDataPart("title", UploadAudio.this.title)
+                                .addFormDataPart("duration", String.valueOf(UploadAudio.this.durtime))
+                                .addFormDataPart("artist", UploadAudio.this.describtion)
+                                .addFormDataPart("museum_id", String.valueOf(UploadAudio.this.itemid))
                                 .build();
+                        CountingRequestBody countingRequestBody = new CountingRequestBody(body, new CountingRequestBody.Listener() {
+                            @Override
+                            public void onRequestProgress(long byteWritted, long contentLength) {
+                                //打印进度
+                                if(byteWritted<=contentLength)
+                                Log.d("pyh", "进度 ：" + byteWritted + "/" + contentLength);
+                            }
+                        });
                         Request request = new Request.Builder()
                                 .url("http://192.144.239.176:8080/api/android/upload_explain")
-                                .method("POST", body)
+                                .method("POST", countingRequestBody)
                                 .addHeader("Content-Type", "multipart/form-data; boundary=<calculated when request is sent>")
                                 .addHeader("Cookie", cookie)
                                 .build();
@@ -191,9 +190,7 @@ public class UploadAudio extends Fragment {
                             public void onFailure(Call arg0, IOException e) {
                                 // TODO Auto-generated method stub
                                 System.out.println(e.toString());
-
                             }
-
                         });
                     } catch (Exception e) {
                         System.out.println(e);
@@ -202,11 +199,13 @@ public class UploadAudio extends Fragment {
             });
         }
     }
-
+/*
+* 回调选择的文件名，并把文件名的相对地址转化为绝对地址
+* */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       getdata(data.getData());
-        this.filepath = getFilePathForN(this.uri, getActivity());
+        this.uri=data.getData();
+        this.filepath = FileHelper.getFilePathForN(this.uri, getActivity());
     }
 }
