@@ -40,6 +40,7 @@ import java.util.List;
 * */
 public class MapGuide extends AppCompatActivity {
     private static final String TAG ="map" ;
+    private int count=0;
     MapView mMapView = null;
     ArrayList<MuseumMapInfo>mapinfo=new ArrayList<>();
     ArrayList<Marker>markers=new ArrayList<>();mapinfomation map;
@@ -74,7 +75,7 @@ public class MapGuide extends AppCompatActivity {
                             Double Latitude=Double.valueOf(map.getDatas().getList().get(i).getLatitude());
                             Double logitude=Double.valueOf(map.getDatas().getList().get(i).getLongitude());
                             String name=map.getDatas().getList().get(i).getName();
-                            markers.add(aMap.addMarker(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name)));
+                            markers.add(aMap.addMarker(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name).snippet(name)));
                         }
                     }
                 });
@@ -85,10 +86,15 @@ public class MapGuide extends AppCompatActivity {
             // 返回 true 则表示接口已响应事件，否则返回false
             @Override
             public boolean onMarkerClick(Marker marker) {
+                count++;
+                if(count%2==1){
+                    marker.showInfoWindow();
+                }else{
+                    Intent intent=new Intent(MapGuide.this, MainActivity.class);
+                    intent.putExtra("info",marker.getTitle());
+                    startActivity(intent);
 
-                Intent intent=new Intent(MapGuide.this, MainActivity.class);
-                intent.putExtra("info",marker.getTitle());
-                startActivity(intent);
+                }
                 return true;
             }
         };
