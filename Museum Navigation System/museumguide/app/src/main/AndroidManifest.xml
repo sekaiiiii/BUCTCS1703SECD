@@ -39,16 +39,16 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".Service.AudioService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
             android:name=".Service.MediaPlaybackService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
+        </service>
+        <service android:name=".Service.GetUploadService"
+            android:enabled="true"
+            android:exported="true">
         </service>
     </application>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
