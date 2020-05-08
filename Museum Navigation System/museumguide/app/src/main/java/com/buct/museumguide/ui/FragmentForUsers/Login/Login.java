@@ -44,7 +44,7 @@ import java.util.List;
 public class Login extends Fragment {
     public static final String TAG ="Login" ;
     private LoginViewModel mViewModel;
-
+    private SharedPreferences infos;
     public static Login newInstance() {
         return new Login();
     }
@@ -61,6 +61,8 @@ public class Login extends Fragment {
         mViewModel =new ViewModelProvider(this).get(LoginViewModel.class);
         final EditText name=getView().findViewById(R.id.input_account_name);
         final EditText password=getView().findViewById(R.id.input_password);
+        infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String islogin=infos.getString("user","");
         Button button_forget=getView().findViewById(R.id.button_forget_password);
         Button button_login=getView().findViewById(R.id.button_login);
         Button button_register=getView().findViewById(R.id.button_register);
@@ -83,6 +85,9 @@ public class Login extends Fragment {
                         if(s.equals(0)){
                             Toast.makeText(getActivity(),"密码错误",Toast.LENGTH_SHORT).show();
                         }else{
+                            if(islogin.equals("")){
+                                infos.edit().putString("user",names).apply();
+                            }
                             Navigation.findNavController(getView()).navigate(R.id.action_login_to_navigation_notifications);
                         }
                     }

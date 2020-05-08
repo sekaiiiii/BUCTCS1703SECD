@@ -1,72 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?已上传文件管理?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.FragmentForUsers.Upload.ShowUploadState"
-    android:background="#CCCC99">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#006633">
+    android:background="@color/colorLBrown"
+    tools:context=".ui.FragmentForUsers.Upload.ShowUploadState">
 
-        <Button
-            android:id="@+id/bt_backup"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:background="#00000000"
-            android:drawableRight="@drawable/ic_fanhui"
-            />
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="已上传文件管理"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="80dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#999666">
-
-        <Button
-            android:id="@+id/bt_audio_name"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="名称"
-            android:background="#00000000"/>
+            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/check"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="查看"
-            android:background="#00000000"/>
+            android:text="标题"
+            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/audio_state"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="审核状态"
-            android:background="#00000000"/>
-
-        <Button
-            android:id="@+id/bt_delete"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="删除"
-            android:background="#00000000"/>
+            android:text="文件名"
+            android:textSize="18sp" />
     </LinearLayout>
-</FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/showAudios"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

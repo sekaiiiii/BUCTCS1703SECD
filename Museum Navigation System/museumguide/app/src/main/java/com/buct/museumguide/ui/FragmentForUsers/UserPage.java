@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.buct.museumguide.R;
 
@@ -28,14 +29,6 @@ public class UserPage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root=inflater.inflate(R.layout.user_page_fragment, container, false);
-        Button button=root.findViewById(R.id.bt_modify_photo);//修改头像
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_userPage_to_modify_photo);
-
-            }
-        });
         Button button1=root.findViewById(R.id.bt_modify_username);//修改用户名
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

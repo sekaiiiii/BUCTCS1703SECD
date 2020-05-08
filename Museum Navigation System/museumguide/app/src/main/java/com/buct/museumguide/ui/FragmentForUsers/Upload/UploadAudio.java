@@ -17,6 +17,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -95,6 +96,13 @@ public class UploadAudio extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.upload_audio_fragment, container, false);
         textView = root.findViewById(R.id.textView15);
+        Button myupload=root.findViewById(R.id.button12);//查看自己的上传
+        myupload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(getView()).navigate(R.id.action_uploadAudio_to_showUploadState);
+            }
+        });
         spinner=root.findViewById(R.id.spinner3);
         final String[]items={"藏品讲解","博物馆讲解","展览讲解"};
         final ArrayAdapter<String> adapter

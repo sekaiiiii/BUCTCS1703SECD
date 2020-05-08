@@ -35,17 +35,6 @@
         android:background="#CCCC99">
 
         <Button
-            android:id="@+id/bt_modify_photo"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="0dp"
-            android:text="   修改头像"
-            android:textSize="25dp"
-            android:gravity="center_vertical"
-            android:drawableRight="@drawable/ic_next"
-            android:background="#FFFFFF" />
-
-        <Button
             android:id="@+id/bt_modify_username"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
