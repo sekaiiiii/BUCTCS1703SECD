@@ -6,6 +6,7 @@ import android.os.Build;
 import java.io.IOException;
 
 import androidx.annotation.RequiresApi;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,6 +17,7 @@ import okhttp3.Response;
 * */
 public class WebHelper{
     //必须在子线程运行，非子线程运行会报错
+    public static MediaType jsonmediaType = MediaType.parse("application/json");
     private static WebHelper webHelper;
     private WebHelper(){}
     public OkHttpClient client = new OkHttpClient();

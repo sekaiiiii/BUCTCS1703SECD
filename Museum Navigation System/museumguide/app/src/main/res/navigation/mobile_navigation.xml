@@ -89,7 +89,11 @@
         android:id="@+id/uploadAudio"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio"
         android:label="upload_audio_fragment"
-        tools:layout="@layout/upload_audio_fragment" />
+        tools:layout="@layout/upload_audio_fragment" >
+        <action
+            android:id="@+id/action_uploadAudio_to_showUploadState"
+            app:destination="@id/showUploadState" />
+    </fragment>
     <fragment
         android:id="@+id/museumInfo"
         android:name="com.buct.museumguide.ui.FragmentForMain.MuseumInfo.MuseumInfo"
@@ -183,5 +187,10 @@
         android:name="com.buct.museumguide.ui.FragmentForMain.EducationDetails"
         android:label="education_details"
         tools:layout="@layout/education_details_fragment"/>
+    <fragment
+        android:id="@+id/showUploadState"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.ShowUploadState"
+        android:label="show_upload_state_fragment"
+        tools:layout="@layout/show_upload_state_fragment" />
 </navigation>
 
