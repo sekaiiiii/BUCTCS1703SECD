@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_navigation_home_to_commonList"
             app:destination="@id/commonList" />
+        <action
+            android:id="@+id/action_navigation_home_to_login"
+            app:destination="@id/login" />
     </fragment>
 
     <fragment
@@ -123,6 +126,9 @@
         <action
             android:id="@+id/action_login_to_modifypsw"
             app:destination="@id/modifypsw" />
+        <action
+            android:id="@+id/action_login_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/regist"

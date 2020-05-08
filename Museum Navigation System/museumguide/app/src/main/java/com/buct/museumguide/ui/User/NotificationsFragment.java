@@ -24,7 +24,7 @@ import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
 public class NotificationsFragment extends Fragment {
     private int state=-1;
     private NotificationsViewModel notificationsViewModel;
-
+    private SharedPreferences Infos;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -45,8 +45,10 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel =
             ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
+        Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         if(state==0){//已登录
             final TextView textView = root.findViewById(R.id.textView3);
+            textView.setText(Infos.getString("user","游客"));
             final ImageView imageView=root.findViewById(R.id.imageView);
             final Button button0=root.findViewById(R.id.button3);//更改信息
             button0.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +75,6 @@ public class NotificationsFragment extends Fragment {
             button3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreferences Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
                     String cookie=Infos.getString("cookie","");
                     System.out.println(cookie);
                     notificationsViewModel.logout(cookie).observe(getViewLifecycleOwner(), new Observer<Integer>(){
@@ -81,6 +82,7 @@ public class NotificationsFragment extends Fragment {
                         public void onChanged(Integer integer) {
                             if(integer==1){
                                 Infos.edit().putString("cookie","").apply();
+                                Infos.edit().putString("user","").apply();
                                 //Toast.makeText(getActivity(),"假装退出登录了",Toast.LENGTH_SHORT).show();
                                 Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
                             }

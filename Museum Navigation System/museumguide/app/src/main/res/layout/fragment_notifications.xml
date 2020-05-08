@@ -85,25 +85,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="121dp"
-                android:layout_height="91dp"
-                android:layout_marginStart="50dp"
-                android:src="@android:drawable/sym_def_app_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="146dp"
                 android:layout_height="65dp"
-                android:layout_marginStart="30dp"
-                android:text="游客"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display4"
                 android:textSize="36sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

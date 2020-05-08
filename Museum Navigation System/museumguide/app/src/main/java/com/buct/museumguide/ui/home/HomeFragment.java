@@ -1,7 +1,9 @@
 package com.buct.museumguide.ui.home;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.MediaPlaybackService;
 import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
+import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.map.MapGuide;
 import com.youth.banner.Banner;
 
@@ -48,11 +51,13 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private Banner homeBanner;
     private Button playbutton;
+    private AlertDialog.Builder builder;
+    private SharedPreferences Infos;
     private int count=0;//播放计数器，按一次播放，2次停止
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+         Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String info=Infos.getString("info","");
         if(info.equals("")==false){
             Toast.makeText(getActivity(),info,Toast.LENGTH_SHORT).show();System.out.println(info);
@@ -130,7 +135,23 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        if(Infos.getString("user","").equals("")){
+            Infos.edit().putString("user","").apply();//首次启动
+            builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("请先登录");// 设置标题
+            // builder.setIcon(R.drawable.ic_launcher);//设置图标
+            //builder.setMessage(msg); 为对话框设置内容
+            builder.setCancelable(false);
+            // 为对话框设置取消按钮
+            builder.setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // TODO Auto-generated method stub
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_login);
+                }
+            });
+            builder.create().show();// 使用show()方法显示对话框
+        }
         playbutton=getView().findViewById(R.id.button11);
         playbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +168,7 @@ public class HomeFragment extends Fragment {
     }
     private MediaBrowserCompat.ConnectionCallback callback
             = new MediaBrowserCompat.ConnectionCallback(){
+
         @Override
         public void onConnected() {
             super.onConnected();
@@ -182,4 +204,24 @@ public class HomeFragment extends Fragment {
             super.onPlaybackStateChanged(state);
         }
     };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mediaBrowser.disconnect();
+        System.out.println("onPause");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("onResume");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("onDestroy");
+
+    }
 }
