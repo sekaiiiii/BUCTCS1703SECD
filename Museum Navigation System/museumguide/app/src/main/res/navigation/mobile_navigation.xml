@@ -82,9 +82,6 @@
             android:id="@+id/action_userPage_to_bind_email"
             app:destination="@id/bind_email" />
         <action
-            android:id="@+id/action_userPage_to_modify_photo"
-            app:destination="@id/modify_photo" />
-        <action
             android:id="@+id/action_userPage_to_modify_username"
             app:destination="@id/modify_username" />
     </fragment>
@@ -143,10 +140,6 @@
         android:id="@+id/modifypsw"
         android:name="com.buct.museumguide.ui.FragmentForUsers.modifypsw"
         android:label="modifypsw" />
-    <fragment
-        android:id="@+id/modify_photo"
-        android:name="com.buct.museumguide.ui.FragmentForUsers.modify_photo"
-        android:label="modify_photo" />
     <fragment
         android:id="@+id/modify_username"
         android:name="com.buct.museumguide.ui.FragmentForUsers.modify_username"

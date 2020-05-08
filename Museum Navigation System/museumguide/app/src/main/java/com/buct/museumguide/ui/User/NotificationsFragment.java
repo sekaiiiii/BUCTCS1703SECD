@@ -49,7 +49,7 @@ public class NotificationsFragment extends Fragment {
         if(state==0){//已登录
             final TextView textView = root.findViewById(R.id.textView3);
             textView.setText(Infos.getString("user","游客"));
-            final ImageView imageView=root.findViewById(R.id.imageView);
+           // final ImageView imageView=root.findViewById(R.id.imageView);
             final Button button0=root.findViewById(R.id.button3);//更改信息
             button0.setOnClickListener(new View.OnClickListener() {
                 @Override
