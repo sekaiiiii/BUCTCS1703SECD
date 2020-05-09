@@ -64,7 +64,7 @@ public class RegistViewModel extends ViewModel {
     public void GetRegistState(String username,String mail_address,String code, String password, final Context activity, final View view){
         liveData2=new MutableLiveData<>();
         OkHttpClient okHttpClient2=WebHelper.getInstance().client;
-
+        System.out.println(username+mail_address+code+password);
         RequestBody body2 = new FormBody.Builder()
                 .add("name",String.valueOf(username))
                 .add("mail_address",String.valueOf(mail_address))
@@ -83,6 +83,7 @@ public class RegistViewModel extends ViewModel {
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     try{
                         String result2 = response.body().string();
+                        System.out.println(result2);
                         JSONObject jsonobject4 =  new JSONObject(result2);
                         String state = jsonobject4.getString("status");//用于是否注册成功
                         liveData2.postValue(state);
