@@ -7,12 +7,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
     android:orientation="vertical"
     >
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/museumList_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -28,7 +27,8 @@
             android:id="@+id/museumList_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ic_fanhui" />
+            android:background="@drawable/ic_fanhui"
+            android:layout_centerVertical="true"/>
 
         <TextView
             android:id="@+id/museumList_title"
@@ -38,21 +38,31 @@
             android:text="博物馆列表"
             android:textColor="#ffffff"
             android:textSize="25sp" />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_map"
+            android:id="@+id/museumList_map"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:layout_marginRight="10dp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/museumList_tablayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        app:theme = "@style/Base.Widget.Design.TabLayout"
+        app:tabSelectedTextColor="#517c63"
+        app:tabTextColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/museumList_LinearLayout"
         app:layout_constraintVertical_bias="0.0"
-        app:tabSelectedTextColor="#517c63"
-        app:tabTextColor="#ffffff"
-        app:theme="@style/Base.Widget.Design.TabLayout">
+        >
 
     </com.google.android.material.tabs.TabLayout>
 

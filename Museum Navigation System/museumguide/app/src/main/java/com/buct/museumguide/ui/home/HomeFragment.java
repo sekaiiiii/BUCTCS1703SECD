@@ -101,11 +101,6 @@ public class HomeFragment extends Fragment {
 //            Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_userComment);
         });
-        final Button button2=root.findViewById(R.id.button2);
-        button2.setOnClickListener(v -> {
-            // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getActivity(), MapGuide.class));
-        });
         final Button homeMyComment=root.findViewById(R.id.homeMyComment);
         homeMyComment.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_myComment);
