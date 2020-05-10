@@ -20,7 +20,10 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.buct.museumguide.Service.AudioMessage;
 import com.buct.museumguide.Service.MediaPlaybackService;
+import com.buct.museumguide.Service.PlayMessage;
+import com.buct.museumguide.Service.StringMessage;
 import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio;
 import com.buct.museumguide.ui.home.HomeFragment;
@@ -28,6 +31,10 @@ import com.buct.museumguide.ui.map.MapGuide;
 import com.buct.museumguide.util.WebHelper;
 import com.buct.museumguide.util.dialogs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         mediaBrowser=new MediaBrowserCompat(this,new ComponentName(this, MediaPlaybackService.class),callback,null);
         mediaBrowser.connect();
         getSupportActionBar().hide();
@@ -123,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onChildrenLoaded(@NonNull String parentId,
                                              @NonNull List<MediaBrowserCompat.MediaItem> children) {
                     //数据获取成功后的回调
+                    try {
+                        EventBus.getDefault().post(new AudioMessage(children));
+                    }catch (Exception e){
+                        System.out.println("post异常");
+                        System.out.println(e);
+                    }
+
                     System.out.println("回调成功"+children.size());
                 }
 
@@ -142,8 +157,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        mediaBrowser.unsubscribe("id");
-        mediaBrowser.subscribe("id",subcallback);
-        System.out.println("onResume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getrefresh(StringMessage msg){
+        System.out.println("服务已收到消息"+msg.msg);
+        if(msg.msg.equals("0")){
+            //刷新音频表，
+            System.out.println("刷新订阅");
+            mediaBrowser.unsubscribe("id");
+            mediaBrowser.subscribe("id",subcallback);
+        }else{
+            //广播订阅其他消息
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getplayrequest(PlayMessage msg){
+        System.out.println("服务已收到播放"+msg.msg);
+        mediaController.getTransportControls().playFromMediaId(msg.msg,null);
     }
 }

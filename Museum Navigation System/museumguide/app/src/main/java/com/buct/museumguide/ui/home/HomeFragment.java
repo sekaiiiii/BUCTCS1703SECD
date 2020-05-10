@@ -34,10 +34,15 @@ import androidx.navigation.Navigation;
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.MediaPlaybackService;
+import com.buct.museumguide.Service.StringMessage;
 import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.map.MapGuide;
 import com.youth.banner.Banner;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -79,6 +84,7 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
+       // EventBus.getDefault().register(this);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -154,13 +160,7 @@ public class HomeFragment extends Fragment {
         playbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count++;
-                if(count%2==1){
-                    //mediaController.getTransportControls().prepare();
-                    //mediaController.getTransportControls().play();
-                }else {
-                   // mediaController.getTransportControls().pause();
-                }
+
             }
         });
     }
@@ -173,14 +173,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         System.out.println("onResume");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //EventBus.getDefault().unregister(this);
         System.out.println("onDestroy");
-
     }
-
 }

@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ShowUploadAdapter extends RecyclerView.Adapter<ShowUploadAdapter.ViewHolder> {
     private List<audioitem> list;
+    public MyClick click;
+
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
         TextView name;
@@ -27,12 +29,27 @@ public class ShowUploadAdapter extends RecyclerView.Adapter<ShowUploadAdapter.Vi
         }
 
     }
-    ShowUploadAdapter(List<audioitem>l){this.list=l;}
+    public void setClick(MyClick click){
+        this.click = click;
+    }
+
+    public interface MyClick{
+        void click(View v);
+    }
+    public ShowUploadAdapter(List<audioitem> l){this.list=l;}
     @NonNull
     @Override
     public ShowUploadAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_useraudios,parent,false);
         ViewHolder holder = new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(click != null){
+                    click.click(v);
+                }
+            }
+        });
         return holder;
     }
 

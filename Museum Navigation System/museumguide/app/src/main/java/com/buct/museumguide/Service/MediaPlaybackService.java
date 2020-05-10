@@ -168,6 +168,12 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
                 }
             }).start();*/
         }
+
+        @Override
+        public void onPlayFromMediaId(String mediaId, Bundle extras) {
+            super.onPlayFromMediaId(mediaId, extras);
+            System.out.println("服务已收到播放申请");
+        }
     };
 
     @Nullable
@@ -175,7 +181,6 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
     public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
         return new BrowserRoot("root",null);
     }
-/*这里把主线程阻塞了，应该改成子线程等待的*/
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
@@ -192,7 +197,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
                         MediaDescriptionCompat des= new MediaDescriptionCompat.Builder()
                                 .setMediaId(musicList.get(i).getMetaID())
                                 .setTitle(musicList.get(i).getTitle())
-                                .setSubtitle(musicList.get(i).getTitle())
+                                .setSubtitle(musicList.get(i).getUrl())
                                 .setDescription(musicList.get(i).getDescribe())
                                 .build();
                         MediaBrowserCompat.MediaItem m=new MediaBrowserCompat.MediaItem(des,MediaBrowserCompat.MediaItem.FLAG_PLAYABLE);
