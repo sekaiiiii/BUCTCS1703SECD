@@ -112,9 +112,6 @@ public class ShowUploadState extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ShowUploadStateViewModel.class);
-
-
-        // TODO: Use the ViewModel
     }
 
     @Override
