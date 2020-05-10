@@ -82,7 +82,7 @@ public class Login extends Fragment {
                     @Override
                     public void onChanged(String s) {
                         System.out.println("观察到"+s);
-                        if(s.equals(0)){
+                        if(s.equals("0")){
                             Toast.makeText(getActivity(),"密码错误",Toast.LENGTH_SHORT).show();
                         }else{
                             if(islogin.equals("")){
