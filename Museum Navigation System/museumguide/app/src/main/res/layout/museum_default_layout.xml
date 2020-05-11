@@ -15,11 +15,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginRight="50dp"/>
-    <com.gjiazhe.wavesidebar.WaveSideBar
+
+    <com.example.sidebar.WaveSideBarView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/museum_default_sidebar"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="40dp"/>
+        android:layout_marginBottom="50dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
