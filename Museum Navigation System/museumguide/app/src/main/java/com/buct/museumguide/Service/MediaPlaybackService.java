@@ -1,30 +1,19 @@
 package com.buct.museumguide.Service;
-import android.annotation.SuppressLint;
-import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.media.MediaMetadata;
 import android.media.MediaPlayer;
-import android.media.browse.MediaBrowser;
-import android.media.session.MediaSession;
-import android.media.session.PlaybackState;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.service.media.MediaBrowserService;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.buct.museumguide.bean.Audiolist;
 import com.buct.museumguide.bean.music;
-import com.buct.museumguide.ui.FragmentForUsers.Upload.ShowUploadAdapter;
 import com.buct.museumguide.ui.FragmentForUsers.Upload.audioitem;
 import com.buct.museumguide.util.WebHelper;
 import com.buct.museumguide.util.musicutil;
@@ -42,14 +31,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.media.MediaBrowserServiceCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MediaPlaybackService extends MediaBrowserServiceCompat
+public class MediaPlaybackService extends MediaBrowserServiceCompat implements MediaPlayer.OnPreparedListener
 {
     final String playurl="http://192.144.239.176:8080/ZBAA-Nov-04-2019-0200Z.mp3-1588756996196.mp3";
     private static final String TAG=com.buct.museumguide.Service.MediaPlaybackService.class.getSimpleName() ;
@@ -73,6 +61,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onCreate() {
         super.onCreate();
+        player.setOnPreparedListener(this);
         musicList=new ArrayList<>();
         mediaSession=new MediaSessionCompat(this,"MediaPlaybackService");
         setSessionToken(mediaSession.getSessionToken());
@@ -138,7 +127,6 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
         public void onPlay() {
             super.onPlay();
             player.start();
-            //mediaSession.setPlaybackState(PlaybackStateCompat.fromPlaybackState(stateBuilder));
         }
 
         @Override
@@ -150,29 +138,31 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
         @Override
         public void onPrepare() {
             super.onPrepare();
-            /*
-            music m= musicutil.SetMusic("1","讲解","bzd","导览",playurl,"不知道","xjbx", (long) 227);
-            data=musicutil.SetData(m);
-            mediaSession.setMetadata(data);
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        System.out.println(data.getString(MediaMetadata.METADATA_KEY_MEDIA_URI).toString());
-                        player.setDataSource(data.getString(MediaMetadata.METADATA_KEY_MEDIA_URI).toString());
-                        player.prepareAsync();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();*/
         }
 
         @Override
         public void onPlayFromMediaId(String mediaId, Bundle extras) {
             super.onPlayFromMediaId(mediaId, extras);
+            onPause();
             System.out.println("服务已收到播放申请");
+            onPrepareFromMediaId(mediaId, extras);
+        }
+
+        @Override
+        public void onPrepareFromMediaId(String mediaId, Bundle extras) {
+            super.onPrepareFromMediaId(mediaId, extras);
+            player.reset();
+            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            int id=Integer.valueOf(mediaId);
+            try {
+                System.out.println(musicList.get(id-1).getUrl());
+                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                player.setDataSource(musicList.get(id-1).getUrl());
+                player.prepareAsync();
+            } catch (IOException e) {
+                System.out.println("无法播放");
+                e.printStackTrace();
+            }
         }
     };
 
@@ -211,4 +201,15 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat
         }).start();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        player.release();
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        System.out.println("准备播放");
+        mp.start();
+    }
 }

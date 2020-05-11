@@ -192,6 +192,10 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getplayrequest(PlayMessage msg){
         System.out.println("服务已收到播放"+msg.msg);
-        mediaController.getTransportControls().playFromMediaId(msg.msg,null);
+        if(msg.msg.equals("-1")){
+            mediaController.getTransportControls().pause();
+        }else {
+            mediaController.getTransportControls().prepareFromMediaId(msg.msg,null);
+        }
     }
 }
