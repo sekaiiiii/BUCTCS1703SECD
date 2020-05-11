@@ -264,6 +264,8 @@ public class UploadAudio extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(data==null)return;
+        System.out.println(data.toString());
         this.uri=data.getData();
         this.filepath = FileHelper.getFilePathForN(this.uri, getActivity());
     }
