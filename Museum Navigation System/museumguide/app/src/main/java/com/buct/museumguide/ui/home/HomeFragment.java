@@ -84,7 +84,6 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-       // EventBus.getDefault().register(this);
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -92,22 +91,18 @@ public class HomeFragment extends Fragment {
 
         final SearchView homeSearch=root.findViewById(R.id.homeSearch);
         homeSearch.setOnClickListener(v -> {
-            // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_searchResult);
         });
         final CardView cardViewIntro=root.findViewById(R.id.cardViewIntro);
         cardViewIntro.setOnClickListener(v -> {
-//            Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_museumInfo);
         });
         final CardView cardViewComment=root.findViewById(R.id.cardViewComment);
         cardViewComment.setOnClickListener(v -> {
-//            Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_userComment);
         });
         final Button button2=root.findViewById(R.id.button2);
         button2.setOnClickListener(v -> {
-            // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), MapGuide.class));
         });
         final Button homeMyComment=root.findViewById(R.id.homeMyComment);
@@ -125,7 +120,6 @@ public class HomeFragment extends Fragment {
 
         homeBanner = root.findViewById(R.id.homeBanner);
         homeBanner.setAdapter(new HomeBannerAdapter(getContext() ,MuseumItem.getTestData()))
-//                .setIndicator(new CircleIndicator(getContext()))
                 .setOnBannerListener((data, position) -> {
                     MuseumItem mData = (MuseumItem) data;
                     Bundle bundle = new Bundle();
@@ -143,8 +137,6 @@ public class HomeFragment extends Fragment {
             Infos.edit().putString("user","").apply();//首次启动
             builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("请先登录");// 设置标题
-            // builder.setIcon(R.drawable.ic_launcher);//设置图标
-            //builder.setMessage(msg); 为对话框设置内容
             builder.setCancelable(false);
             // 为对话框设置取消按钮
             builder.setPositiveButton("去登录", new DialogInterface.OnClickListener() {
@@ -156,13 +148,6 @@ public class HomeFragment extends Fragment {
             });
             builder.create().show();// 使用show()方法显示对话框
         }
-        playbutton=getView().findViewById(R.id.button11);
-        playbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
     @Override
     public void onPause() {
@@ -173,14 +158,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         System.out.println("onResume");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //EventBus.getDefault().unregister(this);
         System.out.println("onDestroy");
     }
 }

@@ -39,20 +39,40 @@ public class MuseumInfo extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         mViewModel= new ViewModelProvider(this).get(MuseumInfoViewModel.class);
         View root=inflater.inflate(R.layout.museum_info_fragment, container, false);
-        final ImageView imageView=root.findViewById(R.id.imageView2);
+        if (root != null) {
+            ViewGroup parent = (ViewGroup) root.getParent();
+            if (parent != null) {
+                parent.removeView(root);
+            }
+            return root;
+        }
+        return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = ViewModelProviders.of(this).get(MuseumInfoViewModel.class);
+        // TODO: Use the ViewModel
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        final ImageView imageView=getView().findViewById(R.id.imageView2);
         mViewModel.getphoto().observe(getViewLifecycleOwner(), new Observer<Bitmap>() {
             @Override
             public void onChanged(@Nullable Bitmap s) {
                 imageView.setImageBitmap(s);
             }
         });
-        final ViewPager pager=root.findViewById(R.id.page);
+        final ViewPager pager=getView().findViewById(R.id.page);
         List<Fragment> list=new ArrayList<>();
         list.add(new Jianjie());
         list.add(new Canguanxuzhi());
         list.add(new zhantingfenbu());
         list.add(new jiaotong());
-        TabLayout tabLayout=root.findViewById(R.id.tablayout_info);
+        TabLayout tabLayout=getView().findViewById(R.id.tablayout_info);
         tabLayout.addTab(tabLayout.newTab().setText("博物馆简介"));
         tabLayout.addTab(tabLayout.newTab().setText("参观须知"));
         tabLayout.addTab(tabLayout.newTab().setText("展厅分布"));
@@ -73,17 +93,33 @@ public class MuseumInfo extends Fragment {
 
             }
         });
-        pager.setAdapter(new InfoAdapter(getFragmentManager(),list));
+        pager.setAdapter(new InfoAdapter(getChildFragmentManager(),list));
         pager.setCurrentItem(0);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        return root;
+        System.out.println("infostart");
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MuseumInfoViewModel.class);
-        // TODO: Use the ViewModel
+    public void onStop() {
+        super.onStop();
+        System.out.println("infostop");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("inforesume");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("infodestory");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("infopause");
+    }
 }
