@@ -2,4 +2,20 @@
 <resources>
     <string name="loginurl">http://192.144.239.176:8080/api/android/login</string>
     <string name="feedback_ask">如果您对我们的应用有什么好的建议，欢迎您提出，我们会争取采纳</string>
+    <string name="verification_code_url">http://192.144.239.176:8080/api/android/want_register</string>
+    <string name="want_regrist_url">http://192.144.239.176:8080/api/android/register</string>
+    <string name="logout_url">http://192.144.239.176:8080/api/android/logout</string>
+    <string name="set_user_info_url">http://192.144.239.176:8080/api/android/set_user_info</string>
+    <string name="set_password_url">http://192.144.239.176:8080/api/android/set_user_password</string>
+    <string name="upload_explain_url">http://192.144.239.176:8080/api/android/upload_explain</string>
+    <string name="get_museum_info_url">http://192.144.239.176:8080/api/android/get_museum_info</string>
+    <string name="get_collection_info_url">http://192.144.239.176:8080/api/android/get_collection_info</string>
+    <string name="get_exhibition_info_url">http://192.144.239.176:8080/api/android/get_exhibition_info</string>
+    <string name="get_education_activity_info_url">http://192.144.239.176:8080/api/android/get_education_activity_info</string>
+    <string name="get_new_info_url">http://192.144.239.176:8080/api/android/get_new_info</string>
+    <string name="get_museum_comment_url">http://192.144.239.176:8080/api/android/get_museum_comment</string>
+    <string name="get_explain_info_url">http://192.144.239.176:8080/api/android/get_explain_info</string>
+    <string name="get_myself_explain_url">http://192.144.239.176:8080/api/android/get_myself_explain</string>
+    <string name="comment_url">http://192.144.239.176:8080/api/android/comment</string>
+    <string name="feedback_url">http://192.144.239.176:8080/api/android/feedback</string>
 </resources>

@@ -36,11 +36,8 @@ public class jiaotong extends Fragment {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
-//设置导航功能
-//将功能Scheme以URI的方式传入data
                 Uri uri = Uri.parse("androidamap://navi?sourceApplication=appname&amp;poiname=fangheng&amp;lat=36.547901&amp;lon=104.258354&amp;dev=1&amp;style=2");
                 intent.setData(uri);
-//启动该页面即可
                 startActivity(intent);
             }
         });

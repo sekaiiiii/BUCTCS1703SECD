@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForUsers.Login;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -77,7 +78,6 @@ public class Login extends Fragment {
             public void onClick(View v) {
                 String names = name.getText().toString();
                 String psw = password.getText().toString();
-                //传参交给viewmodel处理，使得fragment只需要处理
                 mViewModel.getState(names,psw,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
@@ -100,19 +100,19 @@ public class Login extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_login_to_regist);
             }
         });
-        // TODO: Use the ViewModel
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        //getActivity().getSupportFragmentManager().popBackStackImmediate(Login.class.getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
-                    //Toast.makeText(getActivity(), "按了返回键", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

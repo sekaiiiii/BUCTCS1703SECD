@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import com.buct.museumguide.R;
 import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
+import com.buct.museumguide.util.WebHelper;
 
 public class NotificationsFragment extends Fragment {
     private int state=-1;
@@ -29,7 +30,7 @@ public class NotificationsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         SharedPreferences Infos = getActivity().getSharedPreferences("data",Context.MODE_PRIVATE);
-        String cookie=Infos.getString("cookie","");
+        String cookie= WebHelper.getCookie(getActivity());
         if(cookie.length()==0)state=1;
         else state=0;
     }
@@ -82,7 +83,6 @@ public class NotificationsFragment extends Fragment {
                             if(integer==1){
                                 Infos.edit().putString("cookie","").apply();
                                 Infos.edit().putString("user","").apply();
-                                //Toast.makeText(getActivity(),"假装退出登录了",Toast.LENGTH_SHORT).show();
                                 Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
                             }
                         }
@@ -109,9 +109,6 @@ public class NotificationsFragment extends Fragment {
     }
     @Override
     public void onResume() {
-        /*
-        * 获取焦点重写onresume监听按钮
-        * */
         super.onResume();
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
@@ -119,7 +116,6 @@ public class NotificationsFragment extends Fragment {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
-                    //Toast.makeText(getActivity(), "按了返回键", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

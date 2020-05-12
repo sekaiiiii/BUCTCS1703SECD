@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -61,7 +62,6 @@ public class HomeFragment extends Fragment {
     private Button playbutton;
     private AlertDialog.Builder builder;
     private SharedPreferences Infos;
-    private int count=0;//播放计数器，按一次播放，2次停止
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
