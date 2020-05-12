@@ -33,7 +33,10 @@ import androidx.navigation.Navigation;
 
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
+import com.buct.museumguide.Service.CommandRequest;
 import com.buct.museumguide.Service.MediaPlaybackService;
+import com.buct.museumguide.Service.ResultMessage;
+import com.buct.museumguide.Service.StateBroadCast;
 import com.buct.museumguide.Service.StringMessage;
 import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
@@ -73,11 +76,14 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         //开始轮播
+        EventBus.getDefault().register(this);
+
         homeBanner.start();
     }
     @Override
     public void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(this);
         //结束轮播
         homeBanner.stop();
     }
@@ -158,12 +164,23 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("onResume");
+        System.out.println("HomeFragment onResume");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         System.out.println("onDestroy");
+    }
+    @Subscribe
+    public void GetResult(ResultMessage msg){
+        System.out.println("homefragment得到"+msg.res);
+    }
+    @Subscribe
+    public void GetState(StateBroadCast msg){
+        EventBus.getDefault()
+                .post(new
+                        CommandRequest
+                        ("http://192.144.239.176:8080/api/android/get_education_activity_info"));
     }
 }

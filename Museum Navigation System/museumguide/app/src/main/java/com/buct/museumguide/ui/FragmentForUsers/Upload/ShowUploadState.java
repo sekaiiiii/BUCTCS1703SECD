@@ -3,7 +3,6 @@ package com.buct.museumguide.ui.FragmentForUsers.Upload;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -18,14 +17,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import android.os.MessageQueue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.buct.museumguide.R;
-import com.buct.museumguide.Service.AudioServiceCallBack;
-import com.buct.museumguide.Service.GetUploadService;
 import com.buct.museumguide.bean.Audiolist;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;

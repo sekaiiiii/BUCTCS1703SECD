@@ -6,8 +6,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.support.v4.media.MediaBrowserCompat;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.buct.museumguide.Service.AudioMessage;
 import com.buct.museumguide.Service.MediaPlaybackService;
+import com.buct.museumguide.Service.OnOpenGetMessage;
 import com.buct.museumguide.Service.PlayMessage;
 import com.buct.museumguide.Service.StringMessage;
 import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
@@ -56,13 +59,27 @@ public class MainActivity extends AppCompatActivity {
     private MediaBrowserCompat mediaBrowser;
     private MediaControllerCompat mediaController;
     private  MediaSessionCompat.Token token;
-
+    Intent intent1;
     public static void myToast(String s,Context context) {
         Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
     }
+    /*其实有框架都不用绑定了2333*/
+    private ServiceConnection connection=new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+           System.out.println("绑定获取数据服务");
+           OnOpenGetMessage.binder binder= (OnOpenGetMessage.binder) service;
+           binder.getcommand();
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            System.out.println("解绑获取数据服务");
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("主活动创建");
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         mediaBrowser=new MediaBrowserCompat(this,new ComponentName(this, MediaPlaybackService.class),callback,null);
@@ -85,7 +102,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        System.out.println("huoqu"+Infos.getString("user",""));
+      //  System.out.println("huoqu"+Infos.getString("user",""));
+        intent1=new Intent(MainActivity.this, OnOpenGetMessage.class);
+        startService(intent1);
+        bindService(intent1,connection,BIND_AUTO_CREATE);
     }
     private MediaBrowserCompat.ConnectionCallback callback
             = new MediaBrowserCompat.ConnectionCallback(){
@@ -174,7 +194,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        System.out.println("主活动停止");
         EventBus.getDefault().unregister(this);
+        stopService(intent1);
+        unbindService(connection);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -185,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("刷新订阅");
             mediaBrowser.unsubscribe("id");
             mediaBrowser.subscribe("id",subcallback);
-        }else{
+        }else if(msg.msg.equals("666")){
             //广播订阅其他消息
+            Toast.makeText(this,"收到了服务的通知",Toast.LENGTH_SHORT).show();
         }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -198,4 +222,5 @@ public class MainActivity extends AppCompatActivity {
             mediaController.getTransportControls().prepareFromMediaId(msg.msg,null);
         }
     }
+
 }
