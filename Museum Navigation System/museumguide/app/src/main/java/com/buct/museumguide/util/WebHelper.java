@@ -21,49 +21,13 @@ public class WebHelper{
     private static WebHelper webHelper;
     private WebHelper(){}
     public OkHttpClient client = new OkHttpClient();
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public String Get(String url)throws IOException {
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-            try (Response response = client.newCall(request).execute()) {
-                return response.body().string();
-            }
-    }
     public static synchronized WebHelper getInstance(){
         if(webHelper==null)webHelper=new WebHelper();
         return webHelper;
     }
-    //AsyncTask<String ,String,String>
-    //post类封装？
-    public static class WebGet extends AsyncTask<String, Integer, String> {
-        private OkHttpClient client;
-        /*预先获取网络请求*/
-        @Override
-        protected void onPreExecute() {
-            this.client=WebHelper.getInstance().client;
-            super.onPreExecute();
-        }
-        @Override
-        protected String doInBackground(String... strings) {
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
-
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
+    public static String getInfo(String url) throws IOException {
+        Request request=new Request.Builder().url(url).build();
+        Response response=WebHelper.getInstance().client.newCall(request).execute();
+        return response.body().string();
     }
 }
