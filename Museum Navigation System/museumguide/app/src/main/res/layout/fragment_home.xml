@@ -42,7 +42,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="中国国家博物馆"
                         android:drawableLeft="@drawable/ic_house"
                         android:textSize="24sp"
                         android:drawableStart="@drawable/ic_house"
@@ -240,12 +239,6 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:text="地图跳转" />
 
         </LinearLayout>
     </ScrollView>
