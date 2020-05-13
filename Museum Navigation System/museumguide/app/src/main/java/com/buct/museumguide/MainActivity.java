@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        mediaBrowser.disconnect();
+
         System.out.println("onPause");
     }
 
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mediaBrowser.disconnect();
         System.out.println("主活动停止");
         EventBus.getDefault().unregister(this);
         stopService(intent1);

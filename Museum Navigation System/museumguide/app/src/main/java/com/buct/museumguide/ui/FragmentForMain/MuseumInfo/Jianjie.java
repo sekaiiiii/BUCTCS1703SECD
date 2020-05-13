@@ -1,6 +1,7 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumInfo;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -36,12 +37,13 @@ import java.util.List;
 
 public class Jianjie extends Fragment {
 
-    private JianjieViewModel mViewModel;
+    private MuseumInfoViewModel mViewModel;
     private RecyclerView recyclerView;
+    private List<audioitem>l=new ArrayList<>();;
     public static Jianjie newInstance() {
         return new Jianjie();
     }
-
+private ShowUploadAdapter adapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -49,21 +51,30 @@ public class Jianjie extends Fragment {
             EventBus.getDefault().register(this);
         }
         View view=inflater.inflate(R.layout.jianjie_fragment, container, false);
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null) {
-                parent.removeView(view);
+        recyclerView=view.findViewById(R.id.showaudio_jianjie);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new ShowUploadAdapter(l);
+        adapter.setClick(new ShowUploadAdapter.MyClick() {
+            int count=0;
+            @Override
+            public void click(View v) {
+                count++;
+                if(count%2==1){
+                    EventBus.getDefault().post(new PlayMessage(String.valueOf(recyclerView.getChildAdapterPosition(v)+1)));
+                    Toast.makeText(getActivity(),String.valueOf(recyclerView.getChildAdapterPosition(v)),Toast.LENGTH_SHORT).show();
+                }else{
+                    EventBus.getDefault().post(new PlayMessage(String.valueOf(-1)));
+                }
             }
-            return view;
-        }
-
+        });
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView=getView().findViewById(R.id.showaudio_jianjie);
     }
 
     @Override
@@ -82,13 +93,14 @@ public class Jianjie extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(JianjieViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MuseumInfoViewModel.class);
         // TODO: Use the ViewModel
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         System.out.println("jianjieresume");
         EventBus.getDefault().post(new StringMessage("0"));
     }
@@ -103,13 +115,15 @@ public class Jianjie extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
         System.out.println("jianjiepause");
 }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public  void getmsg(AudioMessage msg){
         AudioMessage s=msg;
-        List<audioitem>l=new ArrayList<>();
+        System.out.println("数据刷新");
+        l.clear();
         for(int i=0;i<s.list.size();i++){
             l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
         }
@@ -117,24 +131,8 @@ public class Jianjie extends Fragment {
             l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
         }
         System.out.println("list"+l.size());
-        recyclerView=getView().findViewById(R.id.showaudio_jianjie);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        ShowUploadAdapter adapter=new ShowUploadAdapter(l);
-        adapter.setClick(new ShowUploadAdapter.MyClick() {
-            int count=0;
-            @Override
-            public void click(View v) {
-                count++;
-                if(count%2==1){
-                    EventBus.getDefault().post(new PlayMessage(String.valueOf(recyclerView.getChildAdapterPosition(v)+1)));
-                    Toast.makeText(getActivity(),String.valueOf(recyclerView.getChildAdapterPosition(v)),Toast.LENGTH_SHORT).show();
-                }else{
-                    EventBus.getDefault().post(new PlayMessage(String.valueOf(-1)));
-                }
-            }
-        });
-        recyclerView.setAdapter(adapter);
+        System.out.println(recyclerView);
+        adapter.notifyDataSetChanged();
         Toast.makeText(getActivity(),s.list.get(0).getDescription().getTitle(),Toast.LENGTH_SHORT).show();
     }
 }

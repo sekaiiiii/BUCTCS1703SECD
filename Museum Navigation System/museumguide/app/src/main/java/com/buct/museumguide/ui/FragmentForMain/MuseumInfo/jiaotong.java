@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumInfo;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -19,7 +20,7 @@ import com.buct.museumguide.R;
 //拼音的这几个用于给viewpaper使用，直接切换
 public class jiaotong extends Fragment {
 
-    private JiaotongViewModel mViewModel;
+    private MuseumInfoViewModel mViewModel;
 
     public static jiaotong newInstance() {
         return new jiaotong();
@@ -47,7 +48,7 @@ public class jiaotong extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(JiaotongViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MuseumInfoViewModel.class);
         // TODO: Use the ViewModel
     }
 
