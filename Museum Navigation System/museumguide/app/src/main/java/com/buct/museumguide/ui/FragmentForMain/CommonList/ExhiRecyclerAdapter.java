@@ -71,9 +71,9 @@ public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final int pos = getRealPosition(viewHolder);
         Exhibition exhi = exhis.get(pos);
         final ExhiHolder myHolder = (ExhiHolder) viewHolder;
-        myHolder.exhiTitle.setText(exhi.getTitle());
+        myHolder.exhiTitle.setText(exhi.getName());
         myHolder.exhiTime.setText(exhi.getTime());
-        myHolder.exhiMuseumName.setText(exhi.getMuseumName());
+        myHolder.exhiMuseumName.setText(exhi.getName());
         Glide.with(myHolder.itemView)
                 .load(exhi.getImgUrl())
                 .into(myHolder.exhiImg);

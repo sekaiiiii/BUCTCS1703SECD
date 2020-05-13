@@ -71,7 +71,8 @@ public class EduRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final int pos = getRealPosition(viewHolder);
         Education edu = edus.get(pos);
         final EduHolder myHolder = (EduHolder) viewHolder;
-        myHolder.eduTitle.setText(edu.getTitle());
+        myHolder.eduTitle.setText(edu.getName());
+        myHolder.eduContent.setText(edu.getContent());
         myHolder.eduTime.setText(edu.getTime());
         Glide.with(myHolder.itemView)
                 .load(edu.getImgUrl())
