@@ -17,10 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.buct.museumguide.R;
+import com.buct.museumguide.Service.loginstatemessage;
 import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
 import com.buct.museumguide.util.WebHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class NotificationsFragment extends Fragment {
     private int state=-1;
@@ -42,6 +47,7 @@ public class NotificationsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+     //   EventBus.getDefault().register(this);
         notificationsViewModel =
             ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
@@ -83,6 +89,8 @@ public class NotificationsFragment extends Fragment {
                             if(integer==1){
                                 Infos.edit().putString("cookie","").apply();
                                 Infos.edit().putString("user","").apply();
+                               // NavController controller=Navigation.findNavController(getView());
+                            //    EventBus.getDefault().post(new loginstatemessage("{\"status\":1,\"data\":{\"msg\":\"用户未登录\",\"is_login\":false}}"));
                                 Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
                             }
                         }
@@ -121,5 +129,11 @@ public class NotificationsFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+       // EventBus.getDefault().unregister(this);
     }
 }

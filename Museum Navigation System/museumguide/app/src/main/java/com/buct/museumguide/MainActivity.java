@@ -19,6 +19,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -90,18 +92,36 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String info=intent.getStringExtra("info");
         SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
-        if(Infos.getString("cookie","").length()==0){
-            Infos.edit().putString("cookie","").apply();
-            Infos.edit().putString("user","").apply();
-            Infos.edit().putString("info",info).apply();
-        }
+        Infos.edit().putString("info",info).apply();
         AppBarConfiguration appBarConfiguration;
             appBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                     .build();
+            BottomNavigationView bottomNavigationView=findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if(destination.getId()==R.id.login){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            bottomNavigationView.setVisibility(View.GONE);
+                        }
+                    });
+                }else{
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            bottomNavigationView.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                System.out.println(destination.getId()==R.id.login);
+            }
+        });
       //  System.out.println("huoqu"+Infos.getString("user",""));
         intent1=new Intent(MainActivity.this, OnOpenGetMessage.class);
         startService(intent1);

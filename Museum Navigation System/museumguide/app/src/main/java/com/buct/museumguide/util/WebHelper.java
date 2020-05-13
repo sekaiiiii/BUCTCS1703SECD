@@ -35,6 +35,11 @@ public class WebHelper{
         Response response=WebHelper.getInstance().client.newCall(request).execute();
         return response.body().string();
     }
+    public static String getInfoWithCookie(String url,String cookie) throws IOException {
+        Request request=new Request.Builder().url(url).header("Cookie",cookie).build();
+        Response response=WebHelper.getInstance().client.newCall(request).execute();
+        return response.body().string();
+    }
     public static String postInfo(String url, RequestBody body) throws  IOException{
         Request request=new Request.Builder().url(url).post(body).build();
         Response response=WebHelper.getInstance().client.newCall(request).execute();

@@ -39,9 +39,13 @@ import com.buct.museumguide.Service.MediaPlaybackService;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.Service.StateBroadCast;
 import com.buct.museumguide.Service.StringMessage;
+import com.buct.museumguide.Service.loginstatemessage;
+import com.buct.museumguide.bean.LoginState;
 import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
 import com.buct.museumguide.ui.map.MapGuide;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.youth.banner.Banner;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,19 +60,21 @@ import java.util.List;
 * */
 public class HomeFragment extends Fragment {
 
-    private static final String TAG =HomeFragment.class.getSimpleName();
+    private static final String TAG = HomeFragment.class.getSimpleName();
     private HomeViewModel homeViewModel;
     private Banner homeBanner;
     private Button playbutton;
     private AlertDialog.Builder builder;
     private SharedPreferences Infos;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-         Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-        String info=Infos.getString("info","");
-        if(info.equals("")==false){
-            Toast.makeText(getActivity(),info,Toast.LENGTH_SHORT).show();System.out.println(info);
+        Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String info = Infos.getString("info", "");
+        if (info.equals("") == false) {
+            Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
+            System.out.println(info);
         }
     }
 
@@ -80,6 +86,7 @@ public class HomeFragment extends Fragment {
 
         homeBanner.start();
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -89,29 +96,29 @@ public class HomeFragment extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-            ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         System.out.println(getActivity());
 
-        final SearchView homeSearch=root.findViewById(R.id.homeSearch);
+        final SearchView homeSearch = root.findViewById(R.id.homeSearch);
         homeSearch.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_searchResult);
         });
-        final CardView cardViewIntro=root.findViewById(R.id.cardViewIntro);
+        final CardView cardViewIntro = root.findViewById(R.id.cardViewIntro);
         cardViewIntro.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_museumInfo);
         });
-        final CardView cardViewComment=root.findViewById(R.id.cardViewComment);
+        final CardView cardViewComment = root.findViewById(R.id.cardViewComment);
         cardViewComment.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_userComment);
         });
-        final Button button2=root.findViewById(R.id.button2);
+        final Button button2 = root.findViewById(R.id.button2);
         button2.setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), MapGuide.class));
         });
-        final Button homeMyComment=root.findViewById(R.id.homeMyComment);
+        final Button homeMyComment = root.findViewById(R.id.homeMyComment);
         homeMyComment.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_myComment);
         });
@@ -125,7 +132,7 @@ public class HomeFragment extends Fragment {
         });
 
         homeBanner = root.findViewById(R.id.homeBanner);
-        homeBanner.setAdapter(new HomeBannerAdapter(getContext() ,MuseumItem.getTestData()))
+        homeBanner.setAdapter(new HomeBannerAdapter(getContext(), MuseumItem.getTestData()))
                 .setOnBannerListener((data, position) -> {
                     MuseumItem mData = (MuseumItem) data;
                     Bundle bundle = new Bundle();
@@ -139,22 +146,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(Infos.getString("user","").equals("")){
-            Infos.edit().putString("user","").apply();//首次启动
-            builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("请先登录");// 设置标题
-            builder.setCancelable(false);
-            // 为对话框设置取消按钮
-            builder.setPositiveButton("去登录", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface arg0, int arg1) {
-                    // TODO Auto-generated method stub
-                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_login);
-                }
-            });
-            builder.create().show();// 使用show()方法显示对话框
-        }
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -172,15 +165,48 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
         System.out.println("onDestroy");
     }
+
     @Subscribe
-    public void GetResult(ResultMessage msg){
-        System.out.println("homefragment得到"+msg.res);
+    public void GetResult(ResultMessage msg) {
+        System.out.println("homefragment得到" + msg.res);
     }
+
     @Subscribe
-    public void GetState(StateBroadCast msg){
-        EventBus.getDefault()
-                .post(new
-                        CommandRequest
-                        ("http://192.144.239.176:8080/api/android/get_education_activity_info"));
+    public void GetState(StateBroadCast msg) {
+        if (msg.state == 1) {
+            System.out.println("收到了服务已启动的通知");
+        } else {
+            EventBus.getDefault()
+                    .post(new
+                            CommandRequest
+                            ("http://192.144.239.176:8080/api/android/get_education_activity_info"));
+        }
+    }
+/*
+* @ loginstatemessage 返回登录请求，按需决定是否跳转到登录页面
+* */
+    @Subscribe
+    public void GetLoginState(loginstatemessage msg) {
+        String res = msg.res;
+        Gson gson = new Gson();
+        LoginState state = gson.fromJson(res, LoginState.class);
+        Boolean islogin = state.getData().getIs_login();
+        System.out.println("登录状态" + state.getData().getIs_login());/**/
+        if (!islogin) {
+            Infos.edit().putString("user", "").apply();//首次启动
+            builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("请先登录");// 设置标题
+            builder.setCancelable(false);
+            // 为对话框设置取消按钮
+            builder.setPositiveButton("去登录", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_login);
+                }
+            });
+            Looper.prepare();
+            builder.create().show();// 使用show()方法显示对话框
+            Looper.loop();
+        }
     }
 }
