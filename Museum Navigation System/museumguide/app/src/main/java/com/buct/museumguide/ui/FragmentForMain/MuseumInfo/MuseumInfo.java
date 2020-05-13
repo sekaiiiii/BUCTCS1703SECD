@@ -29,7 +29,7 @@ import java.util.List;
 public class MuseumInfo extends Fragment {
 
     private MuseumInfoViewModel mViewModel;
-
+    TabLayout tabLayout;
     public static MuseumInfo newInstance() {
         return new MuseumInfo();
     }
@@ -52,7 +52,7 @@ public class MuseumInfo extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MuseumInfoViewModel.class);
+        mViewModel =new ViewModelProvider(this).get(MuseumInfoViewModel.class);
         // TODO: Use the ViewModel
     }
 
@@ -72,11 +72,12 @@ public class MuseumInfo extends Fragment {
         list.add(new Canguanxuzhi());
         list.add(new zhantingfenbu());
         list.add(new jiaotong());
-        TabLayout tabLayout=getView().findViewById(R.id.tablayout_info);
+         tabLayout=getView().findViewById(R.id.tablayout_info);
         tabLayout.addTab(tabLayout.newTab().setText("博物馆简介"));
         tabLayout.addTab(tabLayout.newTab().setText("参观须知"));
         tabLayout.addTab(tabLayout.newTab().setText("展厅分布"));
         tabLayout.addTab(tabLayout.newTab().setText("交通位置"));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -102,6 +103,7 @@ public class MuseumInfo extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        tabLayout.removeAllTabs();
         System.out.println("infostop");
     }
 

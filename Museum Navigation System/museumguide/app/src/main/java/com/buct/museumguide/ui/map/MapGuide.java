@@ -44,6 +44,7 @@ public class MapGuide extends AppCompatActivity {
     MapView mMapView = null;
     ArrayList<MuseumMapInfo>mapinfo=new ArrayList<>();
     ArrayList<Marker>markers=new ArrayList<>();mapinfomation map;
+    private String markerid="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
@@ -75,7 +76,7 @@ public class MapGuide extends AppCompatActivity {
                             Double Latitude=Double.valueOf(map.getDatas().getList().get(i).getLatitude());
                             Double logitude=Double.valueOf(map.getDatas().getList().get(i).getLongitude());
                             String name=map.getDatas().getList().get(i).getName();
-                            markers.add(aMap.addMarker(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name).snippet(name)));
+                            markers.add(aMap.addMarker(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name)));
                         }
                     }
                 });
@@ -87,14 +88,20 @@ public class MapGuide extends AppCompatActivity {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 /**/
-                count++;
+
+                if(marker.getId().equals(markerid)){
+                    count++;
+                }else{
+                    markerid=marker.getId();
+                    count=0;count++;
+                }
+                System.out.println(marker.getId().equals(markerid)+" "+count);
                 if(count%2==1){
                     marker.showInfoWindow();
                 }else{
                     Intent intent=new Intent(MapGuide.this, MainActivity.class);
                     intent.putExtra("info",marker.getTitle());
                     startActivity(intent);
-
                 }
                 return true;
             }

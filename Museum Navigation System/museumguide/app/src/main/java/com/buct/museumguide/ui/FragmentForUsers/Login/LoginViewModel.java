@@ -65,10 +65,8 @@ public class LoginViewModel extends ViewModel {
                         if(state.equals("1")){//截获cookie
                             String session=header.values("Set-Cookie").get(0);
                             String sessionID = session.substring(0, session.indexOf(";"));
-                            SharedPreferences Infos = activity.getSharedPreferences("data", Context.MODE_PRIVATE);
                             System.out.println("登录接受的cookie是 "+sessionID);
-                            Infos.edit().putString("cookie",sessionID).apply();
-                            //
+                            WebHelper.setCookie(activity,sessionID);
                         }
                         else{
                             System.out.println("null");

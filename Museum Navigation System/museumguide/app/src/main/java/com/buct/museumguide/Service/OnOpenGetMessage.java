@@ -2,9 +2,11 @@ package com.buct.museumguide.Service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.buct.museumguide.R;
 import com.buct.museumguide.util.WebHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,7 +22,7 @@ import androidx.annotation.Nullable;
 public class OnOpenGetMessage extends Service {
     private ExecutorService fixedThreadPool;
     private Runnable command;
-    private Runnable setrunnable(String url){
+    private Runnable setInforunnable(String url){
        return new Runnable(){
             @Override
             public void run() {
@@ -33,7 +35,19 @@ public class OnOpenGetMessage extends Service {
             }
         };
     }
-
+    private Runnable setStaterunnable(String url,String cookie){
+        return new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    String res=WebHelper.getInfoWithCookie(url,cookie);
+                    EventBus.getDefault().post(new loginstatemessage(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,11 +58,13 @@ public class OnOpenGetMessage extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        EventBus.getDefault().post(new StateBroadCast(1));
         System.out.println("服务被启动了");
         /*博物馆列表信息*/
-        command=setrunnable("http://192.144.239.176:8080/api/android/get_museum_info");
+        String cookie=WebHelper.getCookie(this);
+        command=setInforunnable("http://192.144.239.176:8080/api/android/get_museum_info");
         fixedThreadPool.execute(command);
-        EventBus.getDefault().post(new StateBroadCast(1));
+        fixedThreadPool.execute(setStaterunnable(getResources().getString(R.string.get_login_state_url),cookie));
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -73,7 +89,7 @@ public class OnOpenGetMessage extends Service {
     @Subscribe
     public void get(CommandRequest msg){
         System.out.println(msg.url);
-        command=setrunnable(msg.url);
+        command=setInforunnable(msg.url);
         fixedThreadPool.execute(command);
     }
 

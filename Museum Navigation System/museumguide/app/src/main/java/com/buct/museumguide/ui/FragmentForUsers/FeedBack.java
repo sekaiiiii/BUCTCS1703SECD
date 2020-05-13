@@ -53,7 +53,7 @@ public class FeedBack extends Fragment {
                 System.out.println(e);
             }
             Request request= new Request.Builder()
-                    .url("http://192.144.239.176:8080/api/android/feedback")
+                    .url(getActivity().getResources().getString(R.string.feedback_url))
                     .addHeader("Cookie",cookie)
                     .post(RequestBody.create(WebHelper.jsonmediaType,object.toString()))
                     .build();

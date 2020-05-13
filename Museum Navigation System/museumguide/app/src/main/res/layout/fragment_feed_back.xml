@@ -109,6 +109,7 @@
             android:layout_gravity="center"
             android:text="意见反馈"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:fontFamily="sans-serif-condensed"
             tools:layout_editor_absoluteX="177dp"
             tools:layout_editor_absoluteY="41dp" />
     </androidx.appcompat.widget.Toolbar>
