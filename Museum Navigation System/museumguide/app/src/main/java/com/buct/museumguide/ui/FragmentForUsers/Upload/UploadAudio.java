@@ -4,6 +4,7 @@ import androidx.annotation.UiThread;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -76,6 +77,7 @@ public class UploadAudio extends Fragment {
     private TextView textView;//显示音乐文件
     private Spinner spinner;//下拉选择
     private Button searchfile;//选择文件
+    private ProgressDialog dialog;
     private Button submit;
     private EditText setdescribe;
     private EditText settitle;
@@ -177,7 +179,11 @@ public class UploadAudio extends Fragment {
                         String cookie = Infos.getString("cookie", "");
                         System.out.println(UploadAudio.this.filepath+UploadAudio.this.title+UploadAudio.this.describtion+
                                 UploadAudio.this.durtime+UploadAudio.this.itemid+"cookie:" + cookie);
-                        /**/
+                        dialog =new ProgressDialog(getActivity());
+                        dialog.setTitle("上传中");
+                        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        dialog.setIndeterminate(false);
+                        dialog.show();
                         OkHttpClient client = WebHelper.getInstance().client;
                         MediaType mediaType = MediaType.parse("application/json");
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -195,16 +201,22 @@ public class UploadAudio extends Fragment {
                             public void onRequestProgress(long byteWritted, long contentLength) {
                                 //打印进度
                                 if(byteWritted<=contentLength){
-                                    Log.d("pyh", "进度 ：" + byteWritted + "/" + contentLength);
+
                                     DecimalFormat df = new DecimalFormat("0.00");
                                     if(getActivity()!=null){
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
+
+                                                Log.d("pyh", "进度 ：" + (int)((1.0*byteWritted/contentLength)*100));
+                                                dialog.setProgress((int)((1.0*byteWritted/contentLength)*100));
                                                 textView.setText("已上传"+String.valueOf(df.format((1.0*byteWritted/contentLength)*100))+"%");
                                             }
                                         });
                                     }
+
+                                }else{
+                                    dialog.cancel();
                                 }
                             }
                         });
@@ -230,6 +242,7 @@ public class UploadAudio extends Fragment {
                                                 @Override
                                                 public void run() {
                                                     textView.setText("上传成功!");
+                                                    dialog.cancel();
                                                 }
                                             });
                                         }
@@ -239,6 +252,7 @@ public class UploadAudio extends Fragment {
                                         handler.sendMessage(message);
                                         Looper.prepare();
                                         Toast.makeText(getActivity(),"上传失败",Toast.LENGTH_SHORT).show();
+                                        dialog.cancel();
                                         Looper.loop();
                                     }
                                 } catch (JSONException e) {
