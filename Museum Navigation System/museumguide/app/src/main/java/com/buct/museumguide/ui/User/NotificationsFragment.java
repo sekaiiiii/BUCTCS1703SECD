@@ -1,7 +1,6 @@
 package com.buct.museumguide.ui.User;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,23 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.buct.museumguide.R;
-import com.buct.museumguide.Service.loginstatemessage;
-import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
 import com.buct.museumguide.util.WebHelper;
-
-import org.greenrobot.eventbus.EventBus;
 
 public class NotificationsFragment extends Fragment {
     private int state=-1;
@@ -49,13 +42,12 @@ public class NotificationsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
      //   EventBus.getDefault().register(this);
         notificationsViewModel =
-            ViewModelProviders.of(this).get(NotificationsViewModel.class);
+            new ViewModelProvider(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
         Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         if(state==0){//已登录
             final TextView textView = root.findViewById(R.id.textView3);
             textView.setText(Infos.getString("user","游客"));
-           // final ImageView imageView=root.findViewById(R.id.imageView);
             final Button button0=root.findViewById(R.id.button3);//更改信息
             button0.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -89,8 +81,6 @@ public class NotificationsFragment extends Fragment {
                             if(integer==1){
                                 Infos.edit().putString("cookie","").apply();
                                 Infos.edit().putString("user","").apply();
-                               // NavController controller=Navigation.findNavController(getView());
-                            //    EventBus.getDefault().post(new loginstatemessage("{\"status\":1,\"data\":{\"msg\":\"用户未登录\",\"is_login\":false}}"));
                                 Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_login);
                             }
                         }
@@ -101,7 +91,7 @@ public class NotificationsFragment extends Fragment {
             button4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), SettingsActivity.class));
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_setting);
                 }
             });
         }
@@ -134,6 +124,5 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-       // EventBus.getDefault().unregister(this);
     }
 }
