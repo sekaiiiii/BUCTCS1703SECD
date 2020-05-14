@@ -81,7 +81,7 @@ public class UserComment extends Fragment {
         rating4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                String tmp="展览 :  ";String tmp2=String.valueOf(v);
+                String tmp="展览: ";String tmp2=String.valueOf(v);
                 tmp=tmp+tmp2+"  ";
                 show4.setText(tmp);
             }
@@ -90,7 +90,7 @@ public class UserComment extends Fragment {
         rating5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                String tmp="环境 :  ";String tmp2=String.valueOf(v);
+                String tmp="环境: ";String tmp2=String.valueOf(v);
                 tmp=tmp+tmp2+"  ";
                 show5.setText(tmp);
             }
@@ -99,7 +99,7 @@ public class UserComment extends Fragment {
         rating6.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                String tmp="服务 :  ";String tmp2=String.valueOf(v);
+                String tmp="服务: ";String tmp2=String.valueOf(v);
                 tmp=tmp+tmp2+"  ";
                 show6.setText(tmp);
             }
@@ -118,7 +118,7 @@ public class UserComment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(UserCommentViewModel.class);
+//        mViewModel = ViewModelProviders.of(this).get(UserCommentViewModel.class);
         // TODO: Use the ViewModel
     }
 
