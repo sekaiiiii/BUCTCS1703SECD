@@ -24,6 +24,7 @@ public class Museum {
     private String latitude;
     private JSONArray image_list;
 
+//    public Museum(int id, String name, String establishment_time, String open_time, String close_time,String time, String introduction, String visit_info, String )
     public Museum(JSONObject object) throws JSONException {
         this.id = object.optInt("id", -1);
         this.name = object.optString("name", "");
