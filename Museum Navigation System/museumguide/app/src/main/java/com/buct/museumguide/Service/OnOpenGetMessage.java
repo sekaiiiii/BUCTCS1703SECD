@@ -78,6 +78,26 @@ public class OnOpenGetMessage extends Service {
             }
         };
     }
+    private Runnable setMuseumInforunnable(String url, int type) {
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(url);
+                    EventBus.getDefault().post(new GetInfoResultMessage(type, res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
+
+    @Subscribe
+    public void getInfo(GetInfoMessage msg) {
+        command = setMuseumInforunnable(msg.url, msg.type);
+        fixedThreadPool.execute(command);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -123,32 +143,31 @@ public class OnOpenGetMessage extends Service {
         command=setInforunnable(msg.url);
         fixedThreadPool.execute(command);
     }
-@Subscribe
-public void getRequest(WebRequestMessage msg){
-
+    @Subscribe
+    public void getRequest(WebRequestMessage msg){
         String url=msg.url;
         int code=msg.requestcode;
-    System.out.println(url+" "+code);
-    switch(code){
-        case 100 :
-            fixedThreadPool.execute(setStaterunnable(url,msg.cookie));
-            //语句
-            break;
-        case 200 :
-            //语句
-            fixedThreadPool.execute(postRunnable(url,msg.body));
-            break;
-        case 300:
-            fixedThreadPool.execute(postRunnableWithCookie(url,msg.cookie,msg.body));
-            break;
-        case 400:
-            command=setInforunnable(msg.url);
-            fixedThreadPool.execute(command);
-            break;
-        default :
-            break;
+        System.out.println(url+" "+code);
+        switch(code){
+            case 100 :
+                fixedThreadPool.execute(setStaterunnable(url,msg.cookie));
+                //语句
+                break;
+            case 200 :
+                //语句
+                fixedThreadPool.execute(postRunnable(url,msg.body));
+                break;
+            case 300:
+                fixedThreadPool.execute(postRunnableWithCookie(url,msg.cookie,msg.body));
+                break;
+            case 400:
+                command=setInforunnable(msg.url);
+                fixedThreadPool.execute(command);
+                break;
+            default :
+                break;
+        }
     }
-}
     @Override
     public void onDestroy() {
         super.onDestroy();

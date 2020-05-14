@@ -1,20 +1,14 @@
 package com.buct.museumguide.ui.home;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
-import android.os.RemoteException;
 import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,34 +22,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.CommandRequest;
-import com.buct.museumguide.Service.MediaPlaybackService;
+import com.buct.museumguide.Service.GetInfoResultMessage;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.Service.StateBroadCast;
-import com.buct.museumguide.Service.StringMessage;
 import com.buct.museumguide.Service.loginstatemessage;
 import com.buct.museumguide.bean.LoginState;
 
 import com.buct.museumguide.bean.Museum;
-import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
-import com.buct.museumguide.ui.FragmentForUsers.Login.Login;
-import com.buct.museumguide.ui.map.MapGuide;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.youth.banner.Banner;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /*
 * 系统的默认页面，直接在这里构建页面0以及跳转逻辑，该页面的显示应按fragment实现
@@ -69,9 +56,13 @@ public class HomeFragment extends Fragment {
     private  MediaSessionCompat.Token token;
     private HomeViewModel homeViewModel;
     private Banner homeBanner;
+    private Museum showMuseum = null;
     private Button playbutton;
     private AlertDialog.Builder builder;
     private SharedPreferences Infos;
+    private TextView museumName;
+    private TextView introContent;
+    protected TextView visitContent;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -87,18 +78,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //开始轮播
         EventBus.getDefault().register(this);
-
-        homeBanner.start();
+        homeViewModel.getOneMuseumInfo(getActivity(), "");
+        homeBanner.start(); //开始轮播
     }
 
     @Override
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        //结束轮播
-        homeBanner.stop();
+        homeBanner.stop(); //结束轮播
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -106,17 +95,9 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
-        final TextView museumName = root.findViewById(R.id.museumList_button);
-        final TextView introContent = root.findViewById(R.id.introContent);
-        final TextView visitContent = root.findViewById(R.id.visitContent);
-        homeViewModel.getState(getActivity(), root);
-        homeViewModel.getFirstMuseum(getActivity(), root).observe(getViewLifecycleOwner(), s -> {
-            assert s != null;
-            if (!s.getName().equals("")) museumName.setText(s.getName());
-            if (!s.getIntroduction().equals("")) introContent.setText(s.getIntroduction());
-            if (!s.getAttention().equals("") || !s.getTime().equals("")) visitContent.setText(s.getTime() + s.getAttention());
-        });
+        museumName = root.findViewById(R.id.museumList_button);
+        introContent = root.findViewById(R.id.introContent);
+        visitContent = root.findViewById(R.id.visitContent);
 
         System.out.println(getActivity());
 
@@ -157,6 +138,34 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveMuseumMsg(GetInfoResultMessage getInfoResultMessage) throws JSONException {
+        int type = getInfoResultMessage.type;
+        Log.d(TAG, "onReceiveMuseumMsg: type = " + type);
+        String responseData = getInfoResultMessage.res;
+        Log.d(TAG, "onReceiveMuseumMsg: responseData = " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if(state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("museum_list")));
+                JSONObject resMuseum = jsonArray.getJSONObject(0);
+                showMuseum = new Museum(resMuseum);
+                if (!showMuseum.getName().equals("")) museumName.setText(showMuseum.getName());
+                if (!showMuseum.getIntroduction().equals("")) introContent.setText(showMuseum.getIntroduction());
+                if (!showMuseum.getAttention().equals("") || !showMuseum.getTime().equals("")) visitContent.setText(showMuseum.getTime() + showMuseum.getAttention());
+                Log.d(TAG, "onReceiveMsg: " + showMuseum.getName());
+            }
+            else {
+                Log.d(HomeFragment.TAG, "null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -193,9 +202,10 @@ public class HomeFragment extends Fragment {
             EventBus.getDefault()
                     .post(new
                             CommandRequest
-                            ("http://192.144.239.176:8080/api/android/get_education_activity_info"));
+                            ("http://192.144.239.176:8080/api/android/get_museum_info"));
         }
     }
+
 /*
 * @ loginstatemessage 返回登录请求，按需决定是否跳转到登录页面
 * */
