@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_navigation_notifications_to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_setting"
+            app:destination="@id/setting" />
     </fragment>
     <fragment
         android:id="@+id/searchResult"
@@ -192,5 +195,10 @@
         android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.ShowUploadState"
         android:label="show_upload_state_fragment"
         tools:layout="@layout/show_upload_state_fragment" />
+    <fragment
+        android:id="@+id/setting"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Setting"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>
 

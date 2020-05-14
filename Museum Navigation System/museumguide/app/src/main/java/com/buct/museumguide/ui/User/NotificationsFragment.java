@@ -1,7 +1,6 @@
 package com.buct.museumguide.ui.User;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,23 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import com.buct.museumguide.R;
-import com.buct.museumguide.Service.loginstatemessage;
-import com.buct.museumguide.ui.FragmentForUsers.SettingsActivity;
 import com.buct.museumguide.util.WebHelper;
-
-import org.greenrobot.eventbus.EventBus;
 
 public class NotificationsFragment extends Fragment {
     private int state=-1;
@@ -101,7 +93,8 @@ public class NotificationsFragment extends Fragment {
             button4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), SettingsActivity.class));
+                    //startActivity(new Intent(getActivity(), SettingsActivity.class));
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_setting);
                 }
             });
         }

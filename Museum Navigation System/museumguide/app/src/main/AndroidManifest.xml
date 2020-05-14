@@ -12,9 +12,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.map.MapGuide" />
 
-        <activity
-            android:name=".ui.FragmentForUsers.SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <activity android:name=".ui.ClassForNews.WebViewer" />
         <activity
             android:name=".MainActivity"
