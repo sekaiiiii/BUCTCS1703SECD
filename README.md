@@ -91,3 +91,35 @@ public void GetLoginState(loginstatemessage msg){
 ### 4 关于viewmodel和livedata
 
 暂时认为只有需要fragment分发数据时共用，例如fragment套viewpager
+
+
+
+2020.5.14
+
+### 新增带cookie的post和get接口
+
+只有按需返回数据时才应调用这些接口，如果需要使用返回体内的header还是需要自己做的
+
+```java
+public class WebRequestMessage {
+    public final String url;
+    public final int requestcode;
+    public final String cookie;
+    public final RequestBody body;
+    // 100为带cookie的get请求，200为post请求，300为带cookie的post请求，400为普通的get请求
+    public WebRequestMessage(String url, int requestcode, String cookie, RequestBody body) {
+        this.url = url;
+        this.requestcode = requestcode;
+        this.cookie = cookie;
+        this.body = body;
+    }
+}
+```
+
+新增请求信息体，按需发送
+
+请求100 返回 ResultMessage
+
+请求200 返回 loginstatemessage
+
+300 和400 返回 PostResultMessage

@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Switch;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.bean.PostResultMessage;
+import com.buct.museumguide.bean.WebRequestMessage;
 import com.buct.museumguide.util.WebHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -18,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import androidx.annotation.Nullable;
+import okhttp3.RequestBody;
 
 public class OnOpenGetMessage extends Service {
     private ExecutorService fixedThreadPool;
@@ -42,6 +46,32 @@ public class OnOpenGetMessage extends Service {
                 try {
                     String res=WebHelper.getInfoWithCookie(url,cookie);
                     EventBus.getDefault().post(new loginstatemessage(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
+    private Runnable postRunnable(String url, RequestBody body){
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res=WebHelper.postInfo(url,body);
+                    EventBus.getDefault().post(new PostResultMessage(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
+    private Runnable postRunnableWithCookie(String url,String cookie,RequestBody body){
+        return new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res=WebHelper.postWithCookie(url,body,cookie);
+                    EventBus.getDefault().post(new PostResultMessage(res));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,13 +116,39 @@ public class OnOpenGetMessage extends Service {
 
         return super.onUnbind(intent);
     }
+    /*只有无cookie请求的get*/
     @Subscribe
     public void get(CommandRequest msg){
         System.out.println(msg.url);
         command=setInforunnable(msg.url);
         fixedThreadPool.execute(command);
     }
+@Subscribe
+public void getRequest(WebRequestMessage msg){
 
+        String url=msg.url;
+        int code=msg.requestcode;
+    System.out.println(url+" "+code);
+    switch(code){
+        case 100 :
+            fixedThreadPool.execute(setStaterunnable(url,msg.cookie));
+            //语句
+            break;
+        case 200 :
+            //语句
+            fixedThreadPool.execute(postRunnable(url,msg.body));
+            break;
+        case 300:
+            fixedThreadPool.execute(postRunnableWithCookie(url,msg.cookie,msg.body));
+            break;
+        case 400:
+            command=setInforunnable(msg.url);
+            fixedThreadPool.execute(command);
+            break;
+        default :
+            break;
+    }
+}
     @Override
     public void onDestroy() {
         super.onDestroy();
