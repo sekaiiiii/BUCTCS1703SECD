@@ -39,6 +39,7 @@ import com.youth.banner.Banner;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +139,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReceiveMuseumMsg(GetInfoResultMessage getInfoResultMessage) throws JSONException {
         int type = getInfoResultMessage.type;
         Log.d(TAG, "onReceiveMuseumMsg: type = " + type);
