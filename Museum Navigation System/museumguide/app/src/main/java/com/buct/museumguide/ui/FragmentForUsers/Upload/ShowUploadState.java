@@ -39,6 +39,8 @@ public class ShowUploadState extends Fragment {
     private ShowUploadStateViewModel mViewModel;
     Audiolist list1;
     List<audioitem> list;
+    RecyclerView recyclerView;
+    ShowUploadAdapter_showonly adapter;
     public static ShowUploadState newInstance() {
         return new ShowUploadState();
     }
@@ -51,11 +53,11 @@ public class ShowUploadState extends Fragment {
        View root=inflater.inflate(R.layout.show_upload_state_fragment, container, false);
         SharedPreferences Infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         cookie=Infos.getString("cookie","");
-        RecyclerView recyclerView=root.findViewById(R.id.showAudios);
+         recyclerView=root.findViewById(R.id.showAudios);
         list=new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        ShowUploadAdapter adapter=new ShowUploadAdapter(list);
+         adapter=new ShowUploadAdapter_showonly(list,getActivity());
         recyclerView.setAdapter(adapter);
         OkHttpClient client= WebHelper.getInstance().client;
         Request request=new Request.Builder()
@@ -88,10 +90,7 @@ public class ShowUploadState extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                                recyclerView.setLayoutManager(layoutManager);
-                                ShowUploadAdapter adapter=new ShowUploadAdapter(list);
-                                recyclerView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
                             }
                         });
                     }
