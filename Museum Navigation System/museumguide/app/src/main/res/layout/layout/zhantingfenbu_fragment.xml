@@ -8,7 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="大数据开发时间发数据发送附件解开了发顺丰哈试飞了撒谎v拉上了过去看看和是flak放假啦是否库哈斯了哈客户v拉萨"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:text="暂无数据"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="24sp" />
 
 </FrameLayout>

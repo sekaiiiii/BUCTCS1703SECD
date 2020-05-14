@@ -23,7 +23,7 @@ android {
         applicationId "com.buct.museumguide"
         //minSdkVersion 23
         //targetSdkVersion 29
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -53,6 +53,7 @@ dependencies {
     implementation 'androidx.media:media:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
+    compile 'com.race604.waveloading:library:1.1.1'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
