@@ -10,9 +10,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.Service.CollectionMsg;
+import com.buct.museumguide.Service.CollectionResultMsg;
 import com.buct.museumguide.Service.CommandRequest;
-import com.buct.museumguide.Service.GetInfoMessage;
+import com.buct.museumguide.Service.EducationMsg;
+import com.buct.museumguide.Service.ExhibitionMsg;
+import com.buct.museumguide.Service.MuseumInfoMsg;
+import com.buct.museumguide.Service.NewsMsg;
 import com.buct.museumguide.bean.Museum;
+import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.ui.FragmentForMain.MuseumInfo.MuseumInfo;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.JsonArray;
@@ -26,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,16 +45,4 @@ import okhttp3.Response;
 
 public class HomeViewModel extends ViewModel {
 
-    public void getOneMuseumInfo(final Context activity, String museumName) {
-        String url = activity.getResources().getString(R.string.get_museum_info_url);
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
-        if(museumName.equals(""))
-            urlBuilder.addQueryParameter("name", "中国农业博物馆");
-        else
-            urlBuilder.addQueryParameter("name", museumName);
-        EventBus.getDefault().post(new GetInfoMessage(1, urlBuilder.build().toString()));
-    }
-    public void getExhibitionList(final Context activity) {
-        String url = activity.getResources().getString(R.string.get_exhibition_info_url);
-    }
 }
