@@ -34,8 +34,8 @@ public class MuseumItem {
     public String getColName2() { return colName2;}
 
 
-    public static List<MuseumItem> getTestData() {
-        List<MuseumItem> list = new ArrayList<>();
+    public static ArrayList<MuseumItem> getTestData() {
+        ArrayList<MuseumItem> list = new ArrayList<>();
         list.add(new MuseumItem(1,"展览","妙相庄严——藏传佛教金铜造像艺术展","中国国家博物馆","2020-02-02","http://5b0988e595225.cdn.sohucs.com/images/20180102/1bf10505f9cd4580878411c44cc60ba0.jpeg", null, null, null));
         list.add(new MuseumItem(2,"馆藏精品","妙相庄严——藏传佛教金铜造像艺术展","中国国家博物馆","2020-02-02","http://img.m.focus.cn/q_70/app/48/4878fa2bfd5a1a93186c7aefd37b01e4.jpg", "http://img.mp.itc.cn/upload/20170322/56fee2eed94a493195e3ff98e79d5f50_th.jpeg", "名字1","名字2"));
         list.add(new MuseumItem(3,"馆内热闻","妙相庄严——藏传佛教金铜造像艺术展","中国国家博物馆","2020-02-02","https://img.zcool.cn/community/0148fc5e27a173a8012165184aad81.jpg", null, null, null));

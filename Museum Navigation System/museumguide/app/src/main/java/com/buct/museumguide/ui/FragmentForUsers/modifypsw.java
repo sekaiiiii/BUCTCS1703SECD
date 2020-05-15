@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class modifypsw extends Fragment {
     }
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mViewModel =new ViewModelProvider(this).get(modifypswViewModel.class);
         final EditText psw_old=getView().findViewById(R.id.etext_oldps);
         final EditText psw_new=getView().findViewById(R.id.etext_newps);
         final EditText psw_correction=getView().findViewById(R.id.etext_defineps);
@@ -62,6 +64,7 @@ public class modifypsw extends Fragment {
                                 Toast.makeText(getActivity(),"密码修改失败",Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(getActivity(),"密码修改成功",Toast.LENGTH_SHORT).show();
+                                Navigation.findNavController(v).popBackStack();
                             }
                         }
                     });

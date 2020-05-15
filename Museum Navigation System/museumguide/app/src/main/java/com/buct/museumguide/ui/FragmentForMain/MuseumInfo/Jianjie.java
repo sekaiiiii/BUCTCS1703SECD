@@ -39,7 +39,8 @@ public class Jianjie extends Fragment {
 
     private MuseumInfoViewModel mViewModel;
     private RecyclerView recyclerView;
-    private List<audioitem>l=new ArrayList<>();;
+    private List<audioitem>l=new ArrayList<>();
+    private int currentpos=-1;
     public static Jianjie newInstance() {
         return new Jianjie();
     }
@@ -54,16 +55,24 @@ private ShowUploadAdapter adapter;
         recyclerView=view.findViewById(R.id.showaudio_jianjie);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter=new ShowUploadAdapter(l);
+        adapter=new ShowUploadAdapter(l,getActivity());
         adapter.setClick(new ShowUploadAdapter.MyClick() {
             int count=0;
             @Override
             public void click(View v) {
-                count++;
+                count++;int pos=recyclerView.getChildAdapterPosition(v);
+                if(currentpos!=pos&&currentpos!=-1){
+                    //说明点击了其他按钮
+                    Toast.makeText(getActivity(),"请先暂停当前播放再播放其他讲解",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                currentpos=pos;
                 if(count%2==1){
                     EventBus.getDefault().post(new PlayMessage(String.valueOf(recyclerView.getChildAdapterPosition(v)+1)));
                     Toast.makeText(getActivity(),String.valueOf(recyclerView.getChildAdapterPosition(v)),Toast.LENGTH_SHORT).show();
+                    adapter.isture.set(pos,false);
                 }else{
+                    adapter.isture.set(pos,true);
                     EventBus.getDefault().post(new PlayMessage(String.valueOf(-1)));
                 }
             }
@@ -124,9 +133,6 @@ private ShowUploadAdapter adapter;
         AudioMessage s=msg;
         System.out.println("数据刷新");
         l.clear();
-        for(int i=0;i<s.list.size();i++){
-            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
-        }
         for(int i=0;i<s.list.size();i++){
             l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
         }

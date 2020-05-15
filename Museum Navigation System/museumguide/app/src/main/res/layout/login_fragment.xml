@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCC99"
+    android:background="#E7DFCF"
     tools:context=".ui.FragmentForUsers.Login.Login">
 
     <LinearLayout
@@ -47,47 +47,35 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:background="#FFFFFF"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/modify_psw_edit"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="账号" />
+            android:hint="账号"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:background="#FFFFFF"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/modify_psw_edit"
             android:ems="10"
             android:hint="密码"
             android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/button_forget_password"
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
-            android:background="#00000000"
-            android:text="忘记密码？"
-            tools:ignore="RtlHardcoded" />
-
-        <Button
             android:id="@+id/button_login"
             android:layout_width="match_parent"
-            android:background="#999966"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
+            android:background="@color/colorBrown"
             android:text="登录"
-            android:textSize="25sp"/>
+            android:textSize="25sp" />
 
         <Button
             android:id="@+id/button_register"
