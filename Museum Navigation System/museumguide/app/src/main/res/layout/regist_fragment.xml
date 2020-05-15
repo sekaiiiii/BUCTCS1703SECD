@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#999966"
+    android:background="#AB9C81"
     tools:context=".ui.FragmentForUsers.Regist.Regist">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#999966">
+        android:background="#AB9C81">
 
         <Button
             android:id="@+id/bt_backup"
@@ -24,107 +24,126 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="659dp"
         android:layout_marginTop="60dp">
 
         <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
-            android:layout_height="510dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="487dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="20dp"
+            android:background="#E7DFCF"
             android:orientation="vertical"
+            tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp"
-            android:background="#CCCC99"
-            tools:ignore="MissingConstraints">
+            tools:layout_editor_absoluteY="1dp">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="注册"
-                android:textSize="45sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/text_username"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
+                android:hint="\t\t用户名(2-18位)"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textPersonName"
-                android:hint="用户名(2-18位)"
-                android:textSize="25sp" />
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/text_email"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#FFFFFF"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="25dp"
-                android:textSize="25sp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
+                android:hint="\t\t电子邮箱"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textEmailAddress"
-                android:hint="电子邮箱" />
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/text_password"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#FFFFFF"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="25dp"
-                android:textSize="25sp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
-                android:hint="密码(6-18位)"
-                android:inputType="textPassword" />
+                android:hint="\t\t密码(6-18位)"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
+                android:inputType="textPassword"
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/text_password_correction"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="#FFFFFF"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="25dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
-                android:hint="确认密码(6-18位)"
+                android:hint="\t\t确认密码(6-18位)"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textPassword"
-                android:textSize="25sp" />
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
-            <LinearLayout android:layout_width="match_parent"
-                android:layout_height="60dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/text_code"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:background="#FFFFFF"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:textSize="25sp"
+                    android:layout_weight="2"
+                    android:background="@drawable/modify_psw_edit"
                     android:ems="10"
+                    android:hint="\t\t验证码"
+                    android:textColorHint="#AB9C81"
                     android:inputType="textEmailAddress"
-                    android:hint="验证码" />
+                    android:textColor="#AB9C81"
+                    android:paddingLeft="3dp"
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/bt_gaincode"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:layout_marginRight="20dp"
-                    android:text="获取验证码"/>
+                    android:layout_weight="1"
+                    android:text="获取验证码"
+                    android:background="#AB9C81"
+                    android:textSize="15sp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -132,17 +151,17 @@
         <Button
             android:id="@+id/button_register"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="48dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="20dp"
-            android:background="#666666"
-            android:textSize="30sp"
+            android:background="#4C525F"
             android:text="确认"
+            android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/linear"
+            tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="493dp"
-            tools:ignore="MissingConstraints" />
+            tools:layout_editor_absoluteY="493dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -45,7 +45,7 @@ public class RegistViewModel extends ViewModel {
                 .add("name",String.valueOf(username))
                 .add("mail_address",String.valueOf(mail_address)).build();
         final Request request1=new Request.Builder()
-                .url("http://192.144.239.176:8080/api/android/want_register")
+                .url(activity.getResources().getString(R.string.verification_code_url))
                 .post(body1).build();
         okHttpClient1.newCall(request1).enqueue(new Callback() {
             @Override
@@ -89,7 +89,7 @@ public class RegistViewModel extends ViewModel {
                 .add("code",String.valueOf(code))
                 .add("password",String.valueOf(password)).build();
         final Request request1=new Request.Builder()
-                .url("http://192.144.239.176:8080/api/android/register")
+                .url(activity.getResources().getString(R.string.want_regrist_url))
                 .addHeader("Cookie",cookie)
                 .post(body2).build();
         okHttpClient2.newCall(request1).enqueue(new Callback() {

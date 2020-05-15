@@ -45,7 +45,7 @@ public class modifypswViewModel extends ViewModel {
         if(jsonObject.length()>0){
             String body=jsonObject.toString();
             final Request request=new Request.Builder()
-                    .url("http://192.144.239.176:8080/api/android/set_user_password")
+                    .url(activity.getResources().getString(R.string.set_password_url))
                     .post(RequestBody.create(body,mediaType)).build();
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
