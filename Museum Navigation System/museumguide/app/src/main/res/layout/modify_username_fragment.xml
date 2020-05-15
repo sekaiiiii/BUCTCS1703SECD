@@ -5,28 +5,28 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCC99"
+    android:background="#E7DFCF"
     tools:context="ui.FragmentForUsers.modify_username">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#517C63">
+        android:background="@color/colorGreen">
 
         <Button
             android:id="@+id/bt_backup"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#00000000"
-            android:drawableRight="@drawable/ic_fanhui"
-            />
+            android:drawableRight="@drawable/ic_fanhui" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:text="更改用户名"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:gravity="center"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -46,8 +46,8 @@
         android:layout_height="48dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="#FFFFFF"
-        android:hint="2-18个字符"/>
+        android:background="@drawable/modify_psw_edit"
+        android:hint="2-18个字符" />
 
     <Button
         android:id="@+id/bt_define_modify_username"

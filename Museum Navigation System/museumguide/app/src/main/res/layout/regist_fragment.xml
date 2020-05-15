@@ -152,7 +152,6 @@
             android:background="#666666"
             android:textSize="30sp"
             android:text="确认"
-            android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/linear"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="24dp"
