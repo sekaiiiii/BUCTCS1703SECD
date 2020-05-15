@@ -2,6 +2,7 @@ package com.buct.museumguide.ui.FragmentForUsers;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -37,20 +38,20 @@ public class UserPage extends Fragment {
 
             }
         });
-        Button button2=root.findViewById(R.id.bt_bindemail);//绑定邮箱
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_userPage_to_bind_email);
 
-            }
-        });
         Button button3=root.findViewById(R.id.bt_modify_password);//修改密码
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_userPage_to_modifypsw);
 
+            }
+        });
+        Button button_back=root.findViewById(R.id.bt_backup);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).popBackStack();
             }
         });
         return root;
