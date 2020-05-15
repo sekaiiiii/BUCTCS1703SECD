@@ -2,6 +2,7 @@ package com.buct.museumguide.ui.FragmentForUsers.Upload;
 
 import android.content.Context;
 import android.media.Image;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ShowUploadAdapter extends RecyclerView.Adapter<ShowUploadAdapter.ViewHolder> {
@@ -81,13 +83,14 @@ public class ShowUploadAdapter extends RecyclerView.Adapter<ShowUploadAdapter.Vi
         return holder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(@NonNull ShowUploadAdapter.ViewHolder holder, int position) {
             audioitem item=list.get(position);
             holder.title.setText(item.getTitle());
             holder.name.setText(item.getFilename());
             holder.author.setText(item.getAuthor());
-         mWaveDrawable = new WaveDrawable(context,R.color.colorBrown);
+         mWaveDrawable = new WaveDrawable(context.getDrawable(R.drawable.continue1));
         holder.imageView.setImageDrawable(mWaveDrawable);
         /**/if(isture.get(position)==true)
             mWaveDrawable.setLevel(10000);
