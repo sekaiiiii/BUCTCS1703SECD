@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Switch;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.PostResultMessage;
 import com.buct.museumguide.bean.WebRequestMessage;
+import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
 import com.buct.museumguide.util.WebHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,7 +34,7 @@ public class OnOpenGetMessage extends Service {
             public void run() {
                 try {
                     String res=WebHelper.getInfo(url);
-                    EventBus.getDefault().post(new ResultMessage(res));
+                    EventBus.getDefault().postSticky(new ResultMessage(res));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -78,23 +80,100 @@ public class OnOpenGetMessage extends Service {
             }
         };
     }
-    private Runnable setMuseumInforunnable(String url, int type) {
-        return new Runnable() {
+
+    @Subscribe
+    public void getMuseumInfo(MuseumInfoMsg museumInfoMsg) {
+        command = new Runnable() {
             @Override
             public void run() {
                 try {
-                    String res = WebHelper.getInfo(url);
-                    EventBus.getDefault().post(new GetInfoResultMessage(type, res));
+                    String res = WebHelper.getInfo(museumInfoMsg.url);
+                    EventBus.getDefault().postSticky(new MuseumInfoResultMsg(res));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         };
+        fixedThreadPool.execute(command);
     }
 
     @Subscribe
-    public void getInfo(GetInfoMessage msg) {
-        command = setMuseumInforunnable(msg.url, msg.type);
+    public void getExhibition(ExhibitionMsg exhibitionMsg) {
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(exhibitionMsg.url);
+                    EventBus.getDefault().postSticky(new ExhibitionResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getCollection(CollectionMsg collectionMsg) {
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(collectionMsg.url);
+                    EventBus.getDefault().postSticky(new CollectionResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getNews(NewsMsg newsMsg) {
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(newsMsg.url);
+                    EventBus.getDefault().postSticky(new NewsResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getEducation(EducationMsg educationMsg) {
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(educationMsg.url);
+                    EventBus.getDefault().postSticky(new EducationResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getComment(CommentMsg commentMsg) {
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(commentMsg.url);
+                    EventBus.getDefault().postSticky(new CommentResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
         fixedThreadPool.execute(command);
     }
 

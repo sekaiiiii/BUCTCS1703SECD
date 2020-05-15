@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?修改用户名?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCC99">
+    android:background="#E7DFCF"
+    tools:context="ui.FragmentForUsers.modify_username">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#006633">
+        android:layout_height="70dp"
+        android:background="@color/colorGreen">
 
         <Button
             android:id="@+id/bt_backup"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#00000000"
-            android:drawableRight="@drawable/ic_fanhui"
-            />
+            android:drawableRight="@drawable/ic_fanhui" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:text="更改用户名"
             android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:gravity="center"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -31,28 +34,30 @@
         android:layout_width="match_parent"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:text="请输入新的用户名"
-        android:textSize="25dp"
+        android:textSize="15sp"
         android:textColor="#000000"
         android:gravity="left"/>
 
     <EditText
         android:id="@+id/etext_newname"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="#FFFFFF"/>
+        android:background="@drawable/modify_psw_edit"
+        android:hint="2-18个字符" />
 
     <Button
         android:id="@+id/bt_define_modify_username"
         android:layout_marginTop="150dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         android:text="确认"
+        android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:background="#666666"/>
 </LinearLayout>

@@ -151,6 +151,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements M
         @Override
         public void onPrepareFromMediaId(String mediaId, Bundle extras) {
             super.onPrepareFromMediaId(mediaId, extras);
+            player.pause();
             player.reset();
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             int id=Integer.valueOf(mediaId);

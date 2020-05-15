@@ -64,15 +64,15 @@ public class Login extends Fragment {
         final EditText password=getView().findViewById(R.id.input_password);
         infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String islogin=infos.getString("user","");
-        Button button_forget=getView().findViewById(R.id.button_forget_password);
+       // Button button_forget=getView().findViewById(R.id.button_forget_password);
         Button button_login=getView().findViewById(R.id.button_login);
         Button button_register=getView().findViewById(R.id.button_register);
-        button_forget.setOnClickListener(new View.OnClickListener() {
+       /* button_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(getView()).navigate(R.id.action_login_to_modifypsw);
             }
-        });
+        });*/
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
