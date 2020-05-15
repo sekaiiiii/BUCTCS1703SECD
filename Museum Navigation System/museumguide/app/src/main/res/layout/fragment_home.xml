@@ -183,6 +183,7 @@
                                     android:text="展览：" />
 
                                 <TextView
+                                    android:id="@+id/homeExhiScore"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="4.7" />
@@ -200,6 +201,7 @@
                                     android:text="环境：" />
 
                                 <TextView
+                                    android:id="@+id/homeEnviScore"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="4.8" />
@@ -217,6 +219,7 @@
                                     android:text="服务：" />
 
                                 <TextView
+                                    android:id="@+id/homeServScore"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="4.9" />
@@ -231,6 +234,7 @@
                             android:layout_alignParentEnd="true"
                             android:gravity="center">
                             <TextView
+                                android:id="@+id/hometvComment"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
