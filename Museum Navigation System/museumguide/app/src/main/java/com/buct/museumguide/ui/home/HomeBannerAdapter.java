@@ -16,6 +16,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.util.BannerUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,10 +25,15 @@ import java.util.List;
 public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.ViewHolder> {
     private Context context;
 
-    public HomeBannerAdapter(Context context, List<MuseumItem> datas) {
+    public HomeBannerAdapter(Context context, ArrayList<MuseumItem> datas) {
         super(datas);
         this.context = context;
     }
+
+    /*public void addDatas(List<MuseumItem> datas) {
+        news.addAll(datas);
+        notifyDataSetChanged();
+    }*/
 
     @Override
     public int getItemViewType(int position) {
