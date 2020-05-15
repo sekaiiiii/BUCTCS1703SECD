@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLBrown"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#AB9C81"
     tools:context=".ui.FragmentForUsers.Regist.Regist">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#999966"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="#AB9C81">
 
         <Button
             android:id="@+id/bt_backup"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:background="#00000000"
-            android:drawableEnd="@drawable/ic_fanhui"
-            android:drawableRight="@drawable/ic_fanhui" />
+            android:drawableRight="@drawable/ic_fanhui"
+            android:drawableEnd="@drawable/ic_fanhui" />
 
     </LinearLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:background="#999966">
+        android:layout_height="659dp"
+        android:layout_marginTop="60dp">
+
         <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
-
-            android:layout_height="430dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="#CCCC99"
+            android:layout_height="487dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:background="#E7DFCF"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="1dp">
-
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
 
             <TextView
                 android:id="@+id/textView"
@@ -50,70 +47,76 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:text="注册"
-
-                android:textSize="40sp" />
-
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/text_username"
                 android:layout_width="match_parent"
-
-                android:layout_height="50dp"
-
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/modify_psw_edit"
                 android:ems="10"
-                android:hint="用户名(2-18位字母和数字)"
+                android:hint="\t\t用户名(2-18位)"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textPersonName"
-                android:textSize="20sp" />
-
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/text_email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
-                android:hint="电子邮箱"
+                android:hint="\t\t电子邮箱"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textEmailAddress"
-                android:textSize="20sp" />
-
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/text_password"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
-                android:hint="密码(6-18位字母和数字)"
+                android:hint="\t\t密码(6-18位)"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/text_password_correction"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
-                android:hint="确认密码"
+                android:hint="\t\t确认密码(6-18位)"
+                android:textColorHint="#AB9C81"
+                android:textColor="#AB9C81"
                 android:inputType="textPassword"
-                android:textSize="20sp" />
+                android:paddingLeft="3dp"
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="25dp"
                 android:orientation="horizontal">
 
                 <EditText
@@ -123,12 +126,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="2"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/modify_psw_edit"
                     android:ems="10"
-                    android:hint="验证码"
+                    android:hint="\t\t验证码"
+                    android:textColorHint="#AB9C81"
                     android:inputType="textEmailAddress"
-                    android:textSize="20sp" />
-
+                    android:textColor="#AB9C81"
+                    android:paddingLeft="3dp"
+                    android:textSize="15sp" />
 
                 <Button
                     android:id="@+id/bt_gaincode"
@@ -136,8 +141,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="获取验证码" />
-
+                    android:text="获取验证码"
+                    android:background="#AB9C81"
+                    android:textSize="15sp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -145,16 +151,16 @@
         <Button
             android:id="@+id/button_register"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="#666666"
-            android:textSize="30sp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:background="#4C525F"
             android:text="确认"
             app:layout_constraintTop_toBottomOf="@id/linear"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="24dp"
             tools:layout_editor_absoluteY="493dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
