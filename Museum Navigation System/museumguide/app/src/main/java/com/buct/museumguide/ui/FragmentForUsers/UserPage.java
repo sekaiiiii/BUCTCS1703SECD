@@ -53,6 +53,13 @@ public class UserPage extends Fragment {
 
             }
         });
+        Button button_back=root.findViewById(R.id.bt_backup);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).popBackStack();
+            }
+        });
         return root;
     }
 

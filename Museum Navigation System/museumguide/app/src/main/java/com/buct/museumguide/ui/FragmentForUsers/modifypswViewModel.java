@@ -44,9 +44,12 @@ public class modifypswViewModel extends ViewModel {
         }
         if(jsonObject.length()>0){
             String body=jsonObject.toString();
+            String cookie=WebHelper.getCookie(activity);
             final Request request=new Request.Builder()
-                    .url("http://192.144.239.176:8080/api/android/set_user_password")
-                    .post(RequestBody.create(body,mediaType)).build();
+                    .url(activity.getResources().getString(R.string.set_password_url))
+                    .addHeader("cookie",cookie)
+                    .post(RequestBody.create(body,mediaType))
+                    .build();
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -59,18 +62,15 @@ public class modifypswViewModel extends ViewModel {
                         String res=response.body().string();
                         Headers header=response.headers();
                         List<String> cookies = header.values("Set-Cookie");
-                        Gson gson=new Gson();
                         JSONObject jsonObject1=new JSONObject(res);
                         String state=String.valueOf(jsonObject1.get("status"));//根据status判断是否可用
-                        if(state.equals("1")){//截获cookie
-                            String session=header.values("Set-Cookie").get(0);
-                            String sessionID = session.substring(0, session.indexOf(";"));
-                            SharedPreferences Infos = activity.getSharedPreferences("data", Context.MODE_PRIVATE);
-                            Infos.edit().putString("cookie",sessionID).apply();
-                            //
+                        if(state.equals("1")){
+                            System.out.println("success");
                         }
                         else{
-                            System.out.println("null");
+                            String error_code=jsonObject1.getString("error_code");
+                            String error_des=jsonObject1.getString("error_des");
+                            System.out.println(error_code+error_des);
                         }
                         liveData.postValue(state);
                     }catch (Exception e){
