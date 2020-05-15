@@ -34,6 +34,7 @@ import com.buct.museumguide.Service.loginstatemessage;
 import com.buct.museumguide.bean.LoginState;
 
 import com.buct.museumguide.bean.Museum;
+import com.buct.museumguide.bean.Museum_Info_Full;
 import com.google.gson.Gson;
 import com.youth.banner.Banner;
 
@@ -43,6 +44,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
 
 /*
 * 系统的默认页面，直接在这里构建页面0以及跳转逻辑，该页面的显示应按fragment实现
@@ -190,8 +199,25 @@ public class HomeFragment extends Fragment {
     }
 
     @Subscribe
-    public void GetResult(ResultMessage msg) {
-        System.out.println("homefragment得到" + msg.res);
+    public void GetResult(ResultMessage msg) throws IOException {
+        File[] files=getActivity().getFilesDir().listFiles();
+        for(File file:files){
+            if(file.getName().equals("MuseumInfoCache")){
+                System.out.println("已有缓存");return;
+            }
+        }
+        Gson gson=new Gson();
+        FileOutputStream outputStream;
+        Museum_Info_Full info_full=gson.fromJson(msg.res,Museum_Info_Full.class);
+        HashMap<Integer,Museum_Info_Full.museuminfo.realdata>data=new HashMap<>();
+        for(int i=0;i<info_full.getData().getMuseum_list().size();i++){
+            data.put(i+1,info_full.getData().getMuseum_list().get(i));
+        }
+        outputStream = getActivity().openFileOutput("MuseumInfoCache" , Context.MODE_PRIVATE);
+        ObjectOutput out = new ObjectOutputStream(outputStream);
+        out.writeObject(data);
+        outputStream.close();
+        System.out.println("文件写入完毕");
     }
 
     @Subscribe

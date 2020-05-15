@@ -61,7 +61,7 @@ public class ShowUploadState extends Fragment {
         recyclerView.setAdapter(adapter);
         OkHttpClient client= WebHelper.getInstance().client;
         Request request=new Request.Builder()
-                .url("http://192.144.239.176:8080/api/android/get_explain_info")
+                .url("http://192.144.239.176:8080/api/android/get_explain_info?ppn=100")
                 .addHeader("Cookie",cookie)
                 .get()
                 .build();

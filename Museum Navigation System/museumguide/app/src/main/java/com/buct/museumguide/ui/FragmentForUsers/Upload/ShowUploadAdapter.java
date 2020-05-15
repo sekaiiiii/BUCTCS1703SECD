@@ -1,6 +1,7 @@
 package com.buct.museumguide.ui.FragmentForUsers.Upload;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -26,20 +27,17 @@ public class ShowUploadAdapter extends RecyclerView.Adapter<ShowUploadAdapter.Vi
     private int count;
     private int length;
     private WaveDrawable mWaveDrawable;
+    private AnimationDrawable playerAnimation;
     public List<Boolean>isture;
     private final int MAX_LEN=10000;
     private final int MID_LEN=5000;
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
-        TextView name;
-        TextView author;
         ImageView imageView;
 
         public ViewHolder (View view)
         {    super(view);
             title=view.findViewById(R.id.textView16);
-            name=view.findViewById(R.id.textView17);
-            author=view.findViewById(R.id.textView18);
             imageView=view.findViewById(R.id.imageView);
         }
 
@@ -88,14 +86,13 @@ public class ShowUploadAdapter extends RecyclerView.Adapter<ShowUploadAdapter.Vi
     public void onBindViewHolder(@NonNull ShowUploadAdapter.ViewHolder holder, int position) {
             audioitem item=list.get(position);
             holder.title.setText(item.getTitle());
-            holder.name.setText(item.getFilename());
-            holder.author.setText(item.getAuthor());
          mWaveDrawable = new WaveDrawable(context.getDrawable(R.drawable.continue1));
-        holder.imageView.setImageDrawable(mWaveDrawable);
+        holder.imageView.setBackgroundResource(R.drawable.amiation);
+        playerAnimation= (AnimationDrawable) holder.imageView.getBackground();
         /**/if(isture.get(position)==true)
-            mWaveDrawable.setLevel(10000);
+            playerAnimation.stop();
         else
-            mWaveDrawable.setLevel(5000);
+            playerAnimation.start();
         System.out.println(isture.size());
     }
     @Override
