@@ -3,11 +3,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCC99">
+    android:background="#E7DFCF">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#006633">
+        android:layout_height="70dp"
+        android:background="#517C63">
 
         <Button
             android:id="@+id/bt_backup"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:text="更改用户名"
             android:textColor="#FFFFFF"
-            android:textSize="25dp"
+            android:textSize="18sp"
             android:gravity="center"/>
 
     </LinearLayout>
@@ -31,16 +31,16 @@
         android:layout_width="match_parent"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:text="请输入新的用户名"
-        android:textSize="25dp"
+        android:textSize="15sp"
         android:textColor="#000000"
         android:gravity="left"/>
 
     <EditText
         android:id="@+id/etext_newname"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:background="#FFFFFF"/>
@@ -48,11 +48,12 @@
     <Button
         android:id="@+id/bt_define_modify_username"
         android:layout_marginTop="150dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         android:text="确认"
+        android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:background="#666666"/>
 </LinearLayout>
