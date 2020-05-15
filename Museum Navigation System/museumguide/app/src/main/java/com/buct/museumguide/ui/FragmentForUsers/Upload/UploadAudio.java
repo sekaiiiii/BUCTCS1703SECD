@@ -1,6 +1,7 @@
 package com.buct.museumguide.ui.FragmentForUsers.Upload;
 
 import androidx.annotation.UiThread;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
@@ -48,10 +49,12 @@ import android.widget.Toast;
 
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
+import com.buct.museumguide.bean.Museum_Info_Full;
 import com.buct.museumguide.util.CountingRequestBody;
 import com.buct.museumguide.util.FileHelper;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
+import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,6 +64,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class UploadAudio extends Fragment {
@@ -71,17 +76,19 @@ public class UploadAudio extends Fragment {
     private Uri uri;//相对路径
     private String filepath;//绝对路径
     private int durtime;//音频时长
-    private int itemid;//音频类型
+    private String itemid;//音频类型
     private String title;//音频标题
     private String describtion;//音频描述
     private TextView textView;//显示音乐文件
     private Spinner spinner;//下拉选择
     private Button searchfile;//选择文件
+    private Spinner betterSpinner;//博物馆选择器
+    private final String[]selectid={"collection_id","museum_id","exhibition_id"};
+    private int museumid;
     private ProgressDialog dialog;
     private Button submit;
-    private EditText setdescribe;
     private EditText settitle;
-    private Handler handler=new Handler(){
+    private  Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -98,6 +105,7 @@ public class UploadAudio extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.upload_audio_fragment, container, false);
         textView = root.findViewById(R.id.textView15);
+        betterSpinner=root.findViewById(R.id.betterSpinner);
         Button myupload=root.findViewById(R.id.button12);//查看自己的上传
         myupload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,21 +116,9 @@ public class UploadAudio extends Fragment {
         spinner=root.findViewById(R.id.spinner3);
         final String[]items={"藏品讲解","博物馆讲解","展览讲解"};
         final ArrayAdapter<String> adapter
-                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UploadAudio.this.itemid=position;
-                //Toast.makeText(getActivity(),position,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         searchfile = root.findViewById(R.id.bt_upload_vioce);
         searchfile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -142,13 +138,45 @@ public class UploadAudio extends Fragment {
             }
         });
         settitle=root.findViewById(R.id.editText);
-        setdescribe=root.findViewById(R.id.editText4);
         return root;
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(UploadAudioViewModel.class);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UploadAudio.this.itemid=selectid[position];
+                Toast.makeText(getActivity(), UploadAudio.this.itemid,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        HashMap<Integer, Museum_Info_Full.museuminfo.realdata>map=FileHelper.GetHashMap(getActivity());
+        ArrayList<String>museumname=new ArrayList<>();
+        System.out.println("缓存的博物馆数量"+map.size());
+        for(int i=1;i<=map.size();i++){
+            museumname.add(map.get(i).getName());
+        }
+        final ArrayAdapter<String> adapter1
+                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, museumname);
+        betterSpinner.setAdapter(adapter1);
+        betterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UploadAudio.this.museumid=position+1;
+                Toast.makeText(getActivity(), String.valueOf(UploadAudio.this.museumid),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mViewModel = new ViewModelProvider(this).get(UploadAudioViewModel.class);
         }
 
     @Override
@@ -174,11 +202,11 @@ public class UploadAudio extends Fragment {
                     try {
                         File file = new File(UploadAudio.this.filepath);
                         UploadAudio.this.title=settitle.getText().toString();
-                        UploadAudio.this.describtion=setdescribe.getText().toString();
+                        UploadAudio.this.describtion="";
                         SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
                         String cookie = Infos.getString("cookie", "");
                         System.out.println(UploadAudio.this.filepath+UploadAudio.this.title+UploadAudio.this.describtion+
-                                UploadAudio.this.durtime+UploadAudio.this.itemid+"cookie:" + cookie);
+                                UploadAudio.this.durtime+UploadAudio.this.itemid+UploadAudio.this.museumid+"cookie:" + cookie);
                         dialog =new ProgressDialog(getActivity());
                         dialog.setTitle("上传中");
                         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -193,8 +221,7 @@ public class UploadAudio extends Fragment {
                                                 file))
                                 .addFormDataPart("title", UploadAudio.this.title)
                                 .addFormDataPart("duration", String.valueOf(UploadAudio.this.durtime))
-                                .addFormDataPart("artist", UploadAudio.this.describtion)
-                                .addFormDataPart("museum_id", String.valueOf(UploadAudio.this.itemid))
+                                .addFormDataPart(UploadAudio.this.itemid, String.valueOf(UploadAudio.this.museumid))
                                 .build();
                         CountingRequestBody countingRequestBody = new CountingRequestBody(body, new CountingRequestBody.Listener() {
                             @Override

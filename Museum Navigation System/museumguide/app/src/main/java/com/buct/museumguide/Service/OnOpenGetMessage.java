@@ -32,7 +32,7 @@ public class OnOpenGetMessage extends Service {
             public void run() {
                 try {
                     String res=WebHelper.getInfo(url);
-                    EventBus.getDefault().post(new ResultMessage(res));
+                    EventBus.getDefault().postSticky(new ResultMessage(res));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
