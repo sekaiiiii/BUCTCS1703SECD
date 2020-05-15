@@ -40,7 +40,7 @@ public class MuseumList extends Fragment {
         });
         tabLayout = (TabLayout) view.findViewById(R.id.museumList_tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("默认排序"));
-        tabLayout.addTab(tabLayout.newTab().setText("浏览次数"));
+        tabLayout.addTab(tabLayout.newTab().setText("展览数量"));
         tabLayout.addTab(tabLayout.newTab().setText("藏品数量"));
         tabLayout.addTab(tabLayout.newTab().setText("用户评价"));
         List<Fragment> fragments=new ArrayList<Fragment>();
