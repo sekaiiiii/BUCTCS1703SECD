@@ -78,6 +78,7 @@ public class DefaultFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(museumAdapter);
+
         WaveSideBarView waveSideBarView = (WaveSideBarView) view.findViewById(R.id.museum_default_sidebar);
         return view;
     }
@@ -103,7 +104,6 @@ public class DefaultFragment extends Fragment {
                     JSONObject object = (JSONObject) jsonArray.get(i);
                     showMuseum = new com.buct.museumguide.bean.Museum(object);
                     //System.out.println(showMuseum.getName());
-
                     temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
                 }
                 museumList.clear();
