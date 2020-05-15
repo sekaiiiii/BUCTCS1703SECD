@@ -134,7 +134,6 @@ public class TimeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 
     @Override
