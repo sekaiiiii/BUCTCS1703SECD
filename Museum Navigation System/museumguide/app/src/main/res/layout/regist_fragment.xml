@@ -29,10 +29,10 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:background="#999966">
-
         <LinearLayout
             android:id="@+id/linear"
             android:layout_width="match_parent"
+
             android:layout_height="430dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
@@ -42,27 +42,33 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="1dp">
 
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="注册"
+
                 android:textSize="40sp" />
+
 
             <EditText
                 android:id="@+id/text_username"
                 android:layout_width="match_parent"
+
                 android:layout_height="50dp"
+
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:background="#FFFFFF"
+                android:background="@drawable/modify_psw_edit"
                 android:ems="10"
                 android:hint="用户名(2-18位字母和数字)"
                 android:inputType="textPersonName"
                 android:textSize="20sp" />
+
 
             <EditText
                 android:id="@+id/text_email"
@@ -76,6 +82,7 @@
                 android:hint="电子邮箱"
                 android:inputType="textEmailAddress"
                 android:textSize="20sp" />
+
 
             <EditText
                 android:id="@+id/text_password"
@@ -122,6 +129,7 @@
                     android:inputType="textEmailAddress"
                     android:textSize="20sp" />
 
+
                 <Button
                     android:id="@+id/bt_gaincode"
                     android:layout_width="0dp"
@@ -129,6 +137,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:text="获取验证码" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -143,9 +152,10 @@
             android:background="#666666"
             android:textSize="30sp"
             android:text="确认"
+            android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/linear"
+            tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="493dp"
-            tools:ignore="MissingConstraints" />
+            tools:layout_editor_absoluteY="493dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

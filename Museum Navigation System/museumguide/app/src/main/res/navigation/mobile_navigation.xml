@@ -62,7 +62,11 @@
             app:destination="@id/login" />
         <action
             android:id="@+id/action_navigation_notifications_to_setting"
-            app:destination="@id/setting" />
+            app:destination="@id/setting"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/searchResult"

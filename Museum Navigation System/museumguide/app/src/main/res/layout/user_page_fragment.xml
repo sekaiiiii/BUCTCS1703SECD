@@ -7,8 +7,8 @@
     tools:context=".ui.FragmentForUsers.UserPage">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#006633">
+        android:layout_height="70dp"
+        android:background="#517C63">
 
         <Button
             android:id="@+id/bt_backup"
@@ -23,7 +23,8 @@
             android:layout_height="match_parent"
             android:text="更改个人信息"
             android:textColor="#FFFFFF"
-            android:textSize="25dp"
+            android:textSize="24sp"
+
             android:gravity="center"/>
 
     </LinearLayout>
@@ -32,37 +33,25 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:orientation="vertical"
-        android:background="#CCCC99">
+        android:background="#E7DFCF">
 
         <Button
             android:id="@+id/bt_modify_username"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="   修改用户名"
-            android:textSize="25dp"
+            android:textSize="30sp"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/ic_next"
             android:background="#FFFFFF"  />
 
         <Button
-            android:id="@+id/bt_bindemail"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="   绑定邮箱"
-            android:textSize="25dp"
-            android:gravity="center_vertical"
-            android:drawableRight="@drawable/ic_next"
-            android:background="#FFFFFF" />
-
-        <Button
             android:id="@+id/bt_modify_password"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="   修改密码"
-            android:textSize="25dp"
+            android:textSize="30sp"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/ic_next"
             android:background="#FFFFFF"  />
