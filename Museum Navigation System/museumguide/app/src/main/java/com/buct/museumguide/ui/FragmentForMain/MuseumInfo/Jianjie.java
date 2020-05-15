@@ -136,9 +136,6 @@ private ShowUploadAdapter adapter;
         for(int i=0;i<s.list.size();i++){
             l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
         }
-        for(int i=0;i<s.list.size();i++){
-            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
-        }
         System.out.println("list"+l.size());
         System.out.println(recyclerView);
         adapter.notifyDataSetChanged();
