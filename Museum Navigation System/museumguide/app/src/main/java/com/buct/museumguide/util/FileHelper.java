@@ -5,15 +5,23 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Museum_Info_Full;
 
 import java.io.File;
@@ -24,7 +32,11 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Locale;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public class FileHelper {
     public static final String FileName_MuseumInfo_Cache="MuseumInfoCache";
@@ -79,6 +91,42 @@ public class FileHelper {
             e.printStackTrace();
         }
         return null;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static Bitmap getBitmapFromDrawable(Context context, @DrawableRes int drawableId,String name) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+
+        if (drawable instanceof BitmapDrawable) {
+            System.out.println("可以直接是位图");
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof VectorDrawable || drawable instanceof VectorDrawableCompat) {
+            System.out.println("是向量"+name);
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            TextPaint textPaint = new TextPaint();
+            textPaint.setAntiAlias(true);
+            textPaint.setTextSize(22f);
+            //textPaint.setColor(getResources().getColor(R.color.blue));
+            canvas.drawText(name, 170, 350 ,textPaint);// 设置bitmap上面的文字位置
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+            return bitmap;
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
+    }
+    public static Bitmap getMyBitmap(String name) {
+        Bitmap bitmap = BitmapDescriptorFactory.fromResource(
+                R.drawable.circle).getBitmap();
+        bitmap = Bitmap.createBitmap(bitmap, 0 ,0, bitmap.getWidth(),
+                bitmap.getHeight());
+        Canvas canvas = new Canvas(bitmap);
+        TextPaint textPaint = new TextPaint();
+        textPaint.setAntiAlias(true);
+        textPaint.setTextSize(220f);
+        //textPaint.setColor(getResources().getColor(R.color.blue));
+        canvas.drawText(name, 17, 35 ,textPaint);// 设置bitmap上面的文字位置
+        return bitmap;
     }
 
 }
