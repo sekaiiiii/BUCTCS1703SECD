@@ -19,6 +19,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,7 +99,28 @@ public class MainActivity extends AppCompatActivity {
                     R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                     .build();
             BottomNavigationView bottomNavigationView=findViewById(R.id.nav_view);
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        /*BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+                = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.drawable.ic_home_empty:
+                        //在这里替换图标
+                        item.setIcon(R.drawable.ic_home);
+                        return true;
+                    case R.drawable.ic_news_empty:
+                        //在这里替换图标
+                        item.setIcon(R.drawable.ic_news);
+                        return true;
+                    case R.drawable.ic_user_empty:
+                        //在这里替换图标
+                        item.setIcon(R.drawable.ic_user);
+                        return true;
+                }
+                return false;
+            }
+        };*/
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
