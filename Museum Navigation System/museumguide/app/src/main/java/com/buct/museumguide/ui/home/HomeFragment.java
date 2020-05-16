@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
     private TextView hometvComment;
     private ArrayList<MuseumItem> bannerList = new ArrayList<>();
     private RequestHelper requestHelper = new RequestHelper();
+//    private ArrayList<MuseumItem> dsdsdasd
 
     @Override
     public void onAttach(@NonNull Context context) {
