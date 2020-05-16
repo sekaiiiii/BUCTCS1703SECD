@@ -58,7 +58,7 @@ public class DefaultFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.museumList_recyclerview0);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        initMuseum();
+        //initMuseum();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         museumAdapter = new MuseumAdapter(museumList);
         museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
@@ -132,6 +132,9 @@ public class DefaultFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -148,17 +151,14 @@ public class DefaultFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-       // requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),0);
-        if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
-        }
+        requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),0);
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info?order_by=0"));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

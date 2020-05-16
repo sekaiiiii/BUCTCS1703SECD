@@ -45,7 +45,7 @@ public class TimeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.museum_time_layout, container, false);
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info"));
-        initMuseum();
+        //initMuseum();
         RecyclerView recyclerView = view.findViewById(R.id.museumList_recyclerview1);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -71,7 +71,7 @@ public class TimeFragment extends Fragment {
 
         return view;
     }
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
         String responseData = museumInfoResultMsg.res;
         Log.d("hello",responseData);
@@ -114,14 +114,14 @@ public class TimeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),1);
+        requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),1);
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
