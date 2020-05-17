@@ -9,13 +9,16 @@
     tools:context=".ui.FragmentForMain.Comment.UserComment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorGreen"
-        android:orientation="horizontal">
+        >
 
         <ImageButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/backHome"
@@ -23,14 +26,18 @@
             android:background="@color/colorGreen"
             android:src="@mipmap/back"/>
         <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="评价"
-            android:textSize="16dp"
+            android:textSize="20dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:layout_width="match_parent"
         android:background="@color/colorLLBrown"
@@ -146,7 +153,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#00000000"/>
+        android:background="@color/colorLBrown"/>
     <androidx.recyclerview.widget.RecyclerView
         android:background="@color/colorLBrown"
         android:id="@+id/comment_recyclerview_commit"
