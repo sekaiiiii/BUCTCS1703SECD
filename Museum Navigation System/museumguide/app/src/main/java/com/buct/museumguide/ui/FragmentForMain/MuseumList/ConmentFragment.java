@@ -48,7 +48,7 @@ public class ConmentFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-         museumAdapter = new MuseumAdapter(museumList);
+        museumAdapter = new MuseumAdapter(museumList);
         museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

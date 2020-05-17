@@ -51,7 +51,6 @@ public class RequestHelper {
         EventBus.getDefault().postSticky(new CollectionMsg(urlBuilder.build().toString()));
     }
     public void getNews(final Context activity, int id, String name) {
-        id = 4; //测试用!!!以后删掉!
         String url = activity.getResources().getString(R.string.get_new_info_url);
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         if(id != -1)

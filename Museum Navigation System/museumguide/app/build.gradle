@@ -25,17 +25,22 @@ android {
         //targetSdkVersion 29
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.1.2"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            //minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //shrinkResources true
         }
     }
 
@@ -47,15 +52,14 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.teprinciple:updateapputilsx:2.3.0'
     implementation 'com.amap.api:navi-3dmap:latest.integration'
-    implementation 'com.amap.api:search:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.squareup.okhttp3:okhttp:4.4.0'
     implementation 'androidx.media:media:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
-    compile 'com.race604.waveloading:library:1.1.1'
-    compile ('com.weiwangcn.betterspinner:library:1.1.0') {
+    implementation 'com.race604.waveloading:library:1.1.1'
+    compile('com.weiwangcn.betterspinner:library:1.1.0') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
     implementation 'androidx.navigation:navigation-ui:2.0.0'
@@ -78,6 +82,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.5.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.gjiazhe:wavesidebar:1.0.1'
-    implementation files('libs/commons-fileupload-1.4.jar')
     implementation files('libs\\pinyin4j-2.5.0.jar')
 }

@@ -91,4 +91,12 @@ public class Education {
         list.add( new Education(4, "教育活动4","教育活动内容4","2020-01-01", "http://img.m.focus.cn/q_70/app/48/4878fa2bfd5a1a93186c7aefd37b01e4.jpg"));
         return list;
     }*/
+    public Education() {
+        this.name = "教育1";
+        this.content = "教育内容1";
+        this.imgUrl = "http://img.m.focus.cn/q_70/app/48/4878fa2bfd5a1a93186c7aefd37b01e4.jpg";
+    }
+    public static Education getTestData() {
+        return new Education();
+    }
 }

@@ -61,17 +61,21 @@ private ShowUploadAdapter adapter;
             @Override
             public void click(View v) {
                 count++;int pos=recyclerView.getChildAdapterPosition(v);
+                if(currentpos==-1){
+                    currentpos=pos;
+                }
                 if(currentpos!=pos&&currentpos!=-1){
                     //说明点击了其他按钮
                     Toast.makeText(getActivity(),"请先暂停当前播放再播放其他讲解",Toast.LENGTH_SHORT).show();
+                    count--;
                     return;
                 }
-                currentpos=pos;
                 if(count%2==1){
                     EventBus.getDefault().post(new PlayMessage(String.valueOf(recyclerView.getChildAdapterPosition(v)+1)));
-                    Toast.makeText(getActivity(),String.valueOf(recyclerView.getChildAdapterPosition(v)),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"正在缓冲中，请稍后",Toast.LENGTH_SHORT).show();
                     adapter.isture.set(pos,false);
                 }else{
+                    currentpos=-1;count=0;
                     adapter.isture.set(pos,true);
                     EventBus.getDefault().post(new PlayMessage(String.valueOf(-1)));
                 }

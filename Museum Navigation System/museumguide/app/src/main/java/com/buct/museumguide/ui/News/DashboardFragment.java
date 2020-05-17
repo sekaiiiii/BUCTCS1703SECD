@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -41,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -51,27 +53,22 @@ public class DashboardFragment extends Fragment {
     private DashboardViewModel dashboardViewModel;
     private Banner banner;
     private NewsRecyclerAdapter adapter;
-    private RequestHelper requestHelper = new RequestHelper();
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
-        if(!EventBus.getDefault().isRegistered(this))
-            EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-//        EventBus.getDefault().register(this);
         banner.start(); //开始轮播
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
         banner.stop(); //结束轮播
     }
 
@@ -89,21 +86,34 @@ public class DashboardFragment extends Fragment {
 
         adapter = new NewsRecyclerAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.addDatas(newsList);
+//        adapter.addDatas(newsList);
         // get and set header
         View header = LayoutInflater.from(getContext()).inflate(R.layout.news_header_banner,recyclerView, false);
         banner = (Banner) header.findViewById(R.id.banner);
-        SearchView searchView = header.findViewById(R.id.searchNews);
+        SearchView searchView = root.findViewById(R.id.searchNews);
         searchView.setOnClickListener(v -> {
             // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
             Navigation.findNavController(v).navigate(R.id.action_navigation_dashboard_to_searchResult);
         });
         adapter.setHeaderView(header);
 
-        banner.setAdapter(new NewsBannerAdapter(newsList))
-                .setIndicator(new CircleIndicator(getContext()))
-                .start();
-
+        try {
+            dashboardViewModel.getNews(getContext(), -1, "", -1,-1).observe(getViewLifecycleOwner(), new Observer<ArrayList<News>>() {
+                @Override
+                public void onChanged(@Nullable ArrayList<News> s) {
+                    newsList = s;
+                    adapter.addDatas(s);
+                    banner.setAdapter(new NewsBannerAdapter(s.subList(s.size()-4, s.size())))
+                            .setIndicator(new CircleIndicator(getContext()))
+                            .start();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "onCreateView: size szie  " + newsList.size());
         adapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -121,48 +131,9 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Subscribe(sticky = true)
-    public void GetState(StateBroadCast msg) {
-        if (msg.state == 1) {
-            System.out.println("收到了服务已启动的通知");
-            requestHelper.getNews(Objects.requireNonNull(getActivity()), -1, "");
-        } else {
-            EventBus.getDefault()
-                    .post(new
-                            CommandRequest
-                            ("http://192.144.239.176:8080/api/android/get_new_info"));
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        requestHelper.getNews(Objects.requireNonNull(getActivity()), -1, "");
-    }
-
-    @Subscribe(sticky = true)
-    public void onReceiveNews(NewsResultMsg newsResultMsg) {
-        String responseData = newsResultMsg.res;
-        Log.d(TAG, "onReceiveNews: " + responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            parseJSONWithJSONObject(String.valueOf(jsonObject.getJSONObject("data").get("data")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseJSONWithJSONObject(String jsonData) throws JSONException {
-        try {
-            JSONArray jsonArray = new JSONArray(jsonData);
-            for(int i=0;i<jsonArray.length();++i) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                newsList.add(new News(jsonObject));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

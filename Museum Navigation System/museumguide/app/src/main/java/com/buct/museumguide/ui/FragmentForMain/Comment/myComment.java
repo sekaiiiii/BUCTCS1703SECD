@@ -1,13 +1,16 @@
 package com.buct.museumguide.ui.FragmentForMain.Comment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class myComment extends Fragment {
 
@@ -27,6 +40,8 @@ public class myComment extends Fragment {
 
     private RatingBar rating1,rating2,rating3;
     private TextView show1,show2,show3;
+    private Button submit;
+    private String museumID;
     public myComment() {
         // Required empty public constructor
     }
@@ -83,6 +98,54 @@ public class myComment extends Fragment {
         //评论框
         EditText edtMsg = (EditText)view.findViewById(R.id.submit_commit);
         edtMsg.setScrollbarFadingEnabled(false);
+
+
+        submit=view.findViewById(R.id.button_submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(edtMsg.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"请输入评论再提交",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String postMessage;postMessage=edtMsg.getText().toString();
+
+                    MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                    OkHttpClient client = new OkHttpClient();
+                    String url="http://192.144.239.176:8080/api/android/comment";
+
+                    HashMap<String,String> map=new HashMap<>();
+                    map.put(museumID,"1");//暂时写死
+                    map.put("content",postMessage);
+                    map.put("exhibition_score",rating1.getRating()+"");
+                    map.put("environment_score",rating2.getRating()+"");
+                    map.put("service_score",rating3.getRating()+"");
+
+                    Gson gson=new Gson();
+                    String data=gson.toJson(map);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Log.d("PostComment","in");
+                                RequestBody body = RequestBody.create(JSON,data);
+                                Request request = new Request.Builder()
+                                        .url(url)
+                                        .post(body)
+                                        .build();
+                                Response response = client.newCall(request).execute();
+                                Log.d("PostComment",response.body().string());
+                            }
+                            catch (IOException e){
+                                Log.d("PostComment",e.toString());
+                            }
+                        }
+                    }).start();
+                    Toast.makeText(getContext(),"评论成功",Toast.LENGTH_SHORT).show();
+                    Navigation.findNavController(view).popBackStack();
+                }
+            }
+        });
 
         return view;
     }
