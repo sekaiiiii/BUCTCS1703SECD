@@ -78,7 +78,6 @@ public class DefaultFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(museumAdapter);
-
         WaveSideBarView waveSideBarView = (WaveSideBarView) view.findViewById(R.id.museum_default_sidebar);
         return view;
     }
@@ -88,10 +87,10 @@ public class DefaultFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    @Subscribe(sticky = true)
     public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
         String responseData = museumInfoResultMsg.res;
-        Log.d("hello",responseData);
+       // Log.d("hello",responseData);
         try {
             JSONObject jsonObject = new JSONObject(responseData);
             String state = String.valueOf(jsonObject.get("status"));
@@ -104,11 +103,18 @@ public class DefaultFragment extends Fragment {
                     JSONObject object = (JSONObject) jsonArray.get(i);
                     showMuseum = new com.buct.museumguide.bean.Museum(object);
                     //System.out.println(showMuseum.getName());
+
                     temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
                 }
-                museumList = temp_list;
-
-
+                museumList.clear();
+                museumList.addAll(temp_list);
+                Log.d("hello", String.valueOf(museumList.size()));
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        museumAdapter.notifyDataSetChanged();
+                    }
+                });
             }
             else {
                 Log.d(TAG, "null");
@@ -140,7 +146,7 @@ public class DefaultFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -158,7 +164,6 @@ public class DefaultFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

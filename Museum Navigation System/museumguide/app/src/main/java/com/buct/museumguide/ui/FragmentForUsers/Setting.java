@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.util.DataCleanManager;
+import com.buct.museumguide.util.FileHelper;
 
 import java.io.File;
 
@@ -75,6 +76,8 @@ public class Setting extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView textView=getView().findViewById(R.id.textView23);
+        TextView codeversion=getView().findViewById(R.id.textView11);
+        codeversion.setText(String.valueOf(FileHelper.getAppVersionName(getActivity())));
         try {
             String size=DataCleanManager.getTotalCacheSize(getActivity());
             //System.out.println(size);

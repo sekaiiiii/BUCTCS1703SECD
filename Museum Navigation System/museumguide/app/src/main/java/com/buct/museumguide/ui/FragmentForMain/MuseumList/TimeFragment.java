@@ -114,14 +114,16 @@ public class TimeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("timefragment", "onResume: ");
+        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+            EventBus.getDefault().register(this);
+        }
         requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),1);
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -132,6 +134,13 @@ public class TimeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("timefragment", "onPause: ");
         EventBus.getDefault().unregister(this);
     }
 }
