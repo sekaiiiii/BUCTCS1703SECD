@@ -4,46 +4,29 @@
     <string name="feedback_ask">如果您对我们的应用有什么好的建议，欢迎您提出，我们会争取采纳</string>
     <string name="verification_code_url">http://192.144.239.176:8080/api/android/want_register</string>
     <string name="want_regrist_url">http://192.144.239.176:8080/api/android/register</string>
-    <string name="logout_url">http://192.144.239.176:8080/api/android/logout</string>
     <string name="set_user_info_url">http://192.144.239.176:8080/api/android/set_user_info</string>
     <string name="set_password_url">http://192.144.239.176:8080/api/android/set_user_password</string>
-    <string name="upload_explain_url">http://192.144.239.176:8080/api/android/upload_explain</string>
     <string name="get_museum_info_url">http://192.144.239.176:8080/api/android/get_museum_info</string>
     <string name="get_collection_info_url">http://192.144.239.176:8080/api/android/get_collection_info</string>
     <string name="get_exhibition_info_url">http://192.144.239.176:8080/api/android/get_exhibition_info</string>
     <string name="get_education_activity_info_url">http://192.144.239.176:8080/api/android/get_education_activity_info</string>
     <string name="get_new_info_url">http://192.144.239.176:8080/api/android/get_new_info</string>
     <string name="get_museum_comment_url">http://192.144.239.176:8080/api/android/get_museum_comment</string>
-    <string name="get_explain_info_url">http://192.144.239.176:8080/api/android/get_explain_info</string>
-    <string name="get_myself_explain_url">http://192.144.239.176:8080/api/android/get_myself_explain</string>
-    <string name="comment_url">http://192.144.239.176:8080/api/android/comment</string>
     <string name="feedback_url">http://192.144.239.176:8080/api/android/feedback</string>
     <string name="get_login_state_url">http://192.144.239.176:8080/api/android/get_login_state</string>
-    <string name="baseUrl">http://192.144.239.176:8080</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">MuseumGuide</string>
     <string name="title_activity_main">MuseumGuide</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
