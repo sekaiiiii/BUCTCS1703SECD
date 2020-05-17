@@ -4,8 +4,8 @@
     <solid
         android:color="@color/colorWhite"/>
     <corners
-        android:topRightRadius="15px"
-        android:bottomRightRadius="15px"/>
+        android:topLeftRadius="15px"
+        android:bottomLeftRadius="15px"/>
 
     <stroke
         android:width="1px"

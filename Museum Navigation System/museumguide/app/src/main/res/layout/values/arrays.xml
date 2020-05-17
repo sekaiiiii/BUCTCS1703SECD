@@ -13,8 +13,8 @@
     <string-array name="searchChoice">
         <item>展览</item>
         <item>博物馆</item>
-        <item>地点</item>
-        <item>人物</item>
-        <item>时间</item>
+        <item>教育活动</item>
+        <item>藏品</item>
+        <item>新闻</item>
     </string-array>
 </resources>

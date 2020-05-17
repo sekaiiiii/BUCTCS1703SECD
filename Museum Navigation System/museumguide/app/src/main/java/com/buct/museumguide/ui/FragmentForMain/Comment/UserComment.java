@@ -1,23 +1,42 @@
 package com.buct.museumguide.ui.FragmentForMain.Comment;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.Service.CommandRequest;
+import com.buct.museumguide.Service.CommentResultMsg;
+import com.buct.museumguide.Service.ResultMessage;
+import com.buct.museumguide.Service.StateBroadCast;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class UserComment extends Fragment {
 
@@ -27,12 +46,7 @@ public class UserComment extends Fragment {
         return new UserComment();
     }
 
-    String data[]={"用户名                                                 2020.4.20\nXXXXXXXXX\nXXXXXXX",
-            "用户名                                                 2020.4.20\nXXXXXXXXX\nXXXXXXX",
-            "用户名                                                 2020.4.20\nXXXXXXXXX\nXXXXXXX",
-            "用户名                                                 2020.4.20\nXXXXXXXXX\nXXXXXXX",
-            "用户名                                                 2020.4.20\nXXXXXXXXX\nXXXXXXX",
-            "用户名                                                 2020.4.20\nXXXXXXXXX\nXXXXXXX"};
+    private List<PerComment> CommentList =new LinkedList<>();
 
     private RatingBar rating4,rating5,rating6;
     private TextView show4,show5,show6;
@@ -40,16 +54,26 @@ public class UserComment extends Fragment {
         // Required empty public constructor
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root= inflater.inflate(R.layout.fragment_user_commit, container, false);
+        View root= inflater.inflate(R.layout.user_comment_fragment, container, false);
 
         //我要评论
         Button commit=root.findViewById(R.id.commit);
@@ -105,21 +129,77 @@ public class UserComment extends Fragment {
             }
         });
 
+        RecyclerView recyclerView=root.findViewById(R.id.comment_recyclerview_commit);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        for(PerComment perComment:CommentList){
+            Log.d("Exhibition",perComment.getId());
+        }
+        CommentAdapter commentAdapter=new CommentAdapter(CommentList,getContext());
+        recyclerView.setAdapter(commentAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ListView listView=(ListView) view.findViewById(R.id.list_view);
-        listView.setAdapter(new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_list_item_1,data));
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+//        EventBus.getDefault()
+//                .post(new
+//                        CommandRequest
+//                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+
 //        mViewModel = ViewModelProviders.of(this).get(UserCommentViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Subscribe(sticky = true)
+    public void GetState(StateBroadCast msg) {
+        if (msg.state == 1) {
+            System.out.println("收到了服务已启动的通知");
+            EventBus.getDefault()
+                    .post(new
+                            CommandRequest
+                            ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault()
+                .post(new
+                        CommandRequest
+                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+    }
+
+    @Subscribe
+    public void onRecieve(ResultMessage commentResultMsg){
+            Log.d("Hello",commentResultMsg.res);
+            Gson gson=new Gson();
+            String responseData = commentResultMsg.res;
+            JsonObject jsonObject = new JsonParser().parse(responseData).getAsJsonObject();
+            JsonObject subJsonObject =jsonObject.getAsJsonObject("data");
+            JsonArray subSubJsonObject =subJsonObject.getAsJsonArray("comment_list");
+            CommentList=gson.fromJson(subSubJsonObject,new TypeToken<List<PerComment> >(){}.getType());
+            Log.d("Hello",""+CommentList.size());
+            int cnt=1;
+            for(PerComment perComment:CommentList){
+                Log.d("Hello",""+cnt);cnt++;
+                Log.d("Hello",perComment.getMail_address());
+                Log.d("Hello",perComment.getExhibition_score());
+                Log.d("Hello",perComment.getTime());
+                Log.d("Hello","---------------------");
+            }
+
     }
 
 }

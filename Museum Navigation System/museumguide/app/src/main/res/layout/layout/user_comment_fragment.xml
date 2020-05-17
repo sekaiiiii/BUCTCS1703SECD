@@ -5,17 +5,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/colorLBrown"
-    tools:context=".ui.FragmentForMain.UserCommit">
+    android:background="@color/colorWhite"
+    tools:context=".ui.FragmentForMain.Comment.UserComment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/colorGreen"
-        android:orientation="horizontal">
+        >
 
         <ImageButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/backHome"
@@ -23,14 +26,18 @@
             android:background="@color/colorGreen"
             android:src="@mipmap/back"/>
         <TextView
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="评价"
-            android:textSize="16dp"
+            android:textSize="20dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <TextView
         android:layout_width="match_parent"
         android:background="@color/colorLLBrown"
@@ -48,11 +55,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:gravity="center"
+                android:layout_width="80dp"
+                android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:textColor="#000000"
-                android:text="展览: 1.5  "
+                android:text="展览: 3.0  "
                 android:textSize="15dp"
                 android:id="@+id/RatingShow4"
                 android:layout_height="25dp"/>
@@ -61,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:rating="1.5"
+                android:rating="3.0"
                 android:progressTint="@color/colorBrown"
                 android:isIndicator="false"
                 style="@style/Widget.AppCompat.RatingBar.Small"
@@ -74,10 +81,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:gravity="center"
+                android:layout_width="80dp"
+                android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:text="环境: 1.5  "
+                android:text="环境: 3.0  "
                 android:textColor="#000000"
                 android:textSize="15dp"
                 android:id="@+id/RatingShow5"
@@ -87,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:rating="1.5"
+                android:rating="3.0"
                 android:progressTint="@color/colorBrown"
                 android:isIndicator="false"
                 style="@style/Widget.AppCompat.RatingBar.Small"
@@ -101,10 +108,10 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/ratingShow6"
-                android:layout_width="wrap_content"
-                android:gravity="center"
+                android:layout_width="80dp"
+                android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:text="服务: 1.5  "
+                android:text="服务: 3.0  "
                 android:textColor="#000000"
                 android:textSize="15dp"
                 android:layout_height="25dp"/>
@@ -113,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:numStars="5"
-                android:rating="1.5"
+                android:rating="3.0"
                 android:progressTint="@color/colorBrown"
                 android:isIndicator="false"
                 style="@style/Widget.AppCompat.RatingBar.Small"
@@ -146,12 +153,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#00000000"/>
-    <ListView
-        android:divider="@color/colorLBrown"
-        android:dividerHeight="10dp"
-        android:background="@color/colorLLBrown"
-        android:id="@+id/list_view"
+        android:background="@color/colorLBrown"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/colorLBrown"
+        android:id="@+id/comment_recyclerview_commit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

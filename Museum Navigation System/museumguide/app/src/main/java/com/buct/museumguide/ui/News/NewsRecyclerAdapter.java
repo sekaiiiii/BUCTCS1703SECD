@@ -120,4 +120,5 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             newsImg=itemView.findViewById(R.id.newsImg);
         }
     }
+
 }
