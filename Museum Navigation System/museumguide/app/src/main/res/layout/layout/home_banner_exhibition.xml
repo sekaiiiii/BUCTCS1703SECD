@@ -29,6 +29,7 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="5dp">
         <LinearLayout
+            android:id="@+id/homeExhi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -44,13 +45,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="妙相庄严——藏传佛教金铜造像艺术展览"
+                    android:maxLines="2"
                     android:textSize="15sp"
                     android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/exhiContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="中国国家博物馆"/>
+                    android:text="中国国家博物馆" />
             </LinearLayout>
             <ImageView
                 android:id="@+id/exhiImg"
