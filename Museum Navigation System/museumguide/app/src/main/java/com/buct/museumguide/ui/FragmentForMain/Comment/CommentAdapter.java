@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -30,6 +31,7 @@ import okhttp3.Response;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private List<PerComment> mCommentList;
+
     private Context mcontext;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -114,6 +116,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
          map.put("id",mCommentList.get(position).getId());
         Gson gson=new Gson();
         String data=gson.toJson(map);
+        String cookie;
+        cookie= WebHelper.getCookie(mcontext);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -121,6 +125,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     Log.d("PostComment","in");
                     RequestBody body = RequestBody.create(JSON,data);
                     Request request = new Request.Builder()
+                            .header("cookie",cookie)
                             .url(url)
                             .post(body)
                             .build();

@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -115,12 +116,13 @@ public class myComment extends Fragment {
                     String url="http://192.144.239.176:8080/api/android/comment";
 
                     HashMap<String,String> map=new HashMap<>();
-                    map.put(museumID,"1");//暂时写死
+                    map.put("museum_id","1");//暂时写死
                     map.put("content",postMessage);
                     map.put("exhibition_score",rating1.getRating()+"");
                     map.put("environment_score",rating2.getRating()+"");
                     map.put("service_score",rating3.getRating()+"");
-
+                    String cookie;
+                    cookie= WebHelper.getCookie(getActivity());
                     Gson gson=new Gson();
                     String data=gson.toJson(map);
                     new Thread(new Runnable() {
@@ -131,6 +133,7 @@ public class myComment extends Fragment {
                                 RequestBody body = RequestBody.create(JSON,data);
                                 Request request = new Request.Builder()
                                         .url(url)
+                                        .header("cookie",cookie)
                                         .post(body)
                                         .build();
                                 Response response = client.newCall(request).execute();
@@ -142,7 +145,7 @@ public class myComment extends Fragment {
                         }
                     }).start();
                     Toast.makeText(getContext(),"评论成功",Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(view).popBackStack();
+
                 }
             }
         });
