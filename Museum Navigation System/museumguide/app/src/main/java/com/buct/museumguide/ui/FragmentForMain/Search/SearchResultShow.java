@@ -1,36 +1,31 @@
 package com.buct.museumguide.ui.FragmentForMain.Search;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.buct.museumguide.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AnotherDownPageFragment#newInstance} factory method to
+ * Use the {@link SearchResultShow#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AnotherDownPageFragment extends Fragment {
-
-    private AnotherDownPageViewModel mViewModel;
-
+public class SearchResultShow extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
 
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    public AnotherDownPageFragment() {
+
+    public SearchResultShow() {
         // Required empty public constructor
     }
 
@@ -40,23 +35,16 @@ public class AnotherDownPageFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AnotherDownPageFragment.
+     * @return A new instance of fragment SearchResultShow.
      */
     // TODO: Rename and change types and number of parameters
-    public static AnotherDownPageFragment newInstance(String param1, String param2) {
-        AnotherDownPageFragment fragment = new AnotherDownPageFragment();
+    public static SearchResultShow newInstance(String param1, String param2) {
+        SearchResultShow fragment = new SearchResultShow();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-//        return new AnotherDownPageFragment();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.another_down_page_fragment, container, false);
     }
 
     @Override
@@ -69,10 +57,9 @@ public class AnotherDownPageFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(AnotherDownPageViewModel.class);
-        // TODO: Use the ViewModel
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_search_result_show, container, false);
     }
-
 }
