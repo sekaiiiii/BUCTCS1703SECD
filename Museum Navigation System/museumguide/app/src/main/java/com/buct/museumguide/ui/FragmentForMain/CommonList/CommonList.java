@@ -4,16 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -58,7 +64,6 @@ public class CommonList extends Fragment {
     private ArrayList<Collection> collList = new ArrayList<>();
     private ArrayList<News> newsList = new ArrayList<>();
     private ArrayList<Education> eduList = new ArrayList<>();
-    private int showType = -1;
 
     public static CommonList newInstance() {
         return new CommonList();
@@ -79,10 +84,11 @@ public class CommonList extends Fragment {
         commonListViewModel = ViewModelProviders.of(this).get(CommonListViewModel.class);
         Bundle bundle = getArguments();
         assert bundle != null;
-        showType = bundle.getInt("showType");
-        Toast.makeText(getActivity(), "" + showType ,Toast.LENGTH_SHORT).show();
+        int showType = bundle.getInt("showType");
+        Toast.makeText(getActivity(), "" + showType,Toast.LENGTH_SHORT).show();
 
         View root = inflater.inflate(R.layout.common_list_fragment, container, false);
+        TextView notFind = root.findViewById(R.id.notFind);
         ImageButton topNavReturn = (ImageButton) root.findViewById(R.id.topNavReturn);
         topNavReturn.setOnClickListener(view -> Navigation.findNavController(view).popBackStack());
         TextView topNavTitle = root.findViewById(R.id.topNavTitle);
@@ -157,13 +163,6 @@ public class CommonList extends Fragment {
                 EduRecyclerAdapter eduAdapter = new EduRecyclerAdapter();
                 commonList.setAdapter(eduAdapter);
                 eduAdapter.addDatas(eduList);
-                /*commonListViewModel.getEdu(getActivity(), root).observe(getViewLifecycleOwner(), new Observer<ArrayList<Education>>() {
-                    @Override
-                    public void onChanged(@Nullable ArrayList<Education> s) {
-                        eduList = s;
-                        eduAdapter.addDatas(s);
-                    }
-                });*/
                 eduAdapter.setOnItemClickListener(new EduRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -175,6 +174,11 @@ public class CommonList extends Fragment {
                 });
                 break;
         }
+        if(showType == 1 && exhiList.size() == 0 || showType == 2 && collList.size() ==0 || showType == 3 && newsList.size() == 0 || showType == 4 && eduList.size() == 0) {
+            commonList.setVisibility(View.GONE);
+        }
+        else
+            notFind.setVisibility(View.GONE);
         return root;
     }
 
