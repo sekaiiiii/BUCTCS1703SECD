@@ -40,6 +40,7 @@ import java.util.Objects;
 
 public class UserComment extends Fragment {
 
+    private static final String TAG = "UserComment";
     private UserCommentViewModel mViewModel;
 
     public static UserComment newInstance() {
@@ -163,7 +164,7 @@ public class UserComment extends Fragment {
     @Subscribe(sticky = true)
     public void GetState(StateBroadCast msg) {
         if (msg.state == 1) {
-            System.out.println("收到了服务已启动的通知");
+            Log.d(UserComment.TAG, "GetState: " + "收到了服务已启动的通知");
             EventBus.getDefault()
                     .post(new
                             CommandRequest
@@ -181,8 +182,8 @@ public class UserComment extends Fragment {
                         ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
     }
 
-    @Subscribe
-    public void onRecieve(ResultMessage commentResultMsg){
+    @Subscribe(sticky = true)
+    public void onRecieve(CommentResultMsg commentResultMsg){
             Log.d("Hello",commentResultMsg.res);
             Gson gson=new Gson();
             String responseData = commentResultMsg.res;

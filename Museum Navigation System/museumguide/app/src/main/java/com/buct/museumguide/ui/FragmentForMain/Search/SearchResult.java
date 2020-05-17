@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,7 +157,8 @@ public class SearchResult extends Fragment {
     @Subscribe(sticky = true)
     public void GetState(StateBroadCast msg) {
         if (msg.state == 1) {
-            System.out.println("收到了服务已启动的通知");
+//            System.out.println("收到了服务已启动的通知");
+            Log.d("Hello", "GetState: " + "收到了服务已启动的通知");
             requestHelper.getMuseumInfo(getActivity(), content, -1);
             requestHelper.getExhibition(getActivity(), -1, content);
             requestHelper.getCollection(getActivity(), -1, content);
