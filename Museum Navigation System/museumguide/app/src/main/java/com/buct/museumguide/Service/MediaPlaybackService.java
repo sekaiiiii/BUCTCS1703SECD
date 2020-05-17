@@ -49,6 +49,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements M
     private String cookie;
     private List<music>musicList;
     private String uri="http://192.144.239.176:8080/";
+    private String metaid="";
     private long getAvailableActions() {
         long actions = PlaybackStateCompat.ACTION_PLAY
                 | PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID
@@ -151,19 +152,24 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements M
         @Override
         public void onPrepareFromMediaId(String mediaId, Bundle extras) {
             super.onPrepareFromMediaId(mediaId, extras);
-            player.pause();
-            player.reset();
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            int id=Integer.valueOf(mediaId);
-            try {
-                System.out.println(musicList.get(id-1).getUrl());
+            if(metaid.equals(mediaId)==false){
+                System.out.println("选择了不同的歌曲");
+                player.reset();metaid=mediaId;
                 player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                player.setDataSource(musicList.get(id-1).getUrl());
-                player.prepareAsync();
-            } catch (IOException e) {
-                System.out.println("无法播放");
-                e.printStackTrace();
+                int id=Integer.valueOf(mediaId);
+                try {
+                    System.out.println(musicList.get(id-1).getUrl());
+                    player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    player.setDataSource(musicList.get(id-1).getUrl());
+                    player.prepareAsync();
+                } catch (IOException e) {
+                    System.out.println("无法播放");
+                    e.printStackTrace();
+                }
+            }else{
+                player.start();
             }
+
         }
     };
 

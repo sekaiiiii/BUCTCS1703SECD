@@ -253,4 +253,22 @@ public class OnOpenGetMessage extends Service {
         EventBus.getDefault().unregister(this);
         fixedThreadPool.shutdown();
     }
+    @Subscribe
+    public void onReceiveUpdate(UpdateMsg result){
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo("http://192.144.239.176:8080/api/android/get_version_num");
+                    EventBus.getDefault().postSticky(new UpdateResult(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        if(result.msg.equals("1")){
+            fixedThreadPool.execute(command);
+           // http://192.144.239.176:8080/api/android/get_version_num
+        }
+    }
 }
