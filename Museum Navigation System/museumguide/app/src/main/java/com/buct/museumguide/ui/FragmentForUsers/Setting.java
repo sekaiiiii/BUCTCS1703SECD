@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForUsers;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,10 @@ import android.widget.Toast;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.UpdateMsg;
 import com.buct.museumguide.Service.UpdateResult;
+import com.buct.museumguide.bean.UpdateAppResult;
 import com.buct.museumguide.util.DataCleanManager;
 import com.buct.museumguide.util.FileHelper;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,8 +48,9 @@ public class Setting extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private final String getcodeurl="http://192.144.239.176:8080/api/android/get_version_num";
-    private final String apkurl="http://192.144.239.176:8080/file/release.apk";
-    private String updateTitle = "发现新版本V2.0.0";
+    private final String apkurl="http://192.144.239.176:8080/file?fileName=release.apk";
+    private String updateTitle = "发现新版本";
+    private ProgressDialog dialog;
     private String updateContent = "1、Kotlin重构版\n2、支持自定义UI\n3、增加md5校验\n4、更多功能等你探索";
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -151,36 +155,63 @@ public class Setting extends Fragment {
 
     @Subscribe
     public void onUpdateResult(UpdateResult result) throws JSONException {
-        System.out.println(result.msg);
+
+        Gson gson=new Gson();
+        UpdateAppResult result1=gson.fromJson(result.msg,UpdateAppResult.class);
+
         int version= (int) FileHelper.getAppVersionCode(getActivity());
-        String res=result.msg;
-        JSONObject object=new JSONObject(res);
-        if(object.get("status").equals("0")){
+        System.out.println("当前版本"+String.valueOf(version)+result1.getData().getVersion()+" "+
+                result1.getData().getName()+" "+result1.getData().getDescription());
+        if(version<Integer.valueOf(result1.getData().getVersion())){
+            System.out.println("启动更新程序");
             UpdateConfig updateConfig = new UpdateConfig();
             updateConfig.setCheckWifi(true);
-            updateConfig.setNeedCheckMd5(true);
+            updateConfig.setNeedCheckMd5(false);
             UiConfig uiConfig = new UiConfig();
             uiConfig.setUiType(UiType.PLENTIFUL);
             UpdateAppUtils
                     .getInstance()
                     .apkUrl(apkurl)
-                    .updateTitle(updateTitle)
-                    .updateContent(updateContent)
+                    .updateTitle(updateTitle+ result1.getData().getName())
+                    .updateContent(result1.getData().getDescription())
                     .uiConfig(uiConfig)
                     .updateConfig(updateConfig)
                     .setUpdateDownloadListener(new UpdateDownloadListener() {
                         @Override
                         public void onStart() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                     dialog=new ProgressDialog(getActivity());
+                                    dialog.setTitle("正在下载新版本中");
+                                    dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                                    dialog.setIndeterminate(false);
+                                    dialog.show();
+                                }
+                            });
                             System.out.println("开始下载更新");
                         }
 
                         @Override
                         public void onDownload(int progress) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.setProgress(progress);
+                                }
+                            });
                             System.out.println("下载"+String.valueOf(progress));
                         }
 
                         @Override
                         public void onFinish() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialog.cancel();
+                                    Toast.makeText(getActivity(),"下载完毕",Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             System.out.println("下载完毕");
                         }
 
