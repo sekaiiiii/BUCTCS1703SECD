@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.CommandRequest;
 import com.buct.museumguide.Service.MuseumInfoResultMsg;
+import com.buct.museumguide.Service.MuseumListTimeResultMsg;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.util.RequestHelper;
 
@@ -73,8 +74,8 @@ public class TimeFragment extends Fragment {
         return view;
     }
     @Subscribe(sticky = true)
-    public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
-        String responseData = museumInfoResultMsg.res;
+    public void onReceive(MuseumListTimeResultMsg museumListTimeResultMsg) throws JSONException {
+        String responseData = museumListTimeResultMsg.res;
         Log.d("hello",responseData);
         try {
             JSONObject jsonObject = new JSONObject(responseData);
@@ -124,7 +125,7 @@ public class TimeFragment extends Fragment {
         if(!EventBus.getDefault().isRegistered(this)){//加上判断
             EventBus.getDefault().register(this);
         }
-        requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),1);
+        requestHelper.getMuseumListTime(getActivity(), Objects.requireNonNull(""),1);
     }
 
     @Override
