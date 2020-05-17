@@ -78,7 +78,7 @@ public class ConmentFragment extends Fragment {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    @Subscribe(sticky = true)
     public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
         String responseData = museumInfoResultMsg.res;
         Log.d("hello",responseData);
@@ -98,7 +98,12 @@ public class ConmentFragment extends Fragment {
                 }
                 museumList.clear();
                 museumList.addAll(temp_list);
-                museumAdapter.notifyDataSetChanged();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        museumAdapter.notifyDataSetChanged();
+                    }
+                });
 
 
             }

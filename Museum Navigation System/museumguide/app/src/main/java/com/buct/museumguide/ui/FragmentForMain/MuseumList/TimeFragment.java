@@ -38,6 +38,7 @@ public class TimeFragment extends Fragment {
     public static final String TAG ="TimeFragment" ;
     private com.buct.museumguide.bean.Museum showMuseum;
     private RequestHelper requestHelper = new RequestHelper();
+    private MuseumAdapter museumAdapter;
     private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +51,7 @@ public class TimeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        MuseumAdapter museumAdapter = new MuseumAdapter(museumList);
+        museumAdapter = new MuseumAdapter(museumList);
         museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -71,7 +72,7 @@ public class TimeFragment extends Fragment {
 
         return view;
     }
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    @Subscribe(sticky = true)
     public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
         String responseData = museumInfoResultMsg.res;
         Log.d("hello",responseData);
@@ -89,9 +90,14 @@ public class TimeFragment extends Fragment {
                     temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
                 }
                 System.out.println(temp_list.size());
-                museumList = temp_list;
-
-
+                museumList.clear();
+                museumList.addAll(temp_list);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        museumAdapter.notifyDataSetChanged();
+                    }
+                });
             }
             else {
                 Log.d(TAG, "null");
