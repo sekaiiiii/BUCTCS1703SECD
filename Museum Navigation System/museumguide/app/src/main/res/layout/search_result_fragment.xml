@@ -1,38 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGreen"
     android:orientation="vertical"
     tools:context=".ui.FragmentForMain.Search.SearchResult">
 
-    <fragment
-        android:id="@+id/upFragment"
+    <!-- TODO: Update blank fragment layout -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+    <TextView
+        android:id="@+id/uoBase"
+        android:layout_width="20dp"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <Spinner
+        android:id="@+id/spinner_search_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_search_spinner"
+        android:entries="@array/searchChoice"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/uoBase"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        android:name="com.buct.museumguide.ui.FragmentForMain.Search.SearchUpPageFragment"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_weight="1" />
+    <EditText
+        android:id="@+id/search_editText"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:textSize="16dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/ic_edittext_search"
+        app:layout_constraintLeft_toRightOf="@id/spinner_search_choice"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/downLayout"
+    <ImageButton
+        android:id="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorGreen"
+        android:src="@mipmap/search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/search_editText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.365" />
+
+    <Button
+        android:id="@+id/cancel_search"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@color/colorGreen"
+        android:text="取消"
+        android:textColor="@color/colorLBrown"
+        app:layout_constraintLeft_toRightOf="@id/button_search"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:background="@color/colorLLBrown"
-        android:layout_weight="1">
-    </FrameLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_huoyan"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_gravity="center"
+                android:textSize="16dp"
+                android:text="热门搜索"/>
+        </LinearLayout>
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/downFragment"-->
-    <!--        android:name="com.buct.museumguide.ui.FragmentForMain.Search.SearchDownPageFragment"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_weight="1" />-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Button_hot1"
+                android:textColor="@color/colorBrown"
+                android:background="@drawable/button_hot_search"
+                android:layout_margin="2px"
+                android:text="国家博物馆"/>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Button_hot2"
+                android:textColor="@color/colorBrown"
+                android:background="@drawable/button_hot_search"
+                android:layout_margin="2px"
+                android:text="后母戊鼎"/>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Button_hot3"
+                android:textColor="@color/colorBrown"
+                android:background="@drawable/button_hot_search"
+                android:layout_margin="2px"
+                android:text="故宫博物院"/>
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Button_hot4"
+                android:textColor="@color/colorBrown"
+                android:background="@drawable/button_hot_search"
+                android:layout_margin="2px"
+
+                android:text="黄玉夔龙纹扁壶"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>

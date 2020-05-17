@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.Comment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +13,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.CommandRequest;
+import com.buct.museumguide.Service.CommentResultMsg;
 import com.buct.museumguide.Service.ResultMessage;
+import com.buct.museumguide.Service.StateBroadCast;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -31,6 +36,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserComment extends Fragment {
 
@@ -126,32 +132,60 @@ public class UserComment extends Fragment {
         RecyclerView recyclerView=root.findViewById(R.id.comment_recyclerview_commit);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        CommentAdapter commentAdapter=new CommentAdapter(CommentList);
+        for(PerComment perComment:CommentList){
+            Log.d("Exhibition",perComment.getId());
+        }
+        CommentAdapter commentAdapter=new CommentAdapter(CommentList,getContext());
         recyclerView.setAdapter(commentAdapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EventBus.getDefault()
-                .post(new
-                        CommandRequest
-                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+//        EventBus.getDefault()
+//                .post(new
+//                        CommandRequest
+//                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+
 //        mViewModel = ViewModelProviders.of(this).get(UserCommentViewModel.class);
         // TODO: Use the ViewModel
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Subscribe(sticky = true)
+    public void GetState(StateBroadCast msg) {
+        if (msg.state == 1) {
+            System.out.println("收到了服务已启动的通知");
+            EventBus.getDefault()
+                    .post(new
+                            CommandRequest
+                            ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault()
+                .post(new
+                        CommandRequest
+                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+    }
+
     @Subscribe
-    public void onRecieve(ResultMessage resultMessage){
-//            Log.d("Hello",resultMessage.res);
+    public void onRecieve(ResultMessage commentResultMsg){
+            Log.d("Hello",commentResultMsg.res);
             Gson gson=new Gson();
-            String responseData = resultMessage.res;
+            String responseData = commentResultMsg.res;
             JsonObject jsonObject = new JsonParser().parse(responseData).getAsJsonObject();
             JsonObject subJsonObject =jsonObject.getAsJsonObject("data");
             JsonArray subSubJsonObject =subJsonObject.getAsJsonArray("comment_list");
