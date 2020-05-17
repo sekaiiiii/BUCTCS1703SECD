@@ -11,6 +11,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,21 +29,27 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.Service.CollectionResultMsg;
 import com.buct.museumguide.Service.CommandRequest;
 import com.buct.museumguide.Service.CommentMsg;
 import com.buct.museumguide.Service.CommentResultMsg;
+import com.buct.museumguide.Service.EducationResultMsg;
 import com.buct.museumguide.Service.ExhibitionResultMsg;
 import com.buct.museumguide.Service.MuseumInfoMsg;
 import com.buct.museumguide.Service.MuseumInfoResultMsg;
+import com.buct.museumguide.Service.NewsResultMsg;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.Service.StateBroadCast;
 import com.buct.museumguide.Service.loginstatemessage;
+import com.buct.museumguide.bean.Collection;
 import com.buct.museumguide.bean.Comment;
+import com.buct.museumguide.bean.Education;
 import com.buct.museumguide.bean.Exhibition;
 import com.buct.museumguide.bean.LoginState;
 
 import com.buct.museumguide.bean.Museum;
 import com.buct.museumguide.bean.Museum_Info_Full;
+import com.buct.museumguide.bean.News;
 import com.buct.museumguide.util.RequestHelper;
 import com.google.gson.Gson;
 import com.youth.banner.Banner;
@@ -60,6 +67,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +88,8 @@ public class HomeFragment extends Fragment {
     private TextView introContent;
     private TextView visitContent;
     private TextView hometvComment;
-    private ArrayList<MuseumItem> bannerList = new ArrayList<>();
     private RequestHelper requestHelper = new RequestHelper();
+    private ArrayList<MuseumItem> bannerData = new ArrayList<>();
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -136,14 +144,6 @@ public class HomeFragment extends Fragment {
         museumName.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_museumList));
 
         homeBanner = root.findViewById(R.id.homeBanner);
-        homeBanner.setAdapter(new HomeBannerAdapter(getContext(), MuseumItem.getTestData()))
-                .setOnBannerListener((data, position) -> {
-                    MuseumItem mData = (MuseumItem) data;
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("showType", mData.viewType);
-                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_commonList, bundle);
-                })
-                .start();
         return root;
     }
 
@@ -160,11 +160,9 @@ public class HomeFragment extends Fragment {
                 showMuseum = new Museum(resMuseum);
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 editor.putInt("curMuseumId", showMuseum.getId()).apply();
-                if (!showMuseum.getName().equals("")) museumName.setText(showMuseum.getName());
-                if (!showMuseum.getIntroduction().equals(""))
-                    introContent.setText(showMuseum.getIntroduction());
-                if (!showMuseum.getAttention().equals("") || !showMuseum.getTime().equals(""))
-                    visitContent.setText(showMuseum.getTime() + showMuseum.getAttention());
+                museumName.setText(showMuseum.getName().equals("")?"这里还没有内容":showMuseum.getName());
+                introContent.setText(showMuseum.getIntroduction().equals("")?"这里还没有内容":showMuseum.getIntroduction());
+                visitContent.setText((showMuseum.getTime() + showMuseum.getAttention()).equals("")?"这里还没有内容":showMuseum.getTime()+showMuseum.getAttention());
             } else {
                 Log.d(HomeFragment.TAG, "null");
             }
@@ -174,6 +172,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onReceiveExhibition(ExhibitionResultMsg exhibitionResultMsg) {
         String responseData = exhibitionResultMsg.res;
@@ -183,15 +182,113 @@ public class HomeFragment extends Fragment {
             String state = String.valueOf(jsonObject.get("status"));
             if (state.equals("1")) {
                 JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("exhibition_list")));
-                Exhibition firstExhi = new Exhibition(jsonArray.getJSONObject(0));
-                if (!firstExhi.getName().equals("")){
-                    // ....（还没写完）
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(1, null, null, null,null, null));
                 }
+                else {
+                    Exhibition firstExhi = new Exhibition(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(1, firstExhi, null, null, null, null));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "null");
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveCollection(CollectionResultMsg collectionResultMsg) {
+        String responseData = collectionResultMsg.res;
+        Log.d(TAG, "onReceiveCollection: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("collection_list")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(2, null, null,null,null,null));
+                }
+                else if(jsonArray.length()== 1){
+                    Collection firstColl = new Collection(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(2, null, firstColl, null,null,null));
+                }
+                else if(jsonArray.length() > 1) {
+                    Collection firstColl = new Collection(jsonArray.getJSONObject(0));
+                    Collection secondColl = new Collection(jsonArray.getJSONObject(1));
+                    bannerData.add(new MuseumItem(2, null, firstColl, secondColl, null, null));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveNews(NewsResultMsg newsResultMsg) {
+        String responseData = newsResultMsg.res;
+        Log.d(TAG, "onReceiveNews: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("data")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(3, null, null,null,null,null));
+                }
+                else {
+                    News firstNews = new News(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(3, null, null, null,firstNews,null));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveEducation(EducationResultMsg educationResultMsg) {
+        String responseData = educationResultMsg.res;
+        Log.d(TAG, "onReceiveEducation: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("education_activity_list")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(4, null, null,null,null,null));
+                }
+                else {
+                    Education firstEdu = new Education(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(4, null, null, null, null,firstEdu));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -205,6 +302,11 @@ public class HomeFragment extends Fragment {
             String state = String.valueOf(jsonObject.get("status"));
             if (state.equals("1")) {
                 JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("comment_list")));
+                if(jsonArray.length() == 0 ) {
+                    hometvComment.setText("这里还没有评价");
+                    hometvComment.setGravity(Gravity.CENTER);
+                    return;
+                }
                 Comment firstComment = new Comment(jsonArray.getJSONObject(0));
                 if (!firstComment.getContent().equals(""))
                     hometvComment.setText(firstComment.getContent());
@@ -234,8 +336,9 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
+        bannerData = new ArrayList<>();
         requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
-        requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",3), "");
+        requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",200), "");
         requestHelper.getCollection(getActivity(), Infos.getInt("curMuseumId",3), "");
         requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "");
         requestHelper.getEducation(getActivity(), Infos.getInt("curMuseumId",3), "");
@@ -276,6 +379,7 @@ public class HomeFragment extends Fragment {
     public void GetState(StateBroadCast msg) {
         if (msg.state == 1) {
             System.out.println("收到了服务已启动的通知");
+            bannerData = new ArrayList<>();
             requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
             requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",3), "");
             requestHelper.getCollection(getActivity(), Infos.getInt("curMuseumId",3), "");
@@ -316,5 +420,27 @@ public class HomeFragment extends Fragment {
             builder.create().show();// 使用show()方法显示对话框
             Looper.loop();
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void reOrderBannerList() {
+        java.util.Collections.sort(bannerData, new Comparator<MuseumItem>() {
+            @Override
+            public int compare(MuseumItem o1, MuseumItem o2) {
+                if(o1.viewType > o2.viewType)
+                    return 1;
+                if(o1.viewType == o2.viewType)
+                    return 0;
+                return -1;
+            }
+        });
+        homeBanner.setAdapter(new HomeBannerAdapter(getContext(), bannerData))
+                .setOnBannerListener((data, position) -> {
+                    MuseumItem mData = (MuseumItem) data;
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("showType", mData.viewType);
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_home_to_commonList, bundle);
+                })
+                .start();
     }
 }

@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.map;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -8,20 +9,26 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
+import com.buct.museumguide.util.FileHelper;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -44,7 +51,14 @@ public class MapGuide extends AppCompatActivity {
     MapView mMapView = null;
     ArrayList<MuseumMapInfo>mapinfo=new ArrayList<>();
     ArrayList<Marker>markers=new ArrayList<>();mapinfomation map;
+    ArrayList<MarkerOptions>markers1=new ArrayList<>();
     private String markerid="";
+    protected View getMyView(String name) {
+        View view=getLayoutInflater().inflate(R.layout.mapmarker, null);
+        TextView tv_val=(TextView) view.findViewById(R.id.tv_endphone);
+        tv_val.setText(name);
+        return view;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
@@ -54,7 +68,7 @@ public class MapGuide extends AppCompatActivity {
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         //handler要提前声明
         mMapView.onCreate(savedInstanceState);
-       final AMap aMap = mMapView.getMap();
+        final AMap aMap = mMapView.getMap();
         OkHttpClient client= WebHelper.getInstance().client;
         Request request=new Request.Builder().url("http://192.144.239.176:8080/api/android/get_position")
                 .addHeader("Content-Type", "application/json; charset=utf-8").build();
@@ -70,13 +84,16 @@ public class MapGuide extends AppCompatActivity {
                 Gson gson = new Gson();
                 map=gson.fromJson(res,mapinfomation.class);
                 runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void run() {
                         for(int i=0;i<map.getDatas().getList().size();i++){
                             Double Latitude=Double.valueOf(map.getDatas().getList().get(i).getLatitude());
                             Double logitude=Double.valueOf(map.getDatas().getList().get(i).getLongitude());
                             String name=map.getDatas().getList().get(i).getName();
-                            markers.add(aMap.addMarker(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name)));
+                            markers.add(aMap.addMarker(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name)
+                            .icon(BitmapDescriptorFactory.fromView(getMyView(name)))));
+                            //markers1.add(new MarkerOptions().position(new LatLng(Latitude,logitude)).title(name));
                         }
                     }
                 });
@@ -87,22 +104,10 @@ public class MapGuide extends AppCompatActivity {
             // 返回 true 则表示接口已响应事件，否则返回false
             @Override
             public boolean onMarkerClick(Marker marker) {
-                /**/
-
-                if(marker.getId().equals(markerid)){
-                    count++;
-                }else{
-                    markerid=marker.getId();
-                    count=0;count++;
-                }
                 System.out.println(marker.getId().equals(markerid)+" "+count);
-                if(count%2==1){
-                    marker.showInfoWindow();
-                }else{
                     Intent intent=new Intent(MapGuide.this, MainActivity.class);
                     intent.putExtra("info",marker.getTitle());
                     startActivity(intent);
-                }
                 return true;
             }
         };

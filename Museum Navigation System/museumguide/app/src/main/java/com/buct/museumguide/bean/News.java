@@ -146,4 +146,14 @@ public class News {
 //        }
         return list;
     }
+    public static News getOneTestData() {
+        return new News(1, 1 + "溧阳看馆藏|元代梵文准提咒镜",
+                "地方焦点",
+                "2020-04-22 20:31:44",
+                "1",
+                "今天为大家带来溧阳馆藏第三十二期——元代梵文准提咒镜。铜镜直径8.2厘米,边厚0.3厘米。银锭形钮,主体纹饰为环绕镜钮两圈的梵文铭文圈,内圈为十六字梵...",
+                "https://baijiahao.baidu.com/s?id=1664675906753328795&wfr=spider&for=pc",
+                1,
+                "https://pics0.baidu.com/feed/3b87e950352ac65c7cebdefe202d3e1791138ab3.jpeg?token=98e84382460deb40d2ff61047ae33aca");
+    }
 }

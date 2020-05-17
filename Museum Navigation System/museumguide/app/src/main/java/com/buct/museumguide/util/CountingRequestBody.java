@@ -1,7 +1,5 @@
 package com.buct.museumguide.util;
 
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.ProgressListener;
 
 import java.io.IOException;
 

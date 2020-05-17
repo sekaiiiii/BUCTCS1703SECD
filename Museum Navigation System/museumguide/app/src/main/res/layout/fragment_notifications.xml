@@ -15,7 +15,7 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
-        android:drawableLeft="@drawable/ic_user"
+        android:drawableLeft="@drawable/ic_user1"
         android:drawableRight="@drawable/ic_next"
 
         android:text="更改个人信息"
