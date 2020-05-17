@@ -13,14 +13,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="50dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.sidebar.WaveSideBarView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/museum_default_sidebar"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="50dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

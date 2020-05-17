@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class MuseumList extends Fragment {
         });
         tabLayout = (TabLayout) view.findViewById(R.id.museumList_tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("默认排序"));
-        tabLayout.addTab(tabLayout.newTab().setText("浏览次数"));
+        tabLayout.addTab(tabLayout.newTab().setText("展览数量"));
         tabLayout.addTab(tabLayout.newTab().setText("藏品数量"));
         tabLayout.addTab(tabLayout.newTab().setText("用户评价"));
         List<Fragment> fragments=new ArrayList<Fragment>();
@@ -78,5 +79,29 @@ public class MuseumList extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        Log.d("MuseumList", "onStart: ");
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d("MuseumList", "onStop: ");
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("MuseumList", "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("MuseumList", "onPause: ");
+        super.onPause();
     }
 }

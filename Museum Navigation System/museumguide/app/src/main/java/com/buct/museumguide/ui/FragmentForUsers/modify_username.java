@@ -4,6 +4,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.buct.museumguide.R;
 public class modify_username extends Fragment {
 
     private ModifyUsernameViewModel mViewModel;
+    private SharedPreferences infos;
     public static final String TAG="Modify_Username";
     public static modify_username newInstance() {
         return new modify_username();
@@ -31,12 +34,14 @@ public class modify_username extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.modify_username_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         mViewModel=new ViewModelProvider(this).get(ModifyUsernameViewModel.class);
         Button button_OK=getView().findViewById(R.id.bt_define_modify_username);
         Button button_back=getView().findViewById(R.id.bt_backup);
@@ -61,6 +66,7 @@ public class modify_username extends Fragment {
                                 Toast.makeText(getActivity(),"用户名修改失败",Toast.LENGTH_SHORT).show();
                             else{
                                 Toast.makeText(getActivity(),"用户名修改成功",Toast.LENGTH_SHORT).show();
+                                infos.edit().putString("user",new_name).apply();
                                 Navigation.findNavController(view).popBackStack();
                             }
                         }
