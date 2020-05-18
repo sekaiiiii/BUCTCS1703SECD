@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,9 @@ public class MapGuide extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         setContentView(R.layout.activity_map_guide);
         mMapView = (MapView) findViewById(R.id.map);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
@@ -132,6 +136,14 @@ public class MapGuide extends AppCompatActivity {
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mMapView.onPause();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("地图销毁");
+        mMapView.onDestroy();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

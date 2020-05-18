@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
                 introContent.setText(showMuseum.getIntroduction().equals("")?"这里还没有内容":showMuseum.getIntroduction());
                 visitContent.setText((showMuseum.getTime() + showMuseum.getAttention()).equals("")?"这里还没有内容":showMuseum.getTime()+showMuseum.getAttention());
             } else {
-                Log.d(HomeFragment.TAG, "null");
+                Log.d(HomeFragment.TAG, "museumInfor null");
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -192,68 +192,7 @@ public class HomeFragment extends Fragment {
                 if(bannerData.size() == 4)
                     reOrderBannerList();
             } else {
-                Log.d(HomeFragment.TAG, "null");
-            }
-        } catch (JSONException e) {
-            Log.e(HomeFragment.TAG, "onResponse: ", e);
-            e.printStackTrace();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onReceiveCollection(CollectionResultMsg collectionResultMsg) {
-        String responseData = collectionResultMsg.res;
-        Log.d(TAG, "onReceiveCollection: " + responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            if (state.equals("1")) {
-                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("collection_list")));
-                if(jsonArray.length()==0) {
-                    bannerData.add(new MuseumItem(2, null, null,null,null,null));
-                }
-                else if(jsonArray.length()== 1){
-                    Collection firstColl = new Collection(jsonArray.getJSONObject(0));
-                    bannerData.add(new MuseumItem(2, null, firstColl, null,null,null));
-                }
-                else if(jsonArray.length() > 1) {
-                    Collection firstColl = new Collection(jsonArray.getJSONObject(0));
-                    Collection secondColl = new Collection(jsonArray.getJSONObject(1));
-                    bannerData.add(new MuseumItem(2, null, firstColl, secondColl, null, null));
-                }
-                if(bannerData.size() == 4)
-                    reOrderBannerList();
-            } else {
-                Log.d(HomeFragment.TAG, "null");
-            }
-        } catch (JSONException e) {
-            Log.e(HomeFragment.TAG, "onResponse: ", e);
-            e.printStackTrace();
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onReceiveNews(NewsResultMsg newsResultMsg) {
-        String responseData = newsResultMsg.res;
-        Log.d(TAG, "onReceiveNews: " + responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            if (state.equals("1")) {
-                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("data")));
-                if(jsonArray.length()==0) {
-                    bannerData.add(new MuseumItem(3, null, null,null,null,null));
-                }
-                else {
-                    News firstNews = new News(jsonArray.getJSONObject(0));
-                    bannerData.add(new MuseumItem(3, null, null, null,firstNews,null));
-                }
-                if(bannerData.size() == 4)
-                    reOrderBannerList();
-            } else {
-                Log.d(HomeFragment.TAG, "null");
+                Log.d(HomeFragment.TAG, "Exhibition null");
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -284,6 +223,99 @@ public class HomeFragment extends Fragment {
                     reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveCollection(CollectionResultMsg collectionResultMsg) {
+        String responseData = collectionResultMsg.res;
+        Log.d(TAG, "onReceiveCollection: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("collection_list")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(2, null, null,null,null,null));
+                }
+                else if(jsonArray.length()== 1){
+                    Collection firstColl = new Collection(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(2, null, firstColl, null,null,null));
+                }
+                else if(jsonArray.length() > 1) {
+                    Collection firstColl = new Collection(jsonArray.getJSONObject(0));
+                    Collection secondColl = new Collection(jsonArray.getJSONObject(1));
+                    bannerData.add(new MuseumItem(2, null, firstColl, secondColl, null, null));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "Collection null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveNews(NewsResultMsg newsResultMsg) {
+        String responseData = newsResultMsg.res;
+        Log.d(TAG, "onReceiveNews: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("data")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(3, null, null,null,null,null));
+                }
+                else {
+                    News firstNews = new News(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(3, null, null, null,firstNews,null));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "News null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveEducation(EducationResultMsg educationResultMsg) {
+        String responseData = educationResultMsg.res;
+        Log.d(TAG, "onReceiveEducation: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("education_activity_list")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(4, null, null,null,null,null));
+                }
+                else {
+                    Education firstEdu = new Education(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(4, null, null, null, null,firstEdu));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "Education null");
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -378,7 +410,7 @@ public class HomeFragment extends Fragment {
     @Subscribe(sticky = true)
     public void GetState(StateBroadCast msg) {
         if (msg.state == 1) {
-            System.out.println("收到了服务已启动的通知");
+            Log.d(TAG, "GetState: 收到了服务已启动的通知");
             bannerData = new ArrayList<>();
             requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
             requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",3), "");
@@ -386,11 +418,6 @@ public class HomeFragment extends Fragment {
             requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "");
             requestHelper.getEducation(getActivity(), Infos.getInt("curMuseumId",3), "");
             requestHelper.getComment(getActivity(), Infos.getInt("curMuseumId",3));
-        } else {
-            EventBus.getDefault()
-                    .post(new
-                            CommandRequest
-                            ("http://192.144.239.176:8080/api/android/get_museum_info"));
         }
     }
 
