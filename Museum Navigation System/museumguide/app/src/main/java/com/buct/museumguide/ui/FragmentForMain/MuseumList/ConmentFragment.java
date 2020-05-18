@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.MuseumInfoResultMsg;
+import com.buct.museumguide.Service.MuseumListCommentResultMsg;
 import com.buct.museumguide.util.RequestHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,7 +38,7 @@ public class ConmentFragment extends Fragment {
     private RequestHelper requestHelper = new RequestHelper();
     private com.buct.museumguide.bean.Museum showMuseum;
     private MuseumAdapter museumAdapter;
-    private String TAG = "ConmentFragment";
+    private String TAG = "CommentFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ConmentFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-         museumAdapter = new MuseumAdapter(museumList);
+        museumAdapter = new MuseumAdapter(museumList);
         museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -78,9 +79,9 @@ public class ConmentFragment extends Fragment {
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
-        String responseData = museumInfoResultMsg.res;
+    @Subscribe(sticky = true)
+    public void onReceive(MuseumListCommentResultMsg museumListCommentResultMsg) throws JSONException {
+        String responseData = museumListCommentResultMsg.res;
         Log.d("hello",responseData);
         try {
             JSONObject jsonObject = new JSONObject(responseData);
@@ -98,7 +99,12 @@ public class ConmentFragment extends Fragment {
                 }
                 museumList.clear();
                 museumList.addAll(temp_list);
-                museumAdapter.notifyDataSetChanged();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        museumAdapter.notifyDataSetChanged();
+                    }
+                });
 
 
             }
@@ -122,7 +128,7 @@ public class ConmentFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),3);
+        requestHelper.getMuseumListComment(getActivity(), Objects.requireNonNull(""),3);
     }
 
     @Override

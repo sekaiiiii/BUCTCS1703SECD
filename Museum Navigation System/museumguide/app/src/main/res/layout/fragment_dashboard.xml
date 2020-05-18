@@ -6,13 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".ui.News.DashboardFragment">
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGreen"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <SearchView
+            android:id="@+id/searchNews"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_margin="15dp"
+            android:background="@color/colorWhite" />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerrView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/colorLBrown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--android:id="@+id/swipeRefreshLayout"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="0dp"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/linearLayout2">-->
+<!--<androidx.recyclerview.widget.RecyclerView-->
+<!--    android:id="@+id/recyclerrView"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@color/colorLBrown"/>-->
+<!--</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->

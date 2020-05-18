@@ -120,8 +120,11 @@
         android:id="@+id/searchResult"
         android:name="com.buct.museumguide.ui.FragmentForMain.Search.SearchResult"
         android:label="search_result_fragment"
-        tools:layout="@layout/search_result_fragment"
-        />
+        tools:layout="@layout/search_result_fragment" >
+        <action
+            android:id="@+id/action_searchResult_to_searchResultShow"
+            app:destination="@id/searchResultShow" />
+    </fragment>
     <fragment
         android:id="@+id/feedBack"
         android:name="com.buct.museumguide.ui.FragmentForUsers.FeedBack"
@@ -294,5 +297,19 @@
         android:name="com.buct.museumguide.ui.FragmentForUsers.Setting"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/searchResultShow"
+        android:name="com.buct.museumguide.ui.FragmentForMain.Search.SearchResultShow"
+        android:label="search_result_show"
+        tools:layout="@layout/search_result_show" >
+        <action
+            android:id="@+id/action_searchResultShow_to_test"
+            app:destination="@id/test" />
+    </fragment>
+    <fragment
+        android:id="@+id/test"
+        android:name="com.buct.museumguide.ui.FragmentForMain.Search.Test"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>
 

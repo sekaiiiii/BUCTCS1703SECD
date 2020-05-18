@@ -70,4 +70,11 @@ public class Collection {
         this.image_list = object.getJSONArray("image_list");
         this.img_url = "http://img.m.focus.cn/q_70/app/48/4878fa2bfd5a1a93186c7aefd37b01e4.jpg";
     }
+    public Collection() {
+        this.name = "藏品1";
+        this.img_url = "http://img.m.focus.cn/q_70/app/48/4878fa2bfd5a1a93186c7aefd37b01e4.jpg";
+    }
+    public static Collection getTestData() {
+        return new Collection();
+    }
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewSMuseums"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <LinearLayout
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/search_museum_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/search_museum_service"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/search_museum_environment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/search_museum_exhibition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/search_museum_close_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/search_museum_open_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/search_museum_longitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/search_museum_latitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/search_museum_iamge"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/ic_search_exhibition" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

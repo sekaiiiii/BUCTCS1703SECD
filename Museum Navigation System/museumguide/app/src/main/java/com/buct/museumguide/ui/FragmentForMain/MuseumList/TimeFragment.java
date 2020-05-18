@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.CommandRequest;
 import com.buct.museumguide.Service.MuseumInfoResultMsg;
+import com.buct.museumguide.Service.MuseumListTimeResultMsg;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.util.RequestHelper;
 
@@ -38,6 +39,7 @@ public class TimeFragment extends Fragment {
     public static final String TAG ="TimeFragment" ;
     private com.buct.museumguide.bean.Museum showMuseum;
     private RequestHelper requestHelper = new RequestHelper();
+    private MuseumAdapter museumAdapter;
     private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +52,7 @@ public class TimeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        MuseumAdapter museumAdapter = new MuseumAdapter(museumList);
+        museumAdapter = new MuseumAdapter(museumList);
         museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -71,9 +73,9 @@ public class TimeFragment extends Fragment {
 
         return view;
     }
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
-        String responseData = museumInfoResultMsg.res;
+    @Subscribe(sticky = true)
+    public void onReceive(MuseumListTimeResultMsg museumListTimeResultMsg) throws JSONException {
+        String responseData = museumListTimeResultMsg.res;
         Log.d("hello",responseData);
         try {
             JSONObject jsonObject = new JSONObject(responseData);
@@ -89,9 +91,14 @@ public class TimeFragment extends Fragment {
                     temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
                 }
                 System.out.println(temp_list.size());
-                museumList = temp_list;
-
-
+                museumList.clear();
+                museumList.addAll(temp_list);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        museumAdapter.notifyDataSetChanged();
+                    }
+                });
             }
             else {
                 Log.d(TAG, "null");
@@ -118,7 +125,7 @@ public class TimeFragment extends Fragment {
         if(!EventBus.getDefault().isRegistered(this)){//加上判断
             EventBus.getDefault().register(this);
         }
-        requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),1);
+        requestHelper.getMuseumListTime(getActivity(), Objects.requireNonNull(""),1);
     }
 
     @Override
@@ -134,7 +141,6 @@ public class TimeFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 
     @Override

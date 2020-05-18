@@ -53,7 +53,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewIntro"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -86,7 +86,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewVisit"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:focusable="true"
