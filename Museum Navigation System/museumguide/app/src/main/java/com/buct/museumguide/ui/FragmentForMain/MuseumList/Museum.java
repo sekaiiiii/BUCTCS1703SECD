@@ -5,20 +5,30 @@ public class Museum {
     private String name;
     private String level;
     private String number;
-    private String test;
+    private String letters; //名字首字母
+    public Museum(){
+
+    }
     public Museum(int imageId, String name , String level, String number){
         this.imageId = imageId;
         this.name = name;
         this.level = level;
         this.number = number;
     }
-
-    public String getTest() {
-        return test;
+    public Museum(int imageId, String name , String level, String number,String letters){
+        this.imageId = imageId;
+        this.name = name;
+        this.level = level;
+        this.number = number;
+        this.letters = letters;
     }
 
-    public void setTest(String test) {
-        this.test = test;
+    public String getLetters() {
+        return letters;
+    }
+
+    public void setLetters(String letters) {
+        this.letters = letters;
     }
 
     public String getLevel() {

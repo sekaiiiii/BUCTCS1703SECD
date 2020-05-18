@@ -97,4 +97,24 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
         return museum.getName();
     }
 
+    public void updata(List<Museum> list){
+        this.mMuseumList = list;
+        notifyDataSetChanged();
+    }
+
+    //根据recylerview 当前位置获取分类的首字母的char ascii码
+    public int getSectionForPosition(int position) {
+        return mMuseumList.get(position).getLetters().charAt(0);
+    }
+
+    public int getPositionForSection(int section) {
+        for(int i=0; i<getItemCount(); i++){
+            String str = mMuseumList.get(i).getLetters();
+            char firstChar = str.toUpperCase().charAt(0);
+            if(firstChar == section) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
