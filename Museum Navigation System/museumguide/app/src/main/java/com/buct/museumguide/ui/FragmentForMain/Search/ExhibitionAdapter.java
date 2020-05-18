@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.Search;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ExhibitionAdapter extends RecyclerView.Adapter<ExhibitionAdapter.ViewHolder> {
 
     private List<Exhibition> mExhibitionList;
+
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView name;

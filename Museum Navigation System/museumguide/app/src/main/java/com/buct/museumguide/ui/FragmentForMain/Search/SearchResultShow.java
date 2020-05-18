@@ -55,7 +55,6 @@ public class SearchResultShow extends Fragment {
 
     private ImageButton back;
     private TextView textView;
-
     private String content;
     private String type;
     private SearchResultShowViewModel searchResultShowViewModel;
@@ -82,14 +81,14 @@ public class SearchResultShow extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+
 
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+
 
     }
 
@@ -108,11 +107,11 @@ public class SearchResultShow extends Fragment {
             }
         });
 
-
+        type="NO";
         Bundle bundle=getArguments();
         content=bundle.getString("content");
         type=bundle.getString("type");
-
+        Log.d("getContent",content);
         textView.setText(type);
         searchResultShowViewModel=
                 ViewModelProviders.of(this).get(SearchResultShowViewModel.class);
@@ -124,98 +123,89 @@ public class SearchResultShow extends Fragment {
 
 
         if(type.equals("展览")){
-//            if(exhibitionList.size()==0) {
-//                noList.add("first");
-//                noInfoAdapter=new NoInfoAdapter(noList);
-//                recyclerView.setAdapter(noInfoAdapter);
-//            }
-//            else
-//            {
-                exhibitionAdapter =new ExhibitionAdapter(exhibitionList);
-                recyclerView.setAdapter(exhibitionAdapter);
-//            }
+                parseJSONWithJSONObject_exhibition(content);
+                    if(exhibitionList.size()==0) {
+                        noList.add("first");
+                        noInfoAdapter=new NoInfoAdapter(noList);
+                        recyclerView.setAdapter(noInfoAdapter);
+                    }
+                    else
+                    {
+                        exhibitionAdapter =new ExhibitionAdapter(exhibitionList);
+                        recyclerView.setAdapter(exhibitionAdapter);
+                    }
+            Log.d("getContent",String.valueOf(exhibitionList.size()));
+
         }
         else if(type.equals("教育活动")){
-//            if(educationList.size()==0) {
-//                noList.add("first");
-//                noInfoAdapter=new NoInfoAdapter(noList);
-//                recyclerView.setAdapter(noInfoAdapter);
-//            }
-//            else{
+            parseJSONWithJSONObject_education(content);
+            if(educationList.size()==0) {
+                noList.add("first");
+                noInfoAdapter=new NoInfoAdapter(noList);
+                recyclerView.setAdapter(noInfoAdapter);
+            }
+            else{
                 educationAdapter =new EducationAdapter(educationList);
                 recyclerView.setAdapter(educationAdapter);
-//            }
+            }
+            Log.d("getContent",String.valueOf(educationList.size()));
+
         }
         else if(type.equals("藏品")){
-//            if(collectionList.size()==0) {
-//                noList.add("first");
-//                noInfoAdapter=new NoInfoAdapter(noList);
-//                recyclerView.setAdapter(noInfoAdapter);
-//            }
-//            else{
+            parseJSONWithJSONObject_collection(content);
+            if(collectionList.size()==0) {
+                noList.add("first");
+                noInfoAdapter=new NoInfoAdapter(noList);
+                recyclerView.setAdapter(noInfoAdapter);
+            }
+            else{
                 collectionAdapter= new CollectionAdapter(collectionList);
                 recyclerView.setAdapter(collectionAdapter);
-//            }
+            }
+            Log.d("getContent",String.valueOf(collectionList.size()));
         }
         else if(type.equals("博物馆")){
-//            if(museumList.size()==0) {
-//                noList.add("first");
-//                noInfoAdapter=new NoInfoAdapter(noList);
-//                recyclerView.setAdapter(noInfoAdapter);
-//            }
-//            else{
+            parseJSONWithJSONObject_museum(content);
+            if(museumList.size()==0) {
+                noList.add("first");
+                noInfoAdapter=new NoInfoAdapter(noList);
+                recyclerView.setAdapter(noInfoAdapter);
+            }
+            else{
                 museumSAdapter=new MuseumSAdapter(museumList);
                 recyclerView.setAdapter(museumSAdapter);
-//            }
+            }
+            Log.d("getContent",String.valueOf(museumList.size()));
         }
         else if(type.equals("新闻")){
-//            if(newsList.size()==0) {
-//                noList.add("first");
-//                noInfoAdapter=new NoInfoAdapter(noList);
-//                recyclerView.setAdapter(noInfoAdapter);
-//            }else{
+            parseJSONWithJSONObject_news(content);
+            if(newsList.size()==0) {
+                noList.add("first");
+                noInfoAdapter=new NoInfoAdapter(noList);
+                recyclerView.setAdapter(noInfoAdapter);
+            }else{
                 newsSAdapter=new NewsSAdapter(getContext(),newsList);
                 recyclerView.setAdapter(newsSAdapter);
-//            }
+            }
+            Log.d("getContent",String.valueOf(newsList.size()));
         }
-
         return view;
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-//    @Subscribe(sticky = true)
-//    public void GetState(StateBroadCast msg) {
-//        if (msg.state == 1) {
-//            System.out.println("收到了服务已启动的通知");
-//            requestHelper.getNews(Objects.requireNonNull(getActivity()), -1, "");
-//        } else {
-//            EventBus.getDefault()
-//                    .post(new
-//                            CommandRequest
-//                            ("http://192.144.239.176:8080/api/android/get_new_info"));
-//        }
-//    }
 
     //接收展览
-    @Subscribe(sticky = true)
-    public void recieveExhibition(ExhibitionResultMsg exhibitionResultMsg){
-        String responseData = exhibitionResultMsg.res;
-        Log.d("Exhibition", responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            parseJSONWithJSONObject_exhibition(String.valueOf(jsonObject.getJSONObject("data").get("exhibition_list")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseJSONWithJSONObject_exhibition(String jsonData) throws JSONException {
+
+    private void parseJSONWithJSONObject_exhibition(String jsonData)  {
         try {
             Log.d("Exhibition", "onReceiveNews: " + jsonData);
-            JSONArray jsonArray = new JSONArray(jsonData);
+            JSONObject jsonObject1 = new JSONObject(jsonData);
+            String state = String.valueOf(jsonObject1.get("status"));
+            String s=String.valueOf(jsonObject1.getJSONObject("data").get("exhibition_list"));
+            JSONArray jsonArray = new JSONArray(s);
             for(int i=0;i<jsonArray.length();++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 exhibitionList.add(new Exhibition(jsonObject));
+
 //                for(Exhibition exhibition:exhibitionList){
 //                    Log.d("Exhibition",exhibition.getName());
 //                }
@@ -227,25 +217,18 @@ public class SearchResultShow extends Fragment {
     }
 
     //接收教育活动
-    @Subscribe(sticky = true)
-    public void recieveEducation(EducationResultMsg educationResulttMsg){
-        String responseData = educationResulttMsg.res;
-        Log.d("Exhibition", responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            parseJSONWithJSONObject_education(String.valueOf(jsonObject.getJSONObject("data").get("education_activity_list")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseJSONWithJSONObject_education(String jsonData) throws JSONException {
+
+    private void parseJSONWithJSONObject_education(String jsonData) {
         try {
             Log.d("Exhibition", "onReceiveNews: " + jsonData);
-            JSONArray jsonArray = new JSONArray(jsonData);
+            JSONObject jsonObject1 = new JSONObject(jsonData);
+            String state = String.valueOf(jsonObject1.get("status"));
+            String s=String.valueOf(jsonObject1.getJSONObject("data").get("education_activity_list"));
+            JSONArray jsonArray = new JSONArray(s);
             for(int i=0;i<jsonArray.length();++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 educationList.add(new Education(jsonObject));
+
 //                for(Exhibition exhibition:exhibitionList){
 //                    Log.d("Exhibition",exhibition.getName());
 //                }
@@ -256,26 +239,19 @@ public class SearchResultShow extends Fragment {
         }
     }
 
-    //接收藏品
-    @Subscribe(sticky = true)
-    public void recieveCollection(CollectionResultMsg collectionResultMsg){
-        String responseData =collectionResultMsg.res;
-        Log.d("Exhibition", responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            parseJSONWithJSONObject_collection(String.valueOf(jsonObject.getJSONObject("data").get("collection_list")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseJSONWithJSONObject_collection(String jsonData) throws JSONException {
+
+    private void parseJSONWithJSONObject_collection(String jsonData) {
         try {
             Log.d("Exhibition", "onReceiveNews: " + jsonData);
-            JSONArray jsonArray = new JSONArray(jsonData);
+            //            JSONObject jsonObject = new JSONObject(responseData);
+            JSONObject jsonObject1 = new JSONObject(jsonData);
+            String state = String.valueOf(jsonObject1.get("status"));
+            String s=String.valueOf(jsonObject1.getJSONObject("data").get("collection_list"));
+            JSONArray jsonArray = new JSONArray(s);
             for(int i=0;i<jsonArray.length();++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 collectionList.add(new Collection(jsonObject));
+
 //                for(Exhibition exhibition:exhibitionList){
 //                    Log.d("Exhibition",exhibition.getName());
 //                }
@@ -287,25 +263,18 @@ public class SearchResultShow extends Fragment {
     }
 
     //接博物馆
-    @Subscribe(sticky = true)
-    public void recievemuseum(MuseumInfoResultMsg museumInfoResultMsg){
-        String responseData = museumInfoResultMsg.res;
-        Log.d("Exhibition", responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            parseJSONWithJSONObject_museum(String.valueOf(jsonObject.getJSONObject("data").get("museum_list")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseJSONWithJSONObject_museum(String jsonData) throws JSONException {
+
+    private void parseJSONWithJSONObject_museum(String jsonData) {
         try {
             Log.d("Exhibition", "onReceiveNews: " + jsonData);
-            JSONArray jsonArray = new JSONArray(jsonData);
+            JSONObject jsonObject1 = new JSONObject(jsonData);
+            String state = String.valueOf(jsonObject1.get("status"));
+            String s=String.valueOf(jsonObject1.getJSONObject("data").get("museum_list"));
+            JSONArray jsonArray = new JSONArray(s);
             for(int i=0;i<jsonArray.length();++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 museumList.add(new Museum(jsonObject));
+
 //                for(Exhibition exhibition:exhibitionList){
 //                    Log.d("Exhibition",exhibition.getName());
 //                }
@@ -317,25 +286,18 @@ public class SearchResultShow extends Fragment {
     }
 
     //接新闻
-    @Subscribe(sticky = true)
-    public void recievenews(NewsResultMsg newsResultMsg){
-        String responseData = newsResultMsg.res;
-        Log.d("Exhibition", responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            parseJSONWithJSONObject_news(String.valueOf(jsonObject.getJSONObject("data").get("data")));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-    private void parseJSONWithJSONObject_news(String jsonData) throws JSONException {
+
+    private void parseJSONWithJSONObject_news(String jsonData) {
         try {
             Log.d("Exhibition", "onReceiveNews: " + jsonData);
-            JSONArray jsonArray = new JSONArray(jsonData);
+            JSONObject jsonObject1 = new JSONObject(jsonData);
+            String state = String.valueOf(jsonObject1.get("status"));
+            String s=String.valueOf(jsonObject1.getJSONObject("data").get("data"));
+            JSONArray jsonArray = new JSONArray(s);
             for(int i=0;i<jsonArray.length();++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 newsList.add(new News(jsonObject));
+
 //                for(Exhibition exhibition:exhibitionList){
 //                    Log.d("Exhibition",exhibition.getName());
 //                }

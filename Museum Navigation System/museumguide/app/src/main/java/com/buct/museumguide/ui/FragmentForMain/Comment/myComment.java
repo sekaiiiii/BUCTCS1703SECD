@@ -1,5 +1,7 @@
 package com.buct.museumguide.ui.FragmentForMain.Comment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -33,7 +36,7 @@ import okhttp3.Response;
 public class myComment extends Fragment {
 
     private MyCommentViewModel mViewModel;
-
+    private SharedPreferences info;
     public static myComment newInstance() {
         return new myComment();
     }
@@ -61,6 +64,7 @@ public class myComment extends Fragment {
                 Navigation.findNavController(view).popBackStack();
             }
         });
+        info = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         //评星
         rating1=view.findViewById(R.id.Rating1);
         rating2=view.findViewById(R.id.Rating2);
@@ -99,7 +103,6 @@ public class myComment extends Fragment {
         EditText edtMsg = (EditText)view.findViewById(R.id.submit_commit);
         edtMsg.setScrollbarFadingEnabled(false);
 
-
         submit=view.findViewById(R.id.button_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,14 +116,14 @@ public class myComment extends Fragment {
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
                     String url="http://192.144.239.176:8080/api/android/comment";
-
                     HashMap<String,String> map=new HashMap<>();
-                    map.put(museumID,"1");//暂时写死
+                    map.put("museum_id",info.getInt("curMuseumId",1)+"");
                     map.put("content",postMessage);
                     map.put("exhibition_score",rating1.getRating()+"");
                     map.put("environment_score",rating2.getRating()+"");
                     map.put("service_score",rating3.getRating()+"");
-
+                    String cookie;
+                    cookie= WebHelper.getCookie(getActivity());
                     Gson gson=new Gson();
                     String data=gson.toJson(map);
                     new Thread(new Runnable() {
@@ -131,6 +134,7 @@ public class myComment extends Fragment {
                                 RequestBody body = RequestBody.create(JSON,data);
                                 Request request = new Request.Builder()
                                         .url(url)
+                                        .header("cookie",cookie)
                                         .post(body)
                                         .build();
                                 Response response = client.newCall(request).execute();
@@ -142,7 +146,7 @@ public class myComment extends Fragment {
                         }
                     }).start();
                     Toast.makeText(getContext(),"评论成功",Toast.LENGTH_SHORT).show();
-                    Navigation.findNavController(view).popBackStack();
+
                 }
             }
         });
