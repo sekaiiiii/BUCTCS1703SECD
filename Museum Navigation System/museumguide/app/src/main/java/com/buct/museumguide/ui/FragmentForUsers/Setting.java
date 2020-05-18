@@ -13,6 +13,7 @@ import model.UiConfig;
 import model.UpdateConfig;
 import update.UpdateAppUtils;
 
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,6 +187,7 @@ public class Setting extends Fragment {
                                     dialog.setTitle("正在下载新版本中");
                                     dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                                     dialog.setIndeterminate(false);
+                                    dialog.setCanceledOnTouchOutside(false);
                                     dialog.show();
                                 }
                             });
@@ -221,6 +223,10 @@ public class Setting extends Fragment {
                         }
                     })
                     .update();
+        }else {
+            Looper.prepare();
+            Toast.makeText(getActivity(),"已经是最新版本",Toast.LENGTH_SHORT).show();
+            Looper.loop();
         }
     }
 }

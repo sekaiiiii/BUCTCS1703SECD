@@ -2,8 +2,10 @@ package com.buct.museumguide.ui.FragmentForUsers.Regist;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -58,6 +60,9 @@ public class RegistViewModel extends ViewModel {
                 try{
                     String result1 = response.body().string();
                     Headers header = response.headers();
+                    Looper.prepare();
+                    Toast.makeText(activity,result1,Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                     cookies = header.values("Set-Cookie");
                     JSONObject jsonobject3 =  new JSONObject(result1);
                     String state = jsonobject3.getString("status");//用于判断验证码是否发送成功
@@ -102,6 +107,9 @@ public class RegistViewModel extends ViewModel {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try{
                     String result2 = response.body().string();
+                    Looper.prepare();
+                    Toast.makeText(activity,result2,Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                     JSONObject jsonobject4 =  new JSONObject(result2);
                     String state = jsonobject4.getString("status");//用于是否注册成功
                     if(state.equals("1")){
