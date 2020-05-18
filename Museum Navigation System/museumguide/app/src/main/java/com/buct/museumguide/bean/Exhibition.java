@@ -35,6 +35,15 @@ public class Exhibition {
         this.image_list = object.getJSONArray("image_list");
         this.imgUrl = "http://img.mp.itc.cn/upload/20170322/56fee2eed94a493195e3ff98e79d5f50_th.jpeg";
     }
+
+    public Exhibition() {
+        this.id = 1;
+        this.name = "展览1";
+        this.content = "内容1";
+        this.time = "时间1";
+        this.imgUrl = "http://img.mp.itc.cn/upload/20170322/56fee2eed94a493195e3ff98e79d5f50_th.jpeg";
+    }
+
     public int getId() {
         return id;
     }
@@ -74,4 +83,7 @@ public class Exhibition {
         }
         return list;
     }*/
+    public static Exhibition getTestData() {
+        return new Exhibition();
+    }
 }
