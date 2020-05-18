@@ -1,6 +1,9 @@
 package com.buct.museumguide.ui.FragmentForMain.Comment;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +15,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,7 +38,55 @@ import okhttp3.Response;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private List<PerComment> mCommentList;
+
     private Context mcontext;
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==100){
+               Send send=(Send)msg.obj;
+               if(send.getStatus().equals("1")){
+                   Toast.makeText(mcontext,"评论删除成功",Toast.LENGTH_SHORT).show();
+                   mCommentList.remove(send.getPosition());
+                    //删除动画
+                    notifyItemRemoved(send.getPosition());
+                    notifyDataSetChanged();
+               }
+               else{
+                   Toast.makeText(mcontext,"抱歉，您只能删除自己评论",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        }
+    };
+
+    private class Send{
+        private String status;
+        private int position;
+
+        public Send(String _status,int _position){
+            status=_status;
+            position=_position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView textViewName;
@@ -85,11 +141,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         holder.deleteComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(perComment.getName().equals("CHJ")){
-                   removeData(position);
-                }
-                else
-                    Toast.makeText(view.getContext(),"抱歉，您只能删除自己的评论",Toast.LENGTH_SHORT).show();
+                   removeData(position,view);
+
             }
 
         });
@@ -100,11 +153,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return mCommentList.size();
     }
 
-    public void removeData(int position) {
-        mCommentList.remove(position);
-        //删除动画
-        notifyItemRemoved(position);
-        notifyDataSetChanged();
+    public void removeData(int position,View view) {
 
          MediaType JSON = MediaType.parse("application/json; charset=utf-8");
          OkHttpClient client = new OkHttpClient();
@@ -114,23 +163,43 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
          map.put("id",mCommentList.get(position).getId());
         Gson gson=new Gson();
         String data=gson.toJson(map);
+        String cookie;
+        cookie= WebHelper.getCookie(mcontext);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.d("PostComment","in");
-                    RequestBody body = RequestBody.create(JSON,data);
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .post(body)
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    Log.d("PostComment",response.body().string());
+//                    mCommentList.remove(position);
+//                    //删除动画
+//                    notifyItemRemoved(position);
+//                    notifyDataSetChanged();
+                        Log.d("PostComment","in");
+                        RequestBody body = RequestBody.create(JSON,data);
+                        Request request = new Request.Builder()
+                                .header("cookie",cookie)
+                                .url(url)
+                                .post(body)
+                                .build();
+                        Response response = client.newCall(request).execute();
+                        String re=response.body().string();
+//                        Log.d("PostComment",response.body().string());
+                        JSONObject jsonObject = new JSONObject(re);
+                        String status=jsonObject.getString("status");
+                        Message msg = new Message();
+                        msg.what=100;
+
+                        Send send=new Send(status,position);
+                        msg.obj=send;
+                        handler.sendMessage(msg);
+
+                    }
+                    catch (IOException e){
+                        Log.d("PostComment",e.toString());
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-                catch (IOException e){
-                    Log.d("PostComment",e.toString());
-                }
-            }
         }).start();
     }
 
