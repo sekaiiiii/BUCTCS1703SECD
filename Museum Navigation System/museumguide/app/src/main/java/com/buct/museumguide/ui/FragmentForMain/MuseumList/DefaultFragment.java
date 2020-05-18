@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.R;
 import com.buct.museumguide.Service.CommandRequest;
 import com.buct.museumguide.Service.MuseumInfoResultMsg;
+import com.buct.museumguide.Service.MuseumListDefaultResultMsg;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.Service.StateBroadCast;
 import com.buct.museumguide.util.RequestHelper;
@@ -89,8 +90,8 @@ public class DefaultFragment extends Fragment {
     }
 
     @Subscribe(sticky = true)
-    public void onReceive(MuseumInfoResultMsg museumInfoResultMsg) throws JSONException {
-        String responseData = museumInfoResultMsg.res;
+    public void onReceive(MuseumListDefaultResultMsg museumListDefaultResultMsg) throws JSONException {
+        String responseData = museumListDefaultResultMsg.res;
        // Log.d("hello",responseData);
         try {
             JSONObject jsonObject = new JSONObject(responseData);
@@ -157,7 +158,7 @@ public class DefaultFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(""),0);
+        requestHelper.getMuseumListDefault(getActivity(), Objects.requireNonNull(""),0);
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info?order_by=0"));
     }
 

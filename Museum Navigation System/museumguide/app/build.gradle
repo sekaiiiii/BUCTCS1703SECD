@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'com.race604.waveloading:library:1.1.1'
-    compile('com.weiwangcn.betterspinner:library:1.1.0') {
+    implementation('com.weiwangcn.betterspinner:library:1.1.0') {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
     implementation 'androidx.navigation:navigation-ui:2.0.0'

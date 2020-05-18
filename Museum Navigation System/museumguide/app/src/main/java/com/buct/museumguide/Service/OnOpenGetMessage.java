@@ -177,6 +177,70 @@ public class OnOpenGetMessage extends Service {
         fixedThreadPool.execute(command);
     }
 
+    @Subscribe
+    public void getMuseumListDefaultMsg(MuseumListDefaultMsg museumListDefaultMsg){
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(museumListDefaultMsg.url);
+                    EventBus.getDefault().postSticky(new MuseumListDefaultResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getMuseumListTimeMsg(MuseumListTimeMsg museumListTimeMsg){
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(museumListTimeMsg.url);
+                    EventBus.getDefault().postSticky(new MuseumListTimeResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getMuseumListNumberMsg(MuseumListNumberMsg museumListNumberMsg){
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(museumListNumberMsg.url);
+                    EventBus.getDefault().postSticky(new MuseumListNumberResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
+    @Subscribe
+    public void getMuseumListCommentMsg(MuseumListCommentMsg museumListCommentMsg){
+        command = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String res = WebHelper.getInfo(museumListCommentMsg.url);
+                    EventBus.getDefault().postSticky(new MuseumListCommentResultMsg(res));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        fixedThreadPool.execute(command);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

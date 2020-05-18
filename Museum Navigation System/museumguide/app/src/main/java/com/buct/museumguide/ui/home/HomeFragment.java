@@ -197,6 +197,38 @@ public class HomeFragment extends Fragment {
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onReceiveEducation(EducationResultMsg educationResultMsg) {
+        String responseData = educationResultMsg.res;
+        Log.d(TAG, "onReceiveEducation: " + responseData);
+        try {
+            JSONObject jsonObject = new JSONObject(responseData);
+            String state = String.valueOf(jsonObject.get("status"));
+            if (state.equals("1")) {
+                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("education_activity_list")));
+                if(jsonArray.length()==0) {
+                    bannerData.add(new MuseumItem(4, null, null,null,null,null));
+                }
+                else {
+                    Education firstEdu = new Education(jsonArray.getJSONObject(0));
+                    bannerData.add(new MuseumItem(4, null, null, null, null,firstEdu));
+                }
+                if(bannerData.size() == 4)
+                    reOrderBannerList();
+            } else {
+                Log.d(HomeFragment.TAG, "null");
+            }
+        } catch (JSONException e) {
+            Log.e(HomeFragment.TAG, "onResponse: ", e);
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
