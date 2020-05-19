@@ -1,7 +1,11 @@
 package com.buct.museumguide.ui.FragmentForMain.Comment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,15 +38,39 @@ import com.google.gson.reflect.TypeToken;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class UserComment extends Fragment {
 
     private static final String TAG = "UserComment";
     private UserCommentViewModel mViewModel;
+    private SharedPreferences info;
+    private  RecyclerView recyclerView;
+    private String res;
+    private Handler handler=new Handler(){
 
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==100){
+
+                res=(String)msg.obj;
+                onRecieve(res);
+                CommentAdapter commentAdapter=new CommentAdapter(CommentList,getContext());
+                recyclerView.setAdapter(commentAdapter);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                Log.d("getComment",info.getInt("curMuseumId",1)+"");
+
+            }
+        }
+    };
     public static UserComment newInstance() {
         return new UserComment();
     }
@@ -60,19 +88,20 @@ public class UserComment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+
     }
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        res="NoInfo";
         // Inflate the layout for this fragment
         View root= inflater.inflate(R.layout.user_comment_fragment, container, false);
 
@@ -130,76 +159,103 @@ public class UserComment extends Fragment {
             }
         });
 
-        RecyclerView recyclerView=root.findViewById(R.id.comment_recyclerview_commit);
+        recyclerView=root.findViewById(R.id.comment_recyclerview_commit);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        for(PerComment perComment:CommentList){
-            Log.d("Exhibition",perComment.getId());
-        }
-        CommentAdapter commentAdapter=new CommentAdapter(CommentList,getContext());
-        recyclerView.setAdapter(commentAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+//        CommentAdapter commentAdapter=new CommentAdapter(CommentList,getContext());
+//        recyclerView.setAdapter(commentAdapter);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        info = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String url="http://192.144.239.176:8080/api/android/get_museum_comment?id=";
+        String uri=url+info.getInt("curMuseumId",1)+"";
+        OkHttpClient client=new OkHttpClient();
+        new Thread(new Runnable() {
+            @Override
+            public void run()  {
+                Request request=new Request.Builder()
+                        .get()
+                        .url(uri)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    Message message=new Message();
+                    message.what=100;
+                    message.obj=response.body().string();
+                    handler.sendMessage(message);
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        if(!res.equals("NoInfo")){
+            Log.d("getComment","on: "+res);
+        }
+
 
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        EventBus.getDefault()
-//                .post(new
-//                        CommandRequest
-//                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
-
-//        mViewModel = ViewModelProviders.of(this).get(UserCommentViewModel.class);
         // TODO: Use the ViewModel
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Subscribe(sticky = true)
-    public void GetState(StateBroadCast msg) {
-        if (msg.state == 1) {
-            Log.d(UserComment.TAG, "GetState: " + "收到了服务已启动的通知");
-            EventBus.getDefault()
-                    .post(new
-                            CommandRequest
-                            ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
 
-        }
-    }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault()
-                .post(new
-                        CommandRequest
-                        ("http://192.144.239.176:8080/api/android/get_museum_comment?id=1"));
+        info = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String url="http://192.144.239.176:8080/api/android/get_museum_comment?id=";
+        String uri=url+info.getInt("curMuseumId",1)+"";
+        OkHttpClient client=new OkHttpClient();
+        new Thread(new Runnable() {
+            @Override
+            public void run()  {
+                Request request=new Request.Builder()
+                        .get()
+                        .url(uri)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    Message message=new Message();
+                    message.what=100;
+                    message.obj=response.body().string();
+//                    Log.d("getMuseum",(String)message.obj);
+                    handler.sendMessage(message);
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+//        onRecieve(res);
+
     }
 
-    @Subscribe(sticky = true)
-    public void onRecieve(CommentResultMsg commentResultMsg){
-            Log.d("Hello",commentResultMsg.res);
+
+    public void onRecieve(String commentResultMsg){
+//            Log.d("Hello",commentResultMsg.res);
             Gson gson=new Gson();
-            String responseData = commentResultMsg.res;
+            String responseData = commentResultMsg;
+            Log.d("getComment","on: "+responseData);
             JsonObject jsonObject = new JsonParser().parse(responseData).getAsJsonObject();
             JsonObject subJsonObject =jsonObject.getAsJsonObject("data");
             JsonArray subSubJsonObject =subJsonObject.getAsJsonArray("comment_list");
             CommentList=gson.fromJson(subSubJsonObject,new TypeToken<List<PerComment> >(){}.getType());
-            Log.d("Hello",""+CommentList.size());
-            int cnt=1;
-            for(PerComment perComment:CommentList){
-                Log.d("Hello",""+cnt);cnt++;
-                Log.d("Hello",perComment.getMail_address());
-                Log.d("Hello",perComment.getExhibition_score());
-                Log.d("Hello",perComment.getTime());
-                Log.d("Hello","---------------------");
-            }
+
+
+
 
     }
 

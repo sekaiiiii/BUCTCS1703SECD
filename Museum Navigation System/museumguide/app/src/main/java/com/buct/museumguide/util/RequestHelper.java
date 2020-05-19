@@ -34,6 +34,7 @@ public class RequestHelper {
             urlBuilder.addQueryParameter("name", name);
         if(order != -1)
             urlBuilder.addQueryParameter("order_by", String.valueOf(order));
+        Log.d(HomeFragment.TAG, "getMuseumInfo: " + urlBuilder.build().toString());
         EventBus.getDefault().postSticky(new MuseumInfoMsg(urlBuilder.build().toString()));
     }
     public void getMuseumListDefault(final Context activity, String name, int order) {
@@ -79,6 +80,7 @@ public class RequestHelper {
             urlBuilder.addQueryParameter("id", String.valueOf(id));
         if(!name.equals(""))
             urlBuilder.addQueryParameter("name", name);
+        Log.d(HomeFragment.TAG, "getExhibition: " + urlBuilder.build().toString());
         EventBus.getDefault().postSticky(new ExhibitionMsg(urlBuilder.build().toString()));
     }
     public void getCollection(final Context activity, int id, String name) {
@@ -88,15 +90,21 @@ public class RequestHelper {
             urlBuilder.addQueryParameter("id", String.valueOf(id));
         if(!name.equals(""))
             urlBuilder.addQueryParameter("name", name);
+        Log.d(HomeFragment.TAG, "getCollection: " + urlBuilder.build().toString());
         EventBus.getDefault().postSticky(new CollectionMsg(urlBuilder.build().toString()));
     }
-    public void getNews(final Context activity, int id, String name) {
+    public void getNews(final Context activity, int id, String name, int page, int ppn) {
         String url = activity.getResources().getString(R.string.get_new_info_url);
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         if(id != -1)
             urlBuilder.addQueryParameter("id", String.valueOf(id));
         if(!name.equals(""))
             urlBuilder.addQueryParameter("name", name);
+        if (page != -1)
+            urlBuilder.addQueryParameter("page", String.valueOf(page));
+        if (ppn != -1)
+            urlBuilder.addQueryParameter("ppn", String.valueOf(ppn));
+        Log.d(HomeFragment.TAG, "getNews: " + urlBuilder.build().toString());
         EventBus.getDefault().postSticky(new NewsMsg(urlBuilder.build().toString()));
     }
     public void getEducation(final Context activity, int id, String name) {
@@ -106,14 +114,15 @@ public class RequestHelper {
             urlBuilder.addQueryParameter("id", String.valueOf(id));
         if(!name.equals(""))
             urlBuilder.addQueryParameter("name", name);
+        Log.d(HomeFragment.TAG, "getEducation: " + urlBuilder.build().toString());
         EventBus.getDefault().postSticky(new EducationMsg(urlBuilder.build().toString()));
     }
     // 获取评论，id是必要参数
     public void getComment(final Context activity, int id) {
-        Log.d(HomeFragment.TAG, "getComment: 发送评论请求");
         String url = activity.getResources().getString(R.string.get_museum_comment_url);
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
         urlBuilder.addQueryParameter("id", String.valueOf(id));
+        Log.d(HomeFragment.TAG, "getComment: " + urlBuilder.build().toString());
         EventBus.getDefault().postSticky(new CommentMsg(urlBuilder.build().toString()));
     }
 }

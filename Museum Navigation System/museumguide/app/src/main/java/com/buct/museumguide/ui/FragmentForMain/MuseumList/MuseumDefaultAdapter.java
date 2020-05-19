@@ -12,13 +12,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder> {
+public class MuseumDefaultAdapter extends RecyclerView.Adapter<MuseumDefaultAdapter.ViewHolder> {
     private Context context;
     private List<Museum> mMuseumList;
-    private MuseumAdapter.OnItemClickListener onItemClickListener;
+    private MuseumDefaultAdapter.OnItemClickListener onItemClickListener;
     static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView museumImage;
         TextView museumName;
@@ -30,7 +31,6 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
             super(view);
             museumImage = view.findViewById(R.id.museum_image);
             museumName = view.findViewById(R.id.museum_name);
-            museumNumber = view.findViewById(R.id.museum_number);
             museumLevel = view.findViewById(R.id.museum_level);
             cardView = view.findViewById(R.id.museumList_card_view);
             //museumTest = view.findViewById(R.id.museum_test);
@@ -38,7 +38,7 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
     }
 
 
-    public MuseumAdapter(List<Museum> museumList){
+    public MuseumDefaultAdapter(List<Museum> museumList){
 
         mMuseumList = museumList;
     }
@@ -46,7 +46,7 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.museum_items,parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.museum_default_items,parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -55,9 +55,11 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Museum museum = mMuseumList.get(position);
         holder.museumName.setText(museum.getName());
-        holder.museumImage.setImageResource(museum.getImageId());
+        Glide.with(holder.itemView)
+                .load(museum.getImgUrl())
+                .into(holder.museumImage);
         holder.museumLevel.setText(museum.getLevel());
-        holder.museumNumber.setText(museum.getNumber());
+        //holder.museumNumber.setText(museum.getNumber());
         //holder.museumTest.setText(museum.getTest());
         holder.cardView.setOnClickListener(view -> {
             if(onItemClickListener != null){
@@ -73,12 +75,13 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
             }
             return true;
         });
+
     }
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
-        void onItemLongClick(View view,int position);
+        void onItemLongClick(View view, int position);
     }
-    public void setOnItemClickListener(MuseumAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(MuseumDefaultAdapter.OnItemClickListener listener){
         this.onItemClickListener = listener;
     }
     @Override
@@ -97,4 +100,24 @@ public class MuseumAdapter extends RecyclerView.Adapter<MuseumAdapter.ViewHolder
         return museum.getName();
     }
 
+    public void updata(List<Museum> list){
+        this.mMuseumList = list;
+        notifyDataSetChanged();
+    }
+
+    //根据recylerview 当前位置获取分类的首字母的char ascii码
+    public int getSectionForPosition(int position) {
+        return mMuseumList.get(position).getLetters().charAt(0);
+    }
+
+    public int getPositionForSection(int section) {
+        for(int i=0; i<getItemCount(); i++){
+            String str = mMuseumList.get(i).getLetters();
+            char firstChar = str.toUpperCase().charAt(0);
+            if(firstChar == section) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
