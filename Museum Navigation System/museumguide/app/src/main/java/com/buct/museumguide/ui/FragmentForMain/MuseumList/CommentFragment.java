@@ -27,17 +27,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ConmentFragment extends Fragment {
+public class CommentFragment extends Fragment {
 
     private List<Museum> museumList = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private RequestHelper requestHelper = new RequestHelper();
     private com.buct.museumguide.bean.Museum showMuseum;
-    private MuseumAdapter museumAdapter;
+    private MuseumCommentAdapter museumAdapter;
     private String TAG = "CommentFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,8 +50,8 @@ public class ConmentFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        museumAdapter = new MuseumAdapter(museumList);
-        museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
+        museumAdapter = new MuseumCommentAdapter(museumList);
+        museumAdapter.setOnItemClickListener(new MuseumCommentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 System.out.println("已点击");
@@ -71,13 +72,6 @@ public class ConmentFragment extends Fragment {
         return view;
     }
 
-    private void initMuseum(){
-        for(int i=0; i<50; i++)
-        {
-            //museumList.add(new Museum("中国国家博物馆"));
-            museumList.add(new Museum(R.drawable.ic_launcher_background,"中国科学技术馆","国家二级博物馆","1000000"));
-        }
-    }
 
     @Subscribe(sticky = true)
     public void onReceive(MuseumListCommentResultMsg museumListCommentResultMsg) throws JSONException {
@@ -94,8 +88,47 @@ public class ConmentFragment extends Fragment {
                 {
                     JSONObject object = (JSONObject) jsonArray.get(i);
                     showMuseum = new com.buct.museumguide.bean.Museum(object);
+                    JSONArray imgList = showMuseum.getImage_list();
+                    String imgurl = "";
+                    if(imgList.length()==0){
+                        imgurl = "";
+                    }
+                    else {
+                        imgurl = showMuseum.getImage_list().get(0).toString();
+                        imgurl = "http://192.144.239.176:8080/"+imgurl;
+                    }
                     //System.out.println(showMuseum.getName());
-                    temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
+                    String exhibition =showMuseum.getExhibition_score();
+                    String environment =showMuseum.getEnvironment_score();
+                    String service = showMuseum.getService_score();
+                    DecimalFormat df = new DecimalFormat("0.0");
+                    if(exhibition == "null"){
+                        exhibition = "展览暂无用户评价";
+                    }
+                    else {
+                        double value = Double.valueOf(exhibition.toString());
+                        exhibition = df.format(value);
+                        exhibition = "展览："+exhibition;
+                    }
+                    if(environment == "null"){
+                        environment = "环境暂无用户评价";
+                    }
+                    else {
+                        double value = Double.valueOf(environment.toString());
+                        environment = df.format(value);
+                        environment = "环境："+ environment;
+                    }
+                    if(service =="null"){
+                        service ="服务暂无用户评价";
+
+                    }
+                    else {
+                        double value = Double.valueOf(service.toString());
+                        service = df.format(value);
+                        service= "服务：" + service;
+                    }
+
+                    temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",exhibition,environment,service));
                 }
                 museumList.clear();
                 museumList.addAll(temp_list);

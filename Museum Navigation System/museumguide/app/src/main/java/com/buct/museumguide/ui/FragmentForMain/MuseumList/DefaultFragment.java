@@ -13,9 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,8 @@ import com.buct.museumguide.Service.MuseumInfoResultMsg;
 import com.buct.museumguide.Service.MuseumListDefaultResultMsg;
 import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.Service.StateBroadCast;
+import com.buct.museumguide.bean.Collection;
+import com.buct.museumguide.util.PinyinUtil;
 import com.buct.museumguide.util.RequestHelper;
 import com.example.sidebar.WaveSideBarView;
 
@@ -35,7 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,10 +51,28 @@ public class DefaultFragment extends Fragment {
     public static final String TAG ="DefaultFragment" ;
     private com.buct.museumguide.bean.Museum showMuseum;
     private List<Museum> museumList = new ArrayList<>();
-    private MuseumAdapter museumAdapter;
+    private List<com.buct.museumguide.bean.Museum> mMuseums = new ArrayList<>();
+    private MuseumDefaultAdapter museumAdapter;
     private RequestHelper requestHelper = new RequestHelper();
     private SharedPreferences sharedPreferences;
+    private PinyinComparator pinyinComparator;
+    private WaveSideBarView waveSideBarView;
+    private LinearLayoutManager manage;
+    private RecyclerView recyclerView;
+    private TitleItemDecoration titleItemDecoration;
+    private MuseumListViewModel museumListViewModel;
     public static DefaultFragment newInstance() {return new DefaultFragment();}
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+//        if(!EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().register(this);
+//        }
+//        requestHelper.getMuseumListDefault(getActivity(), Objects.requireNonNull(""),0);
+//        System.out.println("onattach");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,13 +80,46 @@ public class DefaultFragment extends Fragment {
         // Inflate the layout for this fragment
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info"));
         View view = inflater.inflate(R.layout.museum_default_layout, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.museumList_recyclerview0);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        //initMuseum();
+        museumListViewModel = new ViewModelProvider(this).get(MuseumListViewModel.class);
+        try {
+            museumListViewModel.getMuseums(getContext()).observe(getViewLifecycleOwner(), new Observer<ArrayList<com.buct.museumguide.bean.Museum>>() {
+                @Override
+                public void onChanged(ArrayList<com.buct.museumguide.bean.Museum> museums) {
+                    mMuseums = museums;
+                    System.out.println("+++++++"+mMuseums.size());
+                }
+            });
+        } catch (JSONException | IOException e){
+            e.printStackTrace();
+        }
+
+        pinyinComparator = new PinyinComparator();
+        waveSideBarView = (WaveSideBarView) view.findViewById(R.id.museum_default_sidebar);
+
+        waveSideBarView.setOnTouchLetterChangeListener(new WaveSideBarView.OnTouchLetterChangeListener() {
+            @Override
+            public void onLetterChange(String letter) {
+                int position = museumAdapter.getPositionForSection(letter.charAt(0));
+                if(position != -1) {
+                    manage.scrollToPositionWithOffset(position, 0);
+                }
+            }
+        });
+        recyclerView = view.findViewById(R.id.museumList_recyclerview0);
+        try {
+            museumList = filledData(mMuseums);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(museumList,pinyinComparator);
+
+        manage = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(manage);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        museumAdapter = new MuseumAdapter(museumList);
-        museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
+        museumAdapter = new MuseumDefaultAdapter(museumList);
+        museumAdapter.setOnItemClickListener(new MuseumDefaultAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 System.out.println("已点击");
@@ -80,95 +137,101 @@ public class DefaultFragment extends Fragment {
         });
         recyclerView.setAdapter(museumAdapter);
 
-        WaveSideBarView waveSideBarView = (WaveSideBarView) view.findViewById(R.id.museum_default_sidebar);
+        titleItemDecoration = new TitleItemDecoration(getActivity(),museumList);
+        recyclerView.addItemDecoration(titleItemDecoration);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                museumAdapter.notifyDataSetChanged();
+            }
+        });
         return view;
+    }
+
+
+    private List<Museum> filledData(List<com.buct.museumguide.bean.Museum> museums) throws JSONException {
+        List<String> imgUrl = new ArrayList<>();
+        List<String> data = new ArrayList<>();
+        for (int i=0; i<museums.size(); i++){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray = museums.get(i).getImage_list();
+            if(jsonArray.length()==0){
+                imgUrl.add("");
+            }
+            else {
+                String str = (String) jsonArray.get(0);
+                str = "http://192.144.239.176:8080/"+str;
+                imgUrl.add(str);
+            }
+            data.add(museums.get(i).getName());
+
+        }
+        List<Museum> mMuseumList = new ArrayList<>();
+
+        for (int i=0 ; i<data.size(); i++){
+            Museum museum = new Museum();
+            museum.setName(data.get(i));
+            museum.setImgUrl(imgUrl.get(i));
+
+            museum.setLevel("国家一级博物馆");
+            //汉字转化为拼音
+            String pinyin = PinyinUtil.getPingYin(data.get(i));
+            String sortString = pinyin.substring(0,1).toUpperCase();
+
+            //正则表达式，判断首字母是否英文字母
+            if(sortString.matches("[A-Z]")){
+                museum.setLetters(sortString.toUpperCase());
+            }
+            else {
+                museum.setLetters("#");
+            }
+            mMuseumList.add(museum);
+        }
+        return mMuseumList;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        System.out.println("onviewcreate");
     }
-
-    @Subscribe(sticky = true)
-    public void onReceive(MuseumListDefaultResultMsg museumListDefaultResultMsg) throws JSONException {
-        String responseData = museumListDefaultResultMsg.res;
-       // Log.d("hello",responseData);
-        try {
-            JSONObject jsonObject = new JSONObject(responseData);
-            String state = String.valueOf(jsonObject.get("status"));
-            if(state.equals("1")){
-                JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("museum_list")));
-                System.out.println(jsonArray);
-                ArrayList<Museum> temp_list = new ArrayList<>();
-                for (int i = 0; i<jsonArray.length();i++)
-                {
-                    JSONObject object = (JSONObject) jsonArray.get(i);
-                    showMuseum = new com.buct.museumguide.bean.Museum(object);
-                    //System.out.println(showMuseum.getName());
-                    temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
-                }
-                museumList.clear();
-                museumList.addAll(temp_list);
-                Log.d("hello", String.valueOf(museumList.size()));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        museumAdapter.notifyDataSetChanged();
-                    }
-                });
-            }
-            else {
-                Log.d(TAG, "null");
-            }
-        } catch (JSONException e){
-            Log.e(TAG, "onResponse: ", e);
-            e.printStackTrace();
-        }
-    }
-
-    private void initMuseum(){
-        //museumList.add(new Museum(R.drawable.ic_launcher_background,"天台山大瀑布","国家二级博物馆","1000000"));
-        for(int i=0; i<50; i++)
-        {
-            //museumList.add(new Museum("中国国家博物馆"));
-            museumList.add(new Museum(R.drawable.ic_launcher_background,"故宫博物院","国家二级博物馆","1000000"));
-        }
-    }
-
 
     @Override
     public void onStart() {
         super.onStart();
-        if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
-        }
+        System.out.println("onstart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+        System.out.println("onstop");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        System.out.println("onactivitycreate");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        requestHelper.getMuseumListDefault(getActivity(), Objects.requireNonNull(""),0);
+        System.out.println("onresume");
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info?order_by=0"));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        System.out.println("ondestroy");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        System.out.println("onpause");
     }
 }
