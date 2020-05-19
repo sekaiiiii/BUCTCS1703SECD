@@ -11,9 +11,8 @@ import scrapy
 class DemospiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    id = scrapy.Field()
+    news_id = scrapy.Field()
     content = scrapy.Field()
-    tf_idf_keywords = scrapy.Field()
-    tf_idf_score = scrapy.Field()
-    TextRank_keywords = scrapy.Field()
-    TextRank_score = scrapy.Field()
+    content_list = scrapy.Field()
+    museum_id = scrapy.Field()
+    tag = scrapy.Field()

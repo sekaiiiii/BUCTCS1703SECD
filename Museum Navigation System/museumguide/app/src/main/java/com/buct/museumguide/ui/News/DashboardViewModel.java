@@ -33,20 +33,23 @@ import okhttp3.Response;
 
 public class DashboardViewModel extends ViewModel {
     private MutableLiveData<ArrayList<News>> liveData;
+
     public MutableLiveData<ArrayList<News>> getNews(final Context activity, int id, String name, int page, int ppn) throws IOException, JSONException {
         liveData = new MutableLiveData<>();
         String url = activity.getResources().getString(R.string.get_new_info_url);
-        OkHttpClient okHttpClient = WebHelper.getInstance().client;
+//        OkHttpClient okHttpClient = WebHelper.getInstance().client;
+        OkHttpClient okHttpClient = new OkHttpClient();
         HttpUrl.Builder urlBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
-        if(id != -1)
+        if (id != -1)
             urlBuilder.addQueryParameter("id", String.valueOf(id));
-        if(!name.equals(""))
+        if (!name.equals(""))
             urlBuilder.addQueryParameter("name", name);
-        if(page != -1)
+        if (page != -1)
             urlBuilder.addQueryParameter("page", String.valueOf(page));
-        if(ppn!=-1)
+        if (ppn != -1)
             urlBuilder.addQueryParameter("ppn", String.valueOf(ppn));
-        final Request request= new Request.Builder()
+//        Log.d(DashboardFragment.TAG, "url: " + urlBuilder.build().toString());
+        final Request request = new Request.Builder()
                 .url(urlBuilder.build().toString())
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -58,21 +61,21 @@ public class DashboardViewModel extends ViewModel {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String res = response.body().string();
-                Log.d(DashboardFragment.TAG, "onResponse: res = " + res);
+//                Log.d(DashboardFragment.TAG, "onResponse: res = " + res);
                 try {
                     JSONObject jsonObject = new JSONObject(res);
                     String state = String.valueOf(jsonObject.get("status"));
-                    if(state.equals("1")) {
+                    if (state.equals("1")) {
                         JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("data")));
-                        Log.d(DashboardFragment.TAG, "jsonArray = " + jsonArray);
+                        Log.d(DashboardFragment.TAG, "jsonArray = " + jsonArray.getJSONObject(0));
+                        Log.d(DashboardFragment.TAG, "jsonArray.size = " + jsonArray.length());
                         ArrayList<News> tmp_list = new ArrayList<>();
-                        for(int i=0; i < jsonArray.length(); ++i) {
+                        for (int i = 0; i < jsonArray.length(); ++i) {
                             JSONObject tmp_obj = jsonArray.getJSONObject(i);
                             tmp_list.add(new News(tmp_obj));
                         }
                         liveData.postValue(tmp_list);
-                    }
-                    else {
+                    } else {
                         Log.d(DashboardFragment.TAG, "null");
                     }
                 } catch (JSONException e) {
@@ -90,7 +93,7 @@ public class DashboardViewModel extends ViewModel {
         ArrayList<News> newsList = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
-            for(int i=0;i<jsonArray.length();++i) {
+            for (int i = 0; i < jsonArray.length(); ++i) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 newsList.add(new News(jsonObject));
             }
