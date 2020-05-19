@@ -112,7 +112,7 @@ public class myComment extends Fragment {
                 }
                 else {
                     String postMessage;postMessage=edtMsg.getText().toString();
-
+                    Log.d("getComment","postmessage: "+postMessage);
                     MediaType JSON = MediaType.parse("application/json; charset=utf-8");
                     OkHttpClient client = new OkHttpClient();
                     String url="http://192.144.239.176:8080/api/android/comment";
