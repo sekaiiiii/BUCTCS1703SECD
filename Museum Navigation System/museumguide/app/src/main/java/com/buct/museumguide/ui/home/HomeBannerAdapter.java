@@ -77,6 +77,13 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                             .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
                             .into(exHolder.exhiImg);
                 }
+                else {
+                    Log.d("HomeBanner", "onBindView: 展览无数据");
+                    exHolder.noExhi.setVisibility(View.VISIBLE);
+                    exHolder.exhiTitle.setVisibility(View.INVISIBLE);
+                    exHolder.exhiContent.setVisibility(View.INVISIBLE);
+                    exHolder.exhiImg.setVisibility(View.INVISIBLE);
+                }
                 break;
             case 2:
                 HomeCollectionHolder coHolder = (HomeCollectionHolder) holder;
@@ -95,6 +102,12 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                             .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
                             .into(coHolder.collImg2);
                 }
+                else {
+                    Log.d("HomeBanner", "onBindView: 藏品无数据");
+                    coHolder.noColl.setVisibility(View.VISIBLE);
+                    coHolder.coll1Wrap.setVisibility(View.INVISIBLE);
+                    coHolder.coll2Wrap.setVisibility(View.INVISIBLE);
+                }
                 break;
             case 3:
                 HomeNewsHolder neHolder = (HomeNewsHolder) holder;
@@ -109,6 +122,14 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                             .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
                             .into(neHolder.newsImg);
                 }
+                else {
+                    Log.d("HomeBanner", "onBindView: 新闻无数据");
+                    neHolder.noNews.setVisibility(View.VISIBLE);
+                    neHolder.newsTitle.setVisibility(View.INVISIBLE);
+                    neHolder.newsContent.setVisibility(View.INVISIBLE);
+                    neHolder.newsTime.setVisibility(View.INVISIBLE);
+                    neHolder.newsImg.setVisibility(View.INVISIBLE);
+                }
                 break;
             case 4:
                 HomeEducationHolder edHolder = (HomeEducationHolder) holder;
@@ -122,6 +143,13 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                             .load(education.getImgUrl())
                             .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
                             .into(edHolder.eduImg);
+                }
+                else {
+                    Log.d("HomeBanner", "onBindView: 展览无数据");
+                    edHolder.noEdu.setVisibility(View.VISIBLE);
+                    edHolder.eduTitle.setVisibility(View.INVISIBLE);
+                    edHolder.eduContent.setVisibility(View.INVISIBLE);
+                    edHolder.eduImg.setVisibility(View.INVISIBLE);
                 }
                 break;
         }

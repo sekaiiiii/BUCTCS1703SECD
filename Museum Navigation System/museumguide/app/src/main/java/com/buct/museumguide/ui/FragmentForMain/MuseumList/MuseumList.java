@@ -1,7 +1,5 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumList;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -48,7 +46,7 @@ public class MuseumList extends Fragment {
         fragments.add(new DefaultFragment());
         fragments.add(new TimeFragment());
         fragments.add(new NumberFragment());
-        fragments.add(new ConmentFragment());
+        fragments.add(new CommentFragment());
         MuseumPagerAdapter adapter = new MuseumPagerAdapter(getChildFragmentManager(), fragments);
         final ViewPager viewPager=view.findViewById(R.id.museum_viewpager);
         viewPager.setAdapter(adapter);
