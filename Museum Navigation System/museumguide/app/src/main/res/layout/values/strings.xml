@@ -2,4 +2,31 @@
 <resources>
     <string name="loginurl">http://192.144.239.176:8080/api/android/login</string>
     <string name="feedback_ask">如果您对我们的应用有什么好的建议，欢迎您提出，我们会争取采纳</string>
+    <string name="verification_code_url">http://192.144.239.176:8080/api/android/want_register</string>
+    <string name="want_regrist_url">http://192.144.239.176:8080/api/android/register</string>
+    <string name="set_user_info_url">http://192.144.239.176:8080/api/android/set_user_info</string>
+    <string name="set_password_url">http://192.144.239.176:8080/api/android/set_user_password</string>
+    <string name="get_museum_info_url">http://192.144.239.176:8080/api/android/get_museum_info</string>
+    <string name="get_collection_info_url">http://192.144.239.176:8080/api/android/get_collection_info</string>
+    <string name="get_exhibition_info_url">http://192.144.239.176:8080/api/android/get_exhibition_info</string>
+    <string name="get_education_activity_info_url">http://192.144.239.176:8080/api/android/get_education_activity_info</string>
+    <string name="get_new_info_url">http://192.144.239.176:8080/api/android/get_new_info</string>
+    <string name="get_museum_comment_url">http://192.144.239.176:8080/api/android/get_museum_comment</string>
+    <string name="feedback_url">http://192.144.239.176:8080/api/android/feedback</string>
+    <string name="get_login_state_url">http://192.144.239.176:8080/api/android/get_login_state</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="app_name">MuseumGuide</string>
+    <string name="title_activity_main">MuseumGuide</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

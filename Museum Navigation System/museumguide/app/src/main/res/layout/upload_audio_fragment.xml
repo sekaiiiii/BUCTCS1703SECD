@@ -1,169 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CCCC99"
+    android:background="@color/colorLBrown"
     tools:context=".ui.FragmentForUsers.Upload.UploadAudio">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#006633"
-        android:gravity="top">
+    <Button
+        android:id="@+id/bt_upload_vioce"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="#999966"
+        android:foreground="@drawable/ic_tianjia"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
-        <Button
-            android:id="@+id/bt_backup"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:background="#00000000"
-            android:drawableRight="@drawable/ic_fanhui"
-            />
+    <Spinner
+        android:id="@+id/betterSpinner"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/modify_psw_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="上传新的讲解"
-            android:textColor="#FFFFFF"
-            android:textSize="25dp"
-            android:gravity="center"/>
+    <Button
+        android:id="@+id/bt_submit_newfile"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="#666666"
+        android:text="提交"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button12"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp">
-        <Spinner
-            android:id="@+id/bt_privince"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#999966"
-            android:entries="@array/privince"/>
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginBottom="40dp"
+        android:background="#666666"
+        android:text="我的上传"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bt_submit_newfile"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-        <Spinner
-            android:id="@+id/bt_city"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#999966"
-            android:entries="@array/city" />
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="225dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/modify_psw_edit"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
-        <Spinner
-            android:id="@+id/bt_museum"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#999966"
-            android:entries="@array/museum"/>
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/modify_psw_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
-        <Spinner
-            android:id="@+id/bt_show"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#999966"
-            android:entries="@array/show"/>
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="请选择音频"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.054"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-        <Spinner
-            android:id="@+id/bt_colletion"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#999966"
-            android:entries="@array/collection"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@color/colorGreen"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitle="上传音频"
+        app:subtitleTextAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:text="选择一个音频上传"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/betterSpinner" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
-        android:orientation="vertical"
-        android:gravity="center">
-        <TextView
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="文字介绍"
-            android:textSize="20dp"
-            android:textColor="#000000"/>
-
-        <EditText
-            android:id="@+id/et_introduction"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_weight="1"
-            android:background="#FFFFFF" />
-
-        <TextView
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="图片视频上传"
-            android:textSize="20dp"
-            android:textColor="#000000"/>
-
-        <Button
-            android:id="@+id/bt_uploadaudio"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#999966"
-            android:foreground="@drawable/ic_tianjia"/>
-
-        <TextView
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="音频录制或上传"
-            android:textSize="20dp"
-            android:textColor="#000000"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
-            <Button
-                android:id="@+id/bt_upload_vioce"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="#999966"
-                android:foreground="@drawable/ic_tianjia" />
-
-            <Button
-                android:id="@+id/bt_record_vioce"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="录制"
-                android:textSize="20dp"
-                android:textColor="#000000"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="#999966"/>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/bt_submit_newfile"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="提交"
-            android:textSize="20dp"
-            android:textColor="#000000"
-            android:background="#666666"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="输入音频标题"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_upload_vioce" />
 
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForUsers.Login;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,7 +45,7 @@ import java.util.List;
 public class Login extends Fragment {
     public static final String TAG ="Login" ;
     private LoginViewModel mViewModel;
-
+    private SharedPreferences infos;
     public static Login newInstance() {
         return new Login();
     }
@@ -61,28 +62,32 @@ public class Login extends Fragment {
         mViewModel =new ViewModelProvider(this).get(LoginViewModel.class);
         final EditText name=getView().findViewById(R.id.input_account_name);
         final EditText password=getView().findViewById(R.id.input_password);
-        Button button_forget=getView().findViewById(R.id.button_forget_password);
+        infos=getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+        String islogin=infos.getString("user","");
+       // Button button_forget=getView().findViewById(R.id.button_forget_password);
         Button button_login=getView().findViewById(R.id.button_login);
         Button button_register=getView().findViewById(R.id.button_register);
-        button_forget.setOnClickListener(new View.OnClickListener() {
+       /* button_forget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(getView()).navigate(R.id.action_login_to_modifypsw);
             }
-        });
+        });*/
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String names = name.getText().toString();
                 String psw = password.getText().toString();
-                //传参交给viewmodel处理，使得fragment只需要处理
                 mViewModel.getState(names,psw,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
                     @Override
                     public void onChanged(String s) {
                         System.out.println("观察到"+s);
-                        if(s.equals(0)){
+                        if(s.equals("0")){
                             Toast.makeText(getActivity(),"密码错误",Toast.LENGTH_SHORT).show();
                         }else{
+                            if(islogin.equals("")){
+                                infos.edit().putString("user",names).apply();
+                            }
                             Navigation.findNavController(getView()).navigate(R.id.action_login_to_navigation_notifications);
                         }
                     }
@@ -95,19 +100,19 @@ public class Login extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_login_to_regist);
             }
         });
-        // TODO: Use the ViewModel
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        //getActivity().getSupportFragmentManager().popBackStackImmediate(Login.class.getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getView().setFocusableInTouchMode(true);
         getView().requestFocus();
         getView().setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
-                    //Toast.makeText(getActivity(), "按了返回键", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

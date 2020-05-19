@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumInfo;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.buct.museumguide.R;
 
 public class Canguanxuzhi extends Fragment {
 
-    private CanguanxuzhiViewModel mViewModel;
+    private MuseumInfoViewModel mViewModel;
 
     public static Canguanxuzhi newInstance() {
         return new Canguanxuzhi();
@@ -31,7 +32,7 @@ public class Canguanxuzhi extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CanguanxuzhiViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MuseumInfoViewModel.class);
         // TODO: Use the ViewModel
     }
 

@@ -42,7 +42,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="中国国家博物馆"
                         android:drawableLeft="@drawable/ic_house"
                         android:textSize="24sp"
                         android:drawableStart="@drawable/ic_house"
@@ -54,7 +53,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewIntro"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -87,7 +86,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewVisit"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:clickable="true"
                 android:focusable="true"
@@ -184,6 +183,7 @@
                                     android:text="展览：" />
 
                                 <TextView
+                                    android:id="@+id/homeExhiScore"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="4.7" />
@@ -201,6 +201,7 @@
                                     android:text="环境：" />
 
                                 <TextView
+                                    android:id="@+id/homeEnviScore"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="4.8" />
@@ -218,6 +219,7 @@
                                     android:text="服务：" />
 
                                 <TextView
+                                    android:id="@+id/homeServScore"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="4.9" />
@@ -232,6 +234,7 @@
                             android:layout_alignParentEnd="true"
                             android:gravity="center">
                             <TextView
+                                android:id="@+id/hometvComment"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
@@ -240,12 +243,7 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:text="地图跳转" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
