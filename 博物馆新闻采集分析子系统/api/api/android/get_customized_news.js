@@ -8,8 +8,8 @@
 'use strict'
 const express = require('express');
 const async = require('async');
-const pool = require('../tool/pool.js');
-const return_obj = require('../tool/return_obj.js');
+const pool = require('../../tool/pool.js');
+const return_obj = require('../../tool/return_obj.js');
 const router = express.Router();
 
 //参数检查
@@ -17,6 +17,9 @@ router.get("/", function (req, res, next) {
     let id_reg = new RegExp("^\\d+$");
     let page_reg = new RegExp("^\\d+$");
     let ppn_reg = new RegExp("^\\d+$");
+    let tag_reg = new RegExp("^\\d+$");
+    var start_date_reg = new RegExp("/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
+    var end_date_reg = new RegExp("/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
     if (req.query.id != undefined) {
         if (!id_reg.test(req.query.id)) {
             return next(new Error("101"));
@@ -34,6 +37,27 @@ router.get("/", function (req, res, next) {
             if (req.query.ppn < 0) {
                 return next(new Error("101"));
             }
+        }
+    }
+    if (req.query.tag != undefined) {
+        if (!tag_reg.test(req.query.tag)) {
+            if (req.query.ppn < 0) {
+                return next(new Error("101"));
+            }
+        }
+    }
+    if (req.query.start_date != undefined) {
+        if (!tag_reg.test(req.query.tag)) {
+            // if (req.query.ppn < 0) {
+            //     return next(new Error("101"));
+            // }
+        }
+    }
+    if (req.query.end_date != undefined) {
+        if (!tag_reg.test(req.query.tag)) {
+            // if (req.query.ppn < 0) {
+            //     return next(new Error("101"));
+            // }
         }
     }
     next();
@@ -59,7 +83,9 @@ router.get("/", function (req, res, next) {
             where 
                 new.id >= 1
                 ${req.query.id ? `and museum_has_new.museum_id = ? ` : ``}
-                ${req.query.name ? `and new.title like ? ` : ``}
+                ${req.query.tag ? `and new.tag = ? ` : ``}
+                ${req.query.start_date ? `and new.time > ?` : ``}
+                ${req.query.end_date ? `and new.time < ?` : ``}
             order by
                 new.time asc
             limit ?
@@ -72,8 +98,14 @@ router.get("/", function (req, res, next) {
             if (req.query.id) {
                 param_list.push(req.query.id);
             }
-            if (req.query.name) {
-                param_list.push( "%" +req.query.name + "%");
+            if (req.query.tag) {
+                param_list.push(req.query.tag);
+            }
+            if (req.query.start_date) {
+                param_list.push(req.query.start_date)
+            }
+            if (req.query.end_date) {
+                param_list.push(req.query.end_date)
             }
 
             let offset = 0; //偏移
