@@ -1,34 +1,35 @@
 import scrapy
-from MilitaryMuseum.items import MilitaryMuseumItem
+from MuseumNews.items import MuseumnewsItem
 from scrapy import Spider, Request
 
-URL = "http://www.jb.mil.cn/zxdt/index_{page}.html"
-prefixURL = "http://www.jb.mil.cn/zxdt"
+URL = "http://www.luxunmuseum.com.cn/guanxun/list_30_{page}.htm"
+prefixURL = "http://www.luxunmuseum.com.cn/"
 
-class MilitaryMuseumSpyder(scrapy.Spider):
-    name = "newspider"
-    allowed_domains = ['jb.mil.cn']
+
+class LuXunMuseum(scrapy.Spider):
+    name = "LuxunNews"
+    allowed_domains = ['luxunmuseum.com.cn']
     page = 1
     start_urls = [URL.format(page=page)]
 
     def parse(self, response):
-        news_body = response.xpath("//div[@class='infoDynamicList']")[0]
-        news_list = news_body.xpath("./ul//li")
+        news_body = response.xpath("//div[@class='content_czyd']")[0]
+        news_list = news_body.xpath(".//div[@class='list_list']")
         for news in news_list:
-            title = news.xpath("./a/h3/text()")
-            time = news.xpath("./a/span/text()")
-            content = news.xpath("./a/p/text()")
-            href = news.xpath("./a/@href")
+            title = news.xpath("./div/dt/a/text()")
+            time = news.xpath("./div/dt/span/text()")
+            content = news.xpath("./div/dd/a/text()")
+            href = news.xpath("./div/dt/a/@href")
             if len(title) == 0 or len(time) == 0 or len(content) == 0 or len(href) == 0:
                 continue
             title = title[0].extract()
             time = time[0].extract()
             content = content[0].extract()
-            href = prefixURL + href[0].extract()[1:]
-            author = "中国人民革命军事博物馆"
+            href = prefixURL + href[0].extract()
+            author = "北京鲁迅博物馆"
             description = "1"
             tag = 1
-            item = MilitaryMuseumItem()
+            item = MuseumnewsItem()
             item['title'] = title
             item['author'] = author
             item['time'] = time
@@ -39,7 +40,7 @@ class MilitaryMuseumSpyder(scrapy.Spider):
             yield item
 
         print('page = {}'.format(self.page))
-        if self.page < 30:
+        if self.page <= 6:
             self.page += 1
             new_url = URL.format(page=self.page)
             print(new_url)
