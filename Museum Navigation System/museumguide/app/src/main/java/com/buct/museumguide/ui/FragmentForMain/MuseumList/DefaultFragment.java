@@ -111,7 +111,7 @@ public class DefaultFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        Log.d("default123", "onCreateView: "+museumList.size());
         Collections.sort(museumList,pinyinComparator);
 
         manage = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

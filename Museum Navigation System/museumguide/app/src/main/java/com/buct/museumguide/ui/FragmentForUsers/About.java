@@ -63,7 +63,7 @@ public class About extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Element versionElement = new Element();
-        versionElement.setTitle("Version 1.1.4");
+        versionElement.setTitle("Version 1.1.5");
         return new AboutPage(getContext())
                 .isRTL(false)
                 .setDescription("博物馆导览和信息服务系统")

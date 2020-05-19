@@ -48,17 +48,9 @@ public class Regist extends Fragment {
         final EditText password = getView().findViewById(R.id.text_password);
         final EditText definepsw = getView().findViewById(R.id.text_password_correction);
         final EditText code = getView().findViewById(R.id.text_code);
-        Button bt_back = getView().findViewById(R.id.bt_backup);
         Button bt_code =getView().findViewById(R.id.bt_gaincode);
         Button bt_define = getView().findViewById(R.id.button_register);
 
-        //返回
-        bt_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
 
         //为获取验证码按钮添加点击事件
         bt_code.setOnClickListener(new View.OnClickListener() {
