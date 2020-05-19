@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.Search;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Museum;
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -71,9 +77,27 @@ public class MuseumSAdapter extends RecyclerView.Adapter< MuseumSAdapter.ViewHol
         holder.exhibition.setText(" 展览： "+exhibition.getExhibition_score());
 //        Uri uri = Uri.fromFile(new File(exhibition.getImgUrl()));
 //        holder.image.setImageURI(uri);
-        Glide.with(holder.itemView)
-                .load("http://img.m.focus.cn/q_70/app/48/4878fa2bfd5a1a93186c7aefd37b01e4.jpg")
-                .into(holder.image);
+        String imageUrl="";
+
+        try{
+            JSONArray imageArray=exhibition.getImage_list();
+            Log.d("geturl",imageArray.toString());
+            String imageShow;
+            imageShow=imageArray.getString(0);
+
+            Log.d("geturl","imageShow");
+            imageUrl="http://192.144.239.176:8080/"+imageShow.toString();
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+            Log.d("geturl",e.toString());
+        }
+        Log.d("geturl",imageUrl);
+        if(!imageUrl.equals("")){
+            Glide.with(holder.itemView)
+                    .load(imageUrl)
+                    .into(holder.image);
+        }
 
     }
 
