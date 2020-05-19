@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumList;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -28,4 +29,13 @@ public class MuseumPagerAdapter extends FragmentPagerAdapter {
         return mFragments.size();
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return super.getItemPosition(object);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
 }

@@ -12,22 +12,53 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_navigation_home_to_searchResult"
-            app:destination="@id/searchResult" />
+            app:destination="@id/searchResult"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_home_to_museumInfo"
-            app:destination="@id/museumInfo" />
+            app:destination="@id/museumInfo"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_home_to_myComment"
-            app:destination="@id/myComment" />
+            app:destination="@id/myComment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_home_to_userComment"
-            app:destination="@id/userComment" />
+            app:destination="@id/userComment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_home_to_museumList"
-            app:destination="@id/museumList" />
+            app:destination="@id/museumList"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_home_to_commonList"
-            app:destination="@id/commonList" />
+            app:destination="@id/commonList"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
+        <action
+            android:id="@+id/action_navigation_home_to_login"
+            app:destination="@id/login"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
 
     <fragment
@@ -37,7 +68,11 @@
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_navigation_dashboard_to_searchResult"
-            app:destination="@id/searchResult" />
+            app:destination="@id/searchResult"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
 
     <fragment
@@ -47,22 +82,49 @@
         tools:layout="@layout/fragment_notifications" >
         <action
             android:id="@+id/action_navigation_notifications_to_userPage"
-            app:destination="@id/userPage" />
+            app:destination="@id/userPage"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_notifications_to_uploadAudio"
-            app:destination="@id/uploadAudio" />
+            app:destination="@id/uploadAudio"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_notifications_to_feedBack"
-            app:destination="@id/feedBack" />
+            app:destination="@id/feedBack"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_navigation_notifications_to_login"
-            app:destination="@id/login" />
+            app:destination="@id/login"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
+        <action
+            android:id="@+id/action_navigation_notifications_to_setting"
+            app:destination="@id/setting"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit" />
     </fragment>
     <fragment
         android:id="@+id/searchResult"
         android:name="com.buct.museumguide.ui.FragmentForMain.Search.SearchResult"
         android:label="search_result_fragment"
-        tools:layout="@layout/search_result_fragment" />
+        tools:layout="@layout/search_result_fragment" >
+        <action
+            android:id="@+id/action_searchResult_to_searchResultShow"
+            app:destination="@id/searchResultShow" />
+    </fragment>
     <fragment
         android:id="@+id/feedBack"
         android:name="com.buct.museumguide.ui.FragmentForUsers.FeedBack"
@@ -74,22 +136,32 @@
         android:label="UserPage" >
         <action
             android:id="@+id/action_userPage_to_modifypsw"
-            app:destination="@id/modifypsw" />
-        <action
-            android:id="@+id/action_userPage_to_bind_email"
-            app:destination="@id/bind_email" />
-        <action
-            android:id="@+id/action_userPage_to_modify_photo"
-            app:destination="@id/modify_photo" />
+            app:destination="@id/modifypsw"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_userPage_to_modify_username"
-            app:destination="@id/modify_username" />
+            app:destination="@id/modify_username"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/uploadAudio"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.UploadAudio"
         android:label="upload_audio_fragment"
-        tools:layout="@layout/upload_audio_fragment" />
+        tools:layout="@layout/upload_audio_fragment" >
+        <action
+            android:id="@+id/action_uploadAudio_to_showUploadState"
+            app:destination="@id/showUploadState"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
+    </fragment>
     <fragment
         android:id="@+id/museumInfo"
         android:name="com.buct.museumguide.ui.FragmentForMain.MuseumInfo.MuseumInfo"
@@ -107,7 +179,11 @@
         tools:layout="@layout/user_comment_fragment">
         <action
             android:id="@+id/action_userComment_to_myComment"
-            app:destination="@id/myComment" />
+            app:destination="@id/myComment"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -116,35 +192,54 @@
         tools:layout="@layout/login_fragment" >
         <action
             android:id="@+id/action_login_to_regist"
-            app:destination="@id/regist" />
+            app:destination="@id/regist"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_login_to_navigation_notifications"
-            app:destination="@id/navigation_notifications" />
+            app:destination="@id/navigation_notifications"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_login_to_modifypsw"
-            app:destination="@id/modifypsw" />
+            app:destination="@id/modifypsw"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
+        <action
+            android:id="@+id/action_login_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/regist"
         android:name="com.buct.museumguide.ui.FragmentForUsers.Regist.Regist"
         android:label="regist_fragment"
-        tools:layout="@layout/regist_fragment" />
+        tools:layout="@layout/regist_fragment" >
+        <action
+            android:id="@+id/action_regist_to_login"
+            app:destination="@id/login"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
+    </fragment>
     <fragment
         android:id="@+id/modifypsw"
         android:name="com.buct.museumguide.ui.FragmentForUsers.modifypsw"
         android:label="modifypsw" />
     <fragment
-        android:id="@+id/modify_photo"
-        android:name="com.buct.museumguide.ui.FragmentForUsers.modify_photo"
-        android:label="modify_photo" />
-    <fragment
         android:id="@+id/modify_username"
         android:name="com.buct.museumguide.ui.FragmentForUsers.modify_username"
         android:label="modify_username" />
-    <fragment
-        android:id="@+id/bind_email"
-        android:name="com.buct.museumguide.ui.FragmentForUsers.bind_email"
-        android:label="bind_email" />
     <fragment
         android:id="@+id/museumList"
         android:name="com.buct.museumguide.ui.FragmentForMain.MuseumList.MuseumList"
@@ -157,13 +252,25 @@
         tools:layout="@layout/common_list_fragment">
         <action
             android:id="@+id/action_commonList_to_collectionDetails"
-            app:destination="@id/collectionDetails" />
+            app:destination="@id/collectionDetails"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_commonList_to_exhibitionDetails"
-            app:destination="@id/exhibitionDetails" />
+            app:destination="@id/exhibitionDetails"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
         <action
             android:id="@+id/action_commonList_to_educationDetails"
-            app:destination="@id/educationDetails" />
+            app:destination="@id/educationDetails"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/collectionDetails"
@@ -180,5 +287,29 @@
         android:name="com.buct.museumguide.ui.FragmentForMain.EducationDetails"
         android:label="education_details"
         tools:layout="@layout/education_details_fragment"/>
+    <fragment
+        android:id="@+id/showUploadState"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Upload.ShowUploadState"
+        android:label="show_upload_state_fragment"
+        tools:layout="@layout/show_upload_state_fragment" />
+    <fragment
+        android:id="@+id/setting"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.Setting"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/searchResultShow"
+        android:name="com.buct.museumguide.ui.FragmentForMain.Search.SearchResultShow"
+        android:label="search_result_show"
+        tools:layout="@layout/search_result_show" >
+        <action
+            android:id="@+id/action_searchResultShow_to_test"
+            app:destination="@id/test" />
+    </fragment>
+    <fragment
+        android:id="@+id/test"
+        android:name="com.buct.museumguide.ui.FragmentForMain.Search.Test"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>
 

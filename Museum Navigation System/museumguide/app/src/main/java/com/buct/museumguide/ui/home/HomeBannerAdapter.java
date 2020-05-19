@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.bean.Collection;
+import com.buct.museumguide.bean.Education;
+import com.buct.museumguide.bean.Exhibition;
+import com.buct.museumguide.bean.News;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -16,6 +20,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.util.BannerUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,10 +29,15 @@ import java.util.List;
 public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.ViewHolder> {
     private Context context;
 
-    public HomeBannerAdapter(Context context, List<MuseumItem> datas) {
+    public HomeBannerAdapter(Context context, ArrayList<MuseumItem> datas) {
         super(datas);
         this.context = context;
     }
+
+    /*public void addDatas(List<MuseumItem> datas) {
+        news.addAll(datas);
+        notifyDataSetChanged();
+    }*/
 
     @Override
     public int getItemViewType(int position) {
@@ -56,50 +66,63 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
         switch (viewType) {
             case 1:
                 HomeExhibitionHolder exHolder = (HomeExhibitionHolder) holder;
-                exHolder.exhiType.setText(data.getType());
-                exHolder.exhiTitle.setText(data.getTitle());
-                exHolder.exhiContent.setText(data.getContent());
-                //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
-                Glide.with(exHolder.itemView)
-                        .load(data.getImgUrl1())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                        .into(exHolder.exhiImg);
+                exHolder.exhiType.setText("展览");
+                Exhibition exhibition = data.getExhibition();
+                if(exhibition != null) {
+                    exHolder.exhiTitle.setText(exhibition.getName());
+                    exHolder.exhiContent.setText(exhibition.getContent());
+                    //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
+                    Glide.with(exHolder.itemView)
+                            .load(exhibition.getImgUrl())
+                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                            .into(exHolder.exhiImg);
+                }
                 break;
             case 2:
                 HomeCollectionHolder coHolder = (HomeCollectionHolder) holder;
-                coHolder.collType.setText(data.getType());
-                coHolder.collName1.setText(data.getColName1());
-                coHolder.collName2.setText(data.getColName2());
-                Glide.with(coHolder.itemView)
-                        .load(data.getImgUrl1())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                        .into(coHolder.collImg1);
-                Glide.with(coHolder.itemView)
-                        .load(data.getImgUrl2())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                        .into(coHolder.collImg2);
+                coHolder.collType.setText("馆藏精品");
+                Collection collection1 = data.getCollection1();
+                Collection collection2 = data.getCollection2();
+                if(collection1 != null && collection2 != null) {
+                    coHolder.collName1.setText(collection1.getName());
+                    coHolder.collName2.setText(collection2.getName());
+                    Glide.with(coHolder.itemView)
+                            .load(collection1.getImgUrl())
+                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                            .into(coHolder.collImg1);
+                    Glide.with(coHolder.itemView)
+                            .load(collection2.getImgUrl())
+                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                            .into(coHolder.collImg2);
+                }
                 break;
             case 3:
                 HomeNewsHolder neHolder = (HomeNewsHolder) holder;
-                neHolder.newsType.setText(data.getType());
-                neHolder.newsTitle.setText(data.getTitle());
-                neHolder.newsContent.setText(data.getContent());
-                neHolder.newsTime.setText(data.getTime());
-                Glide.with(neHolder.itemView)
-                        .load(data.getImgUrl1())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                        .into(neHolder.newsImg);
+                neHolder.newsType.setText("馆内热闻");
+                News news = data.getNews();
+                if(news != null) {
+                    neHolder.newsTitle.setText(news.getTitle());
+                    neHolder.newsContent.setText(news.getContent());
+                    neHolder.newsTime.setText(news.getTime());
+                    Glide.with(neHolder.itemView)
+                            .load(news.getImgUrl())
+                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                            .into(neHolder.newsImg);
+                }
                 break;
             case 4:
                 HomeEducationHolder edHolder = (HomeEducationHolder) holder;
-                edHolder.eduType.setText(data.getType());
-                edHolder.eduTitle.setText(data.getTitle());
-                edHolder.eduContent.setText(data.getContent());
-                //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
-                Glide.with(edHolder.itemView)
-                        .load(data.getImgUrl1())
-                        .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                        .into(edHolder.eduImg);
+                edHolder.eduType.setText("教育活动");
+                Education education = data.getEducation();
+                if(education != null) {
+                    edHolder.eduTitle.setText(education.getName());
+                    edHolder.eduContent.setText(education.getContent());
+                    //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
+                    Glide.with(edHolder.itemView)
+                            .load(education.getImgUrl())
+                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                            .into(edHolder.eduImg);
+                }
                 break;
         }
     }

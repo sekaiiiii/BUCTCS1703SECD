@@ -6,9 +6,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.buct.museumguide.R;
+import com.buct.museumguide.bean.PostResultMessage;
+import com.buct.museumguide.bean.WebRequestMessage;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,10 +34,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginViewModel extends ViewModel {
+    public LoginViewModel(){
+        //EventBus.getDefault().register(this);
+    }
     private MutableLiveData<String>liveData;
     public void GetLoginState(String name, String password, final Context activity, final View view){
         liveData=new MutableLiveData<>();
-        OkHttpClient okHttpClient=WebHelper.getInstance().client;//这里最好是写死的，将情况按参数匹配
         MediaType mediaType = MediaType.parse("application/json");
         final JSONObject jsonObject=new JSONObject();
         try {
@@ -42,6 +48,7 @@ public class LoginViewModel extends ViewModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        OkHttpClient okHttpClient=WebHelper.getInstance().client;//这里最好是写死的，将情况按参数匹配
         if(jsonObject.length()>0){
             String body=jsonObject.toString();
             final Request request=new Request.Builder()
@@ -65,9 +72,8 @@ public class LoginViewModel extends ViewModel {
                         if(state.equals("1")){//截获cookie
                             String session=header.values("Set-Cookie").get(0);
                             String sessionID = session.substring(0, session.indexOf(";"));
-                            SharedPreferences Infos = activity.getSharedPreferences("data", Context.MODE_PRIVATE);
-                            Infos.edit().putString("cookie",sessionID).apply();
-                            //
+                            System.out.println("登录接受的cookie是 "+sessionID);
+                            WebHelper.setCookie(activity,sessionID);
                         }
                         else{
                             System.out.println("null");
@@ -83,5 +89,11 @@ public class LoginViewModel extends ViewModel {
     public LiveData<String>getState(String name, String password, final Context activity, final View view){
         GetLoginState( name,password,activity,view);
         return liveData;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        //EventBus.getDefault().unregister(this);
     }
 }
