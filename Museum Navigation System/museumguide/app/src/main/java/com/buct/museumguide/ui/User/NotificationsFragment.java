@@ -94,6 +94,13 @@ public class NotificationsFragment extends Fragment {
                     Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_setting);
                 }
             });
+            final Button button5=root.findViewById(R.id.button8);//关于我们
+            button5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigation.findNavController(getView()).navigate(R.id.action_navigation_notifications_to_about);
+                }
+            });
         }
         return root;
     }
