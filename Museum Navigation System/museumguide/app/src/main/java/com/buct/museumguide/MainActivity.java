@@ -260,5 +260,10 @@ public class MainActivity extends AppCompatActivity {
             mediaController.getTransportControls().prepareFromMediaId(msg.msg,null);
         }
     }
-
+/*
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Navigation.findNavController(this,R.id.nav_host_fragment).navigateUp();
+    }*/
 }

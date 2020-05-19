@@ -12,6 +12,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -337,6 +338,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
+                    return true;
+                }
+                return false;
+            }
+        });
         Log.d(TAG, "onResume: ");
         bannerData = new ArrayList<>();
         requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
