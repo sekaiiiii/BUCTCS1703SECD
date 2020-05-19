@@ -18,6 +18,7 @@ public class HomeNewsHolder extends RecyclerView.ViewHolder {
     public TextView newsContent;
     public TextView newsTime;
     public ImageView newsImg;
+    public TextView noNews;
 
     public HomeNewsHolder(Context context, @NonNull View view) {
         super(view);
@@ -28,5 +29,6 @@ public class HomeNewsHolder extends RecyclerView.ViewHolder {
         this.newsContent = (TextView) view.findViewById(R.id.homeNewsContent);
         this.newsTime = (TextView) view.findViewById(R.id.homeNewsTime);
         this.newsImg = (ImageView) view.findViewById(R.id.homeNewsImg);
+        this.noNews = (TextView) view.findViewById(R.id.noNews);
     }
 }

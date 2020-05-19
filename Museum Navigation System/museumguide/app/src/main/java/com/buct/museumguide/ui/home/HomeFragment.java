@@ -194,6 +194,7 @@ public class HomeFragment extends Fragment {
                     reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "Exhibition null");
+                bannerData.add(new MuseumItem(1, null, null, null,null, null));
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -229,6 +230,7 @@ public class HomeFragment extends Fragment {
                     reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "Collection null");
+                bannerData.add(new MuseumItem(2, null, null,null,null,null));
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -257,6 +259,7 @@ public class HomeFragment extends Fragment {
                     reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "News null");
+                bannerData.add(new MuseumItem(3, null, null,null,null,null));
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -287,6 +290,7 @@ public class HomeFragment extends Fragment {
                     reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "Education null");
+                bannerData.add(new MuseumItem(4, null, null,null,null,null));
             }
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
@@ -354,7 +358,7 @@ public class HomeFragment extends Fragment {
         requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
         requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",200), "");
         requestHelper.getCollection(getActivity(), Infos.getInt("curMuseumId",3), "");
-        requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "");
+        requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "", -1, -1);
         requestHelper.getEducation(getActivity(), Infos.getInt("curMuseumId",3), "");
         requestHelper.getComment(getActivity(), Infos.getInt("curMuseumId",3));
     }
@@ -397,7 +401,7 @@ public class HomeFragment extends Fragment {
             requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
             requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",3), "");
             requestHelper.getCollection(getActivity(), Infos.getInt("curMuseumId",3), "");
-            requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "");
+            requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "", -1, -1);
             requestHelper.getEducation(getActivity(), Infos.getInt("curMuseumId",3), "");
             requestHelper.getComment(getActivity(), Infos.getInt("curMuseumId",3));
         }
@@ -433,6 +437,7 @@ public class HomeFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void reOrderBannerList() {
+        Log.d(TAG, "reOrderBannerList: ");
         java.util.Collections.sort(bannerData, new Comparator<MuseumItem>() {
             @Override
             public int compare(MuseumItem o1, MuseumItem o2) {
