@@ -75,15 +75,15 @@ public class NewsSAdapter extends RecyclerView.Adapter<NewsSAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News exhibition=mNewsList.get(position);
         holder.title.setText(exhibition.getTitle());
-        holder.author.setText("作者： "+exhibition.getContent());
+        holder.author.setText(exhibition.getContent());
         holder.museum.setText("博物馆： "+exhibition.getAuthor());
         holder.time.setText("时间： "+exhibition.getTime());
 //        holder.tag.setText("标签： "+exhibition.getTag());
 //        Uri uri = Uri.fromFile(new File(exhibition.getImgUrl()));
 //        holder.image.setImageURI(uri);
-        Glide.with(holder.itemView)
-                .load(exhibition.getImgUrl())
-                .into(holder.image);
+//        Glide.with(holder.itemView)
+//                .load(exhibition.getImgUrl())
+//                .into(holder.image);
         holder.itemView.setTag(mNewsList.get(position).getId());
 
     }
