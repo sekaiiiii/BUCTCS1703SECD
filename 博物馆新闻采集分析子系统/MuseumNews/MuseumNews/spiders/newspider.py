@@ -12,7 +12,7 @@ URL = 'https://www.baidu.com/s?tn=news&rtt=4&bsst=1&cl=2&wd=%E5%8D%9A%E7%89%A9%E
 class NewspiderSpider(scrapy.Spider):
     name = 'newspider'
     allowed_domains = ['baidu.com']
-    page = 0
+    page = 5
     start_urls = [URL.format(page = page * 10)]
 
     def parse(self, response):
@@ -59,7 +59,7 @@ class NewspiderSpider(scrapy.Spider):
             yield item
 
         print('page = {}'.format(self.page))
-        if self.page < 30:
+        if self.page < 50:
             self.page += 1
             new_url = URL.format(page=self.page * 10)
             print(new_url)

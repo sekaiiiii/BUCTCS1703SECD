@@ -1,34 +1,35 @@
 import scrapy
-from ToBoNews.items import TobonewsItem
+from MuseumNews.items import MuseumnewsItem
 from scrapy import Spider, Request
 
-URL = "http://www.gmc.org.cn/toboalerts/p/{page}.html"
-prefixURL = "http://www.gmc.org.cn"
+URL = "http://www.jb.mil.cn/zxdt/index_{page}.html"
+prefixURL = "http://www.jb.mil.cn/zxdt"
 
-class ToBoNewsSpyder(scrapy.Spider):
-    name = "newspider"
-    allowed_domains = ['gmc.org.cn']
+
+class MilitaryMuseumSpyder(scrapy.Spider):
+    name = "MilitaryNews"
+    allowed_domains = ['jb.mil.cn']
     page = 1
     start_urls = [URL.format(page=page)]
 
     def parse(self, response):
-        news_lists = response.xpath("//div[@class='con2']")[0]
-        news_list = news_lists.xpath(".//div[@class='li']")
+        news_body = response.xpath("//div[@class='infoDynamicList']")[0]
+        news_list = news_body.xpath("./ul//li")
         for news in news_list:
-            title = news.xpath("./a/div/div[@class='t18']/text()")
-            time = news.xpath("./a/div/div[@class='time']/text()")
-            content = news.xpath("./a/div/div[@class='p']/text()")
+            title = news.xpath("./a/h3/text()")
+            time = news.xpath("./a/span/text()")
+            content = news.xpath("./a/p/text()")
             href = news.xpath("./a/@href")
-            if len(title) == 0 or len(time)==0 or len(content)==0 or len(href)==0:
-                continue;
+            if len(title) == 0 or len(time) == 0 or len(content) == 0 or len(href) == 0:
+                continue
             title = title[0].extract()
             time = time[0].extract()
             content = content[0].extract()
-            href = prefixURL + href[0].extract()
-            author = "中国地质博物馆"
+            href = prefixURL + href[0].extract()[1:]
+            author = "中国人民革命军事博物馆"
             description = "1"
             tag = 1
-            item = TobonewsItem()
+            item = MuseumnewsItem()
             item['title'] = title
             item['author'] = author
             item['time'] = time
@@ -39,7 +40,7 @@ class ToBoNewsSpyder(scrapy.Spider):
             yield item
 
         print('page = {}'.format(self.page))
-        if self.page < 20:
+        if self.page < 30:
             self.page += 1
             new_url = URL.format(page=self.page)
             print(new_url)
