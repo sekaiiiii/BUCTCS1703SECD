@@ -156,7 +156,7 @@ public class Setting extends Fragment {
 
     @Subscribe
     public void onUpdateResult(UpdateResult result) throws JSONException {
-
+        System.out.println(result.msg);
         Gson gson=new Gson();
         UpdateAppResult result1=gson.fromJson(result.msg,UpdateAppResult.class);
 
