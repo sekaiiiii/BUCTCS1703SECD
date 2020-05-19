@@ -52,7 +52,7 @@ public class DefaultFragment extends Fragment {
     private com.buct.museumguide.bean.Museum showMuseum;
     private List<Museum> museumList = new ArrayList<>();
     private List<com.buct.museumguide.bean.Museum> mMuseums = new ArrayList<>();
-    private MuseumAdapter museumAdapter;
+    private MuseumDefaultAdapter museumAdapter;
     private RequestHelper requestHelper = new RequestHelper();
     private SharedPreferences sharedPreferences;
     private PinyinComparator pinyinComparator;
@@ -106,7 +106,11 @@ public class DefaultFragment extends Fragment {
             }
         });
         recyclerView = view.findViewById(R.id.museumList_recyclerview0);
-        museumList = filledData(mMuseums);
+        try {
+            museumList = filledData(mMuseums);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Collections.sort(museumList,pinyinComparator);
 
@@ -114,8 +118,8 @@ public class DefaultFragment extends Fragment {
 
         recyclerView.setLayoutManager(manage);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        museumAdapter = new MuseumAdapter(museumList);
-        museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
+        museumAdapter = new MuseumDefaultAdapter(museumList);
+        museumAdapter.setOnItemClickListener(new MuseumDefaultAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 System.out.println("已点击");
@@ -137,22 +141,40 @@ public class DefaultFragment extends Fragment {
         recyclerView.addItemDecoration(titleItemDecoration);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
 
-
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                museumAdapter.notifyDataSetChanged();
+            }
+        });
         return view;
     }
 
 
-    private List<Museum> filledData(List<com.buct.museumguide.bean.Museum> museums) {
+    private List<Museum> filledData(List<com.buct.museumguide.bean.Museum> museums) throws JSONException {
+        List<String> imgUrl = new ArrayList<>();
         List<String> data = new ArrayList<>();
         for (int i=0; i<museums.size(); i++){
+            JSONArray jsonArray = new JSONArray();
+            jsonArray = museums.get(i).getImage_list();
+            if(jsonArray.length()==0){
+                imgUrl.add("");
+            }
+            else {
+                String str = (String) jsonArray.get(0);
+                str = "http://192.144.239.176:8080/"+str;
+                imgUrl.add(str);
+            }
             data.add(museums.get(i).getName());
+
         }
         List<Museum> mMuseumList = new ArrayList<>();
 
         for (int i=0 ; i<data.size(); i++){
             Museum museum = new Museum();
             museum.setName(data.get(i));
-            museum.setImageId(R.drawable.ic_launcher_background);
+            museum.setImgUrl(imgUrl.get(i));
+
             museum.setLevel("国家一级博物馆");
             //汉字转化为拼音
             String pinyin = PinyinUtil.getPingYin(data.get(i));

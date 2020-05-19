@@ -16,15 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
-import com.buct.museumguide.Service.CommandRequest;
-import com.buct.museumguide.Service.MuseumInfoResultMsg;
 import com.buct.museumguide.Service.MuseumListTimeResultMsg;
-import com.buct.museumguide.Service.ResultMessage;
 import com.buct.museumguide.util.RequestHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +35,7 @@ public class TimeFragment extends Fragment {
     public static final String TAG ="TimeFragment" ;
     private com.buct.museumguide.bean.Museum showMuseum;
     private RequestHelper requestHelper = new RequestHelper();
-    private MuseumAdapter museumAdapter;
+    private MuseumTimeAdapter museumNumberAdapter;
     private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,15 +48,15 @@ public class TimeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        museumAdapter = new MuseumAdapter(museumList);
-        museumAdapter.setOnItemClickListener(new MuseumAdapter.OnItemClickListener() {
+        museumNumberAdapter = new MuseumTimeAdapter(museumList);
+        museumNumberAdapter.setOnItemClickListener(new MuseumTimeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 System.out.println("已点击");
                 //Toast.makeText(getContext(),"click: "+ position, Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
-                System.out.println(museumAdapter.getTitle(position));
-                editor.putString("info", museumAdapter.getTitle(position)).apply();
+                System.out.println(museumNumberAdapter.getTitle(position));
+                editor.putString("info", museumNumberAdapter.getTitle(position)).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -69,7 +65,7 @@ public class TimeFragment extends Fragment {
                 Toast.makeText(getContext(),"click: "+ position, Toast.LENGTH_SHORT).show();
             }
         });
-        recyclerView.setAdapter(museumAdapter);
+        recyclerView.setAdapter(museumNumberAdapter);
 
         return view;
     }
@@ -87,8 +83,21 @@ public class TimeFragment extends Fragment {
                 {
                     JSONObject object = (JSONObject) jsonArray.get(i);
                     showMuseum = new com.buct.museumguide.bean.Museum(object);
+                    JSONArray imgList = showMuseum.getImage_list();
+                    String imgurl = "";
+                    if(imgList.length()==0){
+                        imgurl = "";
+                    }
+                    else {
+                        imgurl = showMuseum.getImage_list().get(0).toString();
+                        imgurl = "http://192.144.239.176:8080/"+imgurl;
+                    }
                     //System.out.println(showMuseum.getName());
-                    temp_list.add(new Museum(R.drawable.ic_launcher_background,showMuseum.getName(),"国家一级博物馆","100"));
+
+                    //System.out.println(imgurl);
+                    String exhibition = object.getString("exhibition_num");
+                    System.out.println("%%%%%%"+exhibition);
+                    temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",exhibition,1));
                 }
                 System.out.println(temp_list.size());
                 museumList.clear();
@@ -96,7 +105,7 @@ public class TimeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        museumAdapter.notifyDataSetChanged();
+                        museumNumberAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -109,13 +118,6 @@ public class TimeFragment extends Fragment {
         }
     }
 
-    private void initMuseum(){
-        for(int i=0; i<50; i++)
-        {
-            //museumList.add(new Museum("中国国家博物馆"));
-            museumList.add(new Museum(R.drawable.ic_launcher_background,"中国国家博物馆","国家一级博物馆","1000000"));
-        }
-    }
 
 
     @Override
