@@ -11,7 +11,7 @@
   <component name="ProjectId" id="1bF2RaJPJ39VPvbJqh1nMuOSYr4" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../MachineLearning/Emotional-Analysis-of-Internet-News/CCF_NewsSenAna" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunDashboard">
@@ -91,6 +91,8 @@
       <workItem from="1588213525185" duration="3526000" />
       <workItem from="1588383758108" duration="5934000" />
       <workItem from="1588691586973" duration="249000" />
+      <workItem from="1589079684311" duration="874000" />
+      <workItem from="1589683912818" duration="37000" />
     </task>
     <servers />
   </component>
