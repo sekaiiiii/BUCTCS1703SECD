@@ -61,7 +61,7 @@ public class CollectionAdapter extends RecyclerView.Adapter< CollectionAdapter.V
         Collection exhibition=mCollectionList.get(position);
         holder.name.setText("  "+exhibition.getName());
         holder.materials.setText("  材质： "+exhibition.getMaterial());
-        holder.museum.setText("  博物馆： "+exhibition.getMuseum_id());
+        holder.museum.setText("  博物馆： "+"故宫博物院");
 //        holder.tag.setText("标签： "+exhibition.getTag());
 //        holder.content.setText("内容： "+exhibition.getContent());
 //        Uri uri = Uri.fromFile(new File(exhibition.getImgUrl()));
