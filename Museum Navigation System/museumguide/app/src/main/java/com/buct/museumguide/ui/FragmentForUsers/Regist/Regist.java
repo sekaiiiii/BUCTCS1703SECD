@@ -48,17 +48,9 @@ public class Regist extends Fragment {
         final EditText password = getView().findViewById(R.id.text_password);
         final EditText definepsw = getView().findViewById(R.id.text_password_correction);
         final EditText code = getView().findViewById(R.id.text_code);
-        Button bt_back = getView().findViewById(R.id.bt_backup);
         Button bt_code =getView().findViewById(R.id.bt_gaincode);
         Button bt_define = getView().findViewById(R.id.button_register);
 
-        //返回
-        bt_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
 
         //为获取验证码按钮添加点击事件
         bt_code.setOnClickListener(new View.OnClickListener() {
@@ -71,26 +63,38 @@ public class Regist extends Fragment {
 
                 //传参给RegistViewModel处理
                 if(name.length()>=2&&name.length()<=18) {
-                    if(password.length()>=6&&password.length()<=18){
-                        if( psws.equals(definepsws)) {
-                            mViewModel.getCode(name,mail_address,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
-                                @Override
-                                public void onChanged(String s) {
-                                    if(s.equals("1")){
-                                        Toast.makeText(getActivity(),"验证码发送成功",Toast.LENGTH_SHORT).show();
-                                    }
-                                    else{
-                                        Toast.makeText(getActivity(),"验证码发送失败，用户已存在",Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
-                        else{
-                            Toast.makeText(getActivity(),"两次密码不同",Toast.LENGTH_SHORT).show();
-                        }
+                    if(mail_address.equals(""))
+                    {
+                        Toast.makeText(getActivity(),"邮箱不能为空",Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        Toast.makeText(getActivity(),"密码长度应为6-18",Toast.LENGTH_SHORT).show();
+                        if(password.length()>=6&&password.length()<=18){
+                            if( psws.equals(definepsws)) {
+                                mViewModel.getCode(name,mail_address,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
+                                    @Override
+                                    public void onChanged(String s) {
+                                        if(s.equals("1")){
+                                            Toast.makeText(getActivity(),"验证码发送成功",Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if(s.equals("106")) {
+                                            Toast.makeText(getActivity(), "验证码发送失败，用户名或邮箱已存在", Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if(s.equals("300")){
+                                            Toast.makeText(getActivity(),"服务器发送邮件失败",Toast.LENGTH_SHORT).show();
+                                        }
+                                        else if(s.equals("101")){
+                                            Toast.makeText(getActivity(),"验证码发送失败，邮箱格式错误",Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                Toast.makeText(getActivity(),"两次密码不同",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getActivity(),"密码长度应为6-18",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
                 else {
@@ -108,18 +112,24 @@ public class Regist extends Fragment {
                 String codes= code.getText().toString();
                 String psw = password.getText().toString();
                 //将上述四个字符串作为参数传递给RegistViewModel处理
-                mViewModel.getState(names,email_address,codes,psw,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String s) {
-                        if(s.equals("0")){
-                            Toast.makeText(getActivity(),"注册失败,验证码错误或失效",Toast.LENGTH_SHORT).show();
+                if(codes.equals(""))
+                {
+                    Toast.makeText(getActivity(),"验证码不能为空",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    mViewModel.getState(names,email_address,codes,psw,getActivity(),getView()).observe(getViewLifecycleOwner(), new Observer<String>() {
+                        @Override
+                        public void onChanged(String s) {
+                            if(s.equals("0")){
+                                Toast.makeText(getActivity(),"注册失败,验证码错误或失效",Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getActivity(),"注册成功",Toast.LENGTH_SHORT).show();
+                                Navigation.findNavController(getView()).navigate(R.id.action_regist_to_login);
+                            }
                         }
-                        else {
-                            Toast.makeText(getActivity(),"注册成功",Toast.LENGTH_SHORT).show();
-                            Navigation.findNavController(getView()).navigate(R.id.action_regist_to_login);
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
     }
