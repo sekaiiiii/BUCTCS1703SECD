@@ -103,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         Intent intent=getIntent();
         String info=intent.getStringExtra("info");
+        String museumId=intent.getStringExtra("museumid_map");
 
         Infos.edit().putString("info",info).apply();
+        Infos.edit().putString("museumid_map",museumId).apply();
         AppBarConfiguration appBarConfiguration;
             appBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
