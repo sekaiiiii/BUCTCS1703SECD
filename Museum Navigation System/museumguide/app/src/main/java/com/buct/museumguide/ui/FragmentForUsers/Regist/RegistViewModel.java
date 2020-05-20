@@ -38,7 +38,7 @@ public class RegistViewModel extends ViewModel {
     private MutableLiveData<String>liveData2;
     //存放cookie
     private List<String> cookies;
-    private String cookie;
+    private String cookie="";
 
     public void  GetCode(String username,String mail_address, final Context activity, final View view){
         liveData1=new MutableLiveData<>();
@@ -60,22 +60,23 @@ public class RegistViewModel extends ViewModel {
                 try{
                     String result1 = response.body().string();
                     Headers header = response.headers();
-                    Looper.prepare();
-                    Toast.makeText(activity,result1,Toast.LENGTH_SHORT).show();
-                    Looper.loop();
                     cookies = header.values("Set-Cookie");
                     JSONObject jsonobject3 =  new JSONObject(result1);
+
                     String state = jsonobject3.getString("status");//用于判断验证码是否发送成功
-                    if(state.equals("1")){
+                    System.out.println(state);
+                    if(state.equals("1")){ System.out.println("验证码");
                         String session=header.values("Set-Cookie").get(0);
                         String sessionID = session.substring(0, session.indexOf(";"));
                         System.out.println(sessionID);
                         cookie=sessionID;
+                        liveData1.postValue(state);
                     }
                     else{
+                        String error = jsonobject3.getString("error_code");
+                        liveData1.postValue(error);
                         System.out.println("null");
                     }
-                    liveData1.postValue(state);
                 }catch (Exception e){
                     Log.e(Regist.TAG, "onResponse: ", e);
                 }
@@ -107,18 +108,19 @@ public class RegistViewModel extends ViewModel {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try{
                     String result2 = response.body().string();
-                    Looper.prepare();
+                   /* Looper.prepare();
                     Toast.makeText(activity,result2,Toast.LENGTH_SHORT).show();
-                    Looper.loop();
+                    Looper.loop();*/
                     JSONObject jsonobject4 =  new JSONObject(result2);
                     String state = jsonobject4.getString("status");//用于是否注册成功
                     if(state.equals("1")){
                         System.out.println("注册成功");
+                        liveData2.postValue("1");
                     }
                     else{
                         System.out.println("null");
+                        liveData2.postValue("0");
                     }
-                    liveData2.postValue(state);
                 }catch (Exception e){
                     Log.e(Regist.TAG, "onResponse: ", e);
                 }

@@ -159,9 +159,13 @@ public class FeedBack extends Fragment {
             public void onClick(View v) {
                 String qus=t1.getText().toString();
                 String fd=t2.getText().toString();
-                String[]s={qus,fd};
-                uploadfeedback uploadfeedback=new uploadfeedback();
-                uploadfeedback.execute(s);
+                if(t1.length()==0||t2.length()==0){
+                    Toast.makeText(getActivity(),"你还没有填写反馈！",Toast.LENGTH_SHORT).show();
+                }else{
+                    String[]s={qus,fd};
+                    uploadfeedback uploadfeedback=new uploadfeedback();
+                    uploadfeedback.execute(s);
+                }
             }
         });
     }

@@ -115,6 +115,13 @@
             app:exitAnim="@anim/fragment_fade_exit"
             app:popEnterAnim="@anim/fragment_fade_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_navigation_notifications_to_about"
+            app:destination="@id/about"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/searchResult"
@@ -311,5 +318,10 @@
         android:name="com.buct.museumguide.ui.FragmentForMain.Search.Test"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/about"
+        android:name="com.buct.museumguide.ui.FragmentForUsers.About"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
 </navigation>
 

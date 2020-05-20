@@ -221,6 +221,7 @@ public class SearchResult extends Fragment {
                     Message message=new Message();
                     message.what=100;
                     message.obj=response.body().string();
+
                     handler.sendMessage(message);
                 }
                 catch (IOException e){
@@ -232,20 +233,22 @@ public class SearchResult extends Fragment {
     }
 
     void getMuseum(String search){
-        String url="http://192.144.239.176:8080/api/android/get_museum_info";
+        String url="http://192.144.239.176:8080/api/android/get_museum_info?name=";
+        String uri=url+search;
         OkHttpClient client=new OkHttpClient();
         new Thread(new Runnable() {
             @Override
             public void run()  {
                 Request request=new Request.Builder()
                         .get()
-                        .url(url)
+                        .url(uri)
                         .build();
                 try {
                     Response response = client.newCall(request).execute();
                     Message message=new Message();
                     message.what=100;
                     message.obj=response.body().string();
+//                    Log.d("getMuseum",(String)message.obj);
                     handler.sendMessage(message);
                 }
                 catch (IOException e){

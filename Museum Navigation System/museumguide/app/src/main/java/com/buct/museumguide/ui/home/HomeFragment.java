@@ -12,6 +12,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,20 +89,35 @@ public class HomeFragment extends Fragment {
     private TextView introContent;
     private TextView visitContent;
     private TextView hometvComment;
+    private TextView homeExhiScore;
+    private TextView homeEnviScore;
+    private TextView homeServScore;
     private RequestHelper requestHelper = new RequestHelper();
     private ArrayList<MuseumItem> bannerData = new ArrayList<>();
+    private int curMuseumId = 3;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
+        bannerData.clear();
         Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String info = Infos.getString("info", "");
+        String museumId = Infos.getString("museumid_map", "");
         if (!info.equals("")) {
             Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onAttach: "+ info);
+            Log.d(TAG, "onAttach: fromMap name"+ info);
             System.out.println(info);
         }
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+        assert museumId != null;
+        if(!museumId.equals("")) {
+            curMuseumId = Integer.parseInt(museumId);
+            editor.putInt("curMuseumId",curMuseumId).apply();
+            Log.d(TAG, "onAttach: fromMap id = " + curMuseumId);
+        }
+        else
+            editor.putInt("curMuseumId", 3).apply();
     }
 
     @Override
@@ -130,6 +146,9 @@ public class HomeFragment extends Fragment {
         introContent = root.findViewById(R.id.introContent);
         visitContent = root.findViewById(R.id.visitContent);
         hometvComment = root.findViewById(R.id.hometvComment);
+        homeExhiScore = root.findViewById(R.id.homeExhiScore);
+        homeEnviScore = root.findViewById(R.id.homeEnviScore);
+        homeServScore = root.findViewById(R.id.homeServScore);
 
         Log.d(TAG, "onCreateView: getActivity" + getActivity());
 
@@ -158,11 +177,16 @@ public class HomeFragment extends Fragment {
                 JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("museum_list")));
                 JSONObject resMuseum = jsonArray.getJSONObject(0);
                 showMuseum = new Museum(resMuseum);
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
-                editor.putInt("curMuseumId", showMuseum.getId()).apply();
                 museumName.setText(showMuseum.getName().equals("")?"这里还没有内容":showMuseum.getName());
                 introContent.setText(showMuseum.getIntroduction().equals("")?"这里还没有内容":showMuseum.getIntroduction());
                 visitContent.setText((showMuseum.getTime() + showMuseum.getAttention()).equals("")?"这里还没有内容":showMuseum.getTime()+showMuseum.getAttention());
+                homeExhiScore.setText(showMuseum.getExhibition_score().equals("")?"无":showMuseum.getExhibition_score().substring(0, 4));
+                homeEnviScore.setText(showMuseum.getEnvironment_score().equals("")?"无":showMuseum.getEnvironment_score().substring(0, 4));
+                homeServScore.setText(showMuseum.getService_score().equals("")?"无":showMuseum.getService_score().substring(0, 4));
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+                editor.putString("exhiScore",showMuseum.getExhibition_score()).apply();
+                editor.putString("enviScore",showMuseum.getEnvironment_score()).apply();
+                editor.putString("servScore",showMuseum.getService_score()).apply();
             } else {
                 Log.d(HomeFragment.TAG, "museumInfor null");
             }
@@ -189,11 +213,12 @@ public class HomeFragment extends Fragment {
                     Exhibition firstExhi = new Exhibition(jsonArray.getJSONObject(0));
                     bannerData.add(new MuseumItem(1, firstExhi, null, null, null, null));
                 }
-                if(bannerData.size() == 4)
-                    reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "Exhibition null");
+                bannerData.add(new MuseumItem(1, null, null, null,null, null));
             }
+            if(bannerData.size() == 4)
+                reOrderBannerList();
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
             e.printStackTrace();
@@ -224,11 +249,12 @@ public class HomeFragment extends Fragment {
                     Collection secondColl = new Collection(jsonArray.getJSONObject(1));
                     bannerData.add(new MuseumItem(2, null, firstColl, secondColl, null, null));
                 }
-                if(bannerData.size() == 4)
-                    reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "Collection null");
+                bannerData.add(new MuseumItem(2, null, null,null,null,null));
             }
+            if(bannerData.size() == 4)
+                reOrderBannerList();
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
             e.printStackTrace();
@@ -252,11 +278,12 @@ public class HomeFragment extends Fragment {
                     News firstNews = new News(jsonArray.getJSONObject(0));
                     bannerData.add(new MuseumItem(3, null, null, null,firstNews,null));
                 }
-                if(bannerData.size() == 4)
-                    reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "News null");
+                bannerData.add(new MuseumItem(3, null, null,null,null,null));
             }
+            if(bannerData.size() == 4)
+                reOrderBannerList();
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
             e.printStackTrace();
@@ -282,11 +309,12 @@ public class HomeFragment extends Fragment {
                     Education firstEdu = new Education(jsonArray.getJSONObject(0));
                     bannerData.add(new MuseumItem(4, null, null, null, null,firstEdu));
                 }
-                if(bannerData.size() == 4)
-                    reOrderBannerList();
             } else {
                 Log.d(HomeFragment.TAG, "Education null");
+                bannerData.add(new MuseumItem(4, null, null,null,null,null));
             }
+            if(bannerData.size() == 4)
+                reOrderBannerList();
         } catch (JSONException e) {
             Log.e(HomeFragment.TAG, "onResponse: ", e);
             e.printStackTrace();
@@ -337,14 +365,25 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_BACK){
+                    return true;
+                }
+                return false;
+            }
+        });
         Log.d(TAG, "onResume: ");
-        bannerData = new ArrayList<>();
+        bannerData.clear();
         requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
-        requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",200), "");
-        requestHelper.getCollection(getActivity(), Infos.getInt("curMuseumId",3), "");
-        requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "");
-        requestHelper.getEducation(getActivity(), Infos.getInt("curMuseumId",3), "");
-        requestHelper.getComment(getActivity(), Infos.getInt("curMuseumId",3));
+        requestHelper.getExhibition(getActivity(), curMuseumId, "");
+        requestHelper.getCollection(getActivity(), curMuseumId, "");
+        requestHelper.getNews(getActivity(), curMuseumId, "", -1, -1);
+        requestHelper.getEducation(getActivity(), curMuseumId, "");
+        requestHelper.getComment(getActivity(), curMuseumId);
     }
 
     @Override
@@ -381,13 +420,13 @@ public class HomeFragment extends Fragment {
     public void GetState(StateBroadCast msg) {
         if (msg.state == 1) {
             Log.d(TAG, "GetState: 收到了服务已启动的通知");
-            bannerData = new ArrayList<>();
+            bannerData.clear();
             requestHelper.getMuseumInfo(getActivity(), Objects.requireNonNull(Infos.getString("info", "中国地质博物馆")), -1);
-            requestHelper.getExhibition(getActivity(), Infos.getInt("curMuseumId",3), "");
-            requestHelper.getCollection(getActivity(), Infos.getInt("curMuseumId",3), "");
-            requestHelper.getNews(getActivity(), Infos.getInt("curMuseumId",3), "");
-            requestHelper.getEducation(getActivity(), Infos.getInt("curMuseumId",3), "");
-            requestHelper.getComment(getActivity(), Infos.getInt("curMuseumId",3));
+            requestHelper.getExhibition(getActivity(), curMuseumId, "");
+            requestHelper.getCollection(getActivity(), curMuseumId, "");
+            requestHelper.getNews(getActivity(), curMuseumId, "", -1, -1);
+            requestHelper.getEducation(getActivity(), curMuseumId, "");
+            requestHelper.getComment(getActivity(), curMuseumId);
         }
     }
 
@@ -421,6 +460,7 @@ public class HomeFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void reOrderBannerList() {
+        Log.d(TAG, "reOrderBannerList: ");
         java.util.Collections.sort(bannerData, new Comparator<MuseumItem>() {
             @Override
             public int compare(MuseumItem o1, MuseumItem o2) {
