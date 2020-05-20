@@ -7,18 +7,29 @@ import datetime
 import time
 from _datetime import timedelta
 
-URL = 'https://www.baidu.com/s?tn=news&rtt=4&bsst=1&cl=2&wd=%E5%8D%9A%E7%89%A9%E9%A6%86&medium=0&x_bfe_rqs=03E80&tngroupname=organic_news&newVideo=12&rsv_dl=news_b_pn&pn={page}'
+URL = 'https://www.baidu.com/s?rtt=1&bsst=1&cl=2&tn=news&rsv_dl=ns_pc&word={museum}&bt={bt}&et={et}&x_bfe_rqs=03E80&tngroupname=organic_news&newVideo=12&pn={page}'
 
 class NewspiderSpider(scrapy.Spider):
     name = 'newspider'
     allowed_domains = ['baidu.com']
-    page = 5
-    start_urls = [URL.format(page = page * 10)]
+    page = 0
+    museum = None
+    startTime = None
+    endTime = None
+    start_urls = []
+    end = False
+    def __init__(self, museum="博物馆", startTime="", endTime="", *args, **kwargs):
+        super(NewspiderSpider, self).__init__(*args, **kwargs)
+        self.startTime = startTime
+        self.endTime = endTime
+        self.museum = museum
+        self.start_urls = [URL.format(museum=museum, bt=startTime, et=endTime, page=self.page * 10)]
 
     def parse(self, response):
         news_list = response.xpath('//div[@class="result"]')
         # print(news_list)
-        if not news_list:                   
+        if not news_list:  
+            self.end = True                 
             return
         for news in news_list:
             href = news.xpath('./h3[@class="c-title"]/a/@href').extract()
@@ -59,9 +70,10 @@ class NewspiderSpider(scrapy.Spider):
             yield item
 
         print('page = {}'.format(self.page))
-        if self.page < 50:
+        if not self.end:
             self.page += 1
-            new_url = URL.format(page=self.page * 10)
+            new_url = URL.format(
+                museum=self.museum, bt=self.startTime, et=self.endTime, page=self.page * 10)
             print(new_url)
             yield Request(new_url, callback=self.parse, dont_filter=True)
 
