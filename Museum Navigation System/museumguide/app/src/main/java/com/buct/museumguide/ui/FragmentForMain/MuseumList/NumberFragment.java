@@ -57,6 +57,9 @@ public class NumberFragment extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 System.out.println(museumNumberAdapter.getTitle(position));
                 editor.putString("info", museumNumberAdapter.getTitle(position)).apply();
+                int id = museumNumberAdapter.getID(position);
+                String x = ""+id;
+                editor.putString("museumid_map",x).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
