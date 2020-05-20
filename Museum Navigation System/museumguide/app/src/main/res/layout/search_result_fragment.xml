@@ -57,7 +57,7 @@
 
     <Button
         android:id="@+id/cancel_search"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="30dp"
         android:background="@color/colorGreen"
         android:text="取消"
@@ -124,7 +124,7 @@
                 android:textColor="@color/colorBrown"
                 android:background="@drawable/button_hot_search"
                 android:layout_margin="2px"
-                android:text="后母戊鼎"/>
+                android:text="纹盘"/>
             <TextView
                 android:layout_width="20dp"
                 android:layout_height="20dp"/>
@@ -136,7 +136,7 @@
                 android:textColor="@color/colorBrown"
                 android:background="@drawable/button_hot_search"
                 android:layout_margin="2px"
-                android:text="故宫博物院"/>
+                android:text="五彩"/>
 
         </LinearLayout>
 
@@ -155,7 +155,7 @@
                 android:background="@drawable/button_hot_search"
                 android:layout_margin="2px"
 
-                android:text="黄玉夔龙纹扁壶"/>
+                android:text="仿石纹釉笔筒"/>
         </LinearLayout>
 
     </LinearLayout>
