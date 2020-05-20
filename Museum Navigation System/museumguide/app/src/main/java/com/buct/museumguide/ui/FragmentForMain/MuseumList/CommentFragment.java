@@ -59,6 +59,9 @@ public class CommentFragment extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 System.out.println(museumAdapter.getTitle(position));
                 editor.putString("info", museumAdapter.getTitle(position)).apply();
+                int id = museumAdapter.getID(position);
+                String x = ""+id;
+                editor.putString("museumid_map",x).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -103,7 +106,7 @@ public class CommentFragment extends Fragment {
                     String service = showMuseum.getService_score();
                     DecimalFormat df = new DecimalFormat("0.0");
                     if(exhibition == "null"){
-                        exhibition = "展览暂无用户评价";
+                        exhibition = "展览：无";
                     }
                     else {
                         double value = Double.valueOf(exhibition.toString());
@@ -111,7 +114,7 @@ public class CommentFragment extends Fragment {
                         exhibition = "展览："+exhibition;
                     }
                     if(environment == "null"){
-                        environment = "环境暂无用户评价";
+                        environment = "环境：无";
                     }
                     else {
                         double value = Double.valueOf(environment.toString());
@@ -119,7 +122,7 @@ public class CommentFragment extends Fragment {
                         environment = "环境："+ environment;
                     }
                     if(service =="null"){
-                        service ="服务暂无用户评价";
+                        service ="服务：无";
 
                     }
                     else {
