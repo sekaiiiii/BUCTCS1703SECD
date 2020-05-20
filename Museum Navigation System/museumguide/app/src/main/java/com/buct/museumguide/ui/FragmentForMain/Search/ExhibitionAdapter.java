@@ -73,9 +73,9 @@ public class ExhibitionAdapter extends RecyclerView.Adapter<ExhibitionAdapter.Vi
 //        holder.content.setText("内容： "+exhibition.getContent());
 //        Uri uri = Uri.fromFile(new File(exhibition.getImgUrl()));
 //        holder.image.setImageURI(uri);
-        Glide.with(holder.itemView)
-                .load(exhibition.getImgUrl())
-                .into(holder.image);
+//        Glide.with(holder.itemView)
+//                .load(exhibition.getImgUrl())
+//                .into(holder.image);
 
     }
 

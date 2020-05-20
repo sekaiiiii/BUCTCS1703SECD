@@ -73,6 +73,7 @@
         </LinearLayout>
             <ImageView
                 android:id="@+id/search_education_iamge"
+                android:src="@drawable/emptyimage2"
                 android:layout_width="match_parent"
                 android:background="@drawable/ic_search_exhibition"
                 android:layout_height="150dp"/>
