@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AppSlide"
-            android:label="My Custom AppIntro"></activity>
+            android:label="欢迎使用博物馆服务系统"></activity>
         <activity android:name=".ui.map.MapGuide" />
         <activity android:name=".ui.ClassForNews.WebViewer" />
         <activity
@@ -26,7 +26,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="d61522a10a24191d5f7cf1dc96899fbc" />
+            android:value="ae7a149395f9acb80e7e49225771f5ff" />
 
         <service
             android:name=".Service.SerachService"
@@ -44,13 +44,17 @@
             android:name=".Service.OnOpenGetMessage"
             android:enabled="true"
             android:exported="true" />
+        <service android:name="com.amap.api.location.APSService"></service>
     </application>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+
 
 </manifest>
