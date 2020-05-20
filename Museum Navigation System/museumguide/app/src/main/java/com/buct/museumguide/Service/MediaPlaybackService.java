@@ -98,17 +98,32 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements M
                         Gson gson=new Gson();
                         list1=gson.fromJson(res, Audiolist.class);
                         for(int i=0;i<list1.getDatas().getExplain_list().size();i++){
-                            list.add(new audioitem(
-                                    list1.getDatas().getExplain_list().get(i).getTitle(),
-                                    list1.getDatas().getExplain_list().get(i).getFile(),
-                                    list1.getDatas().getExplain_list().get(i).getName()));
+                            if(list1.getDatas().getExplain_list().get(i).getMuseum_id()!=null){
+                                list.add(new audioitem(
+                                        list1.getDatas().getExplain_list().get(i).getTitle(),
+                                        list1.getDatas().getExplain_list().get(i).getFile(),
+                                        list1.getDatas().getExplain_list().get(i).getName(),
+                                        "M"+list1.getDatas().getExplain_list().get(i).getMuseum_id()));
+                            }else if(list1.getDatas().getExplain_list().get(i).getCollection_id()!=null){
+                                list.add(new audioitem(
+                                        list1.getDatas().getExplain_list().get(i).getTitle(),
+                                        list1.getDatas().getExplain_list().get(i).getFile(),
+                                        list1.getDatas().getExplain_list().get(i).getName(),
+                                        "C"+list1.getDatas().getExplain_list().get(i).getCollection_id()));
+                            }else{
+                                list.add(new audioitem(
+                                        list1.getDatas().getExplain_list().get(i).getTitle(),
+                                        list1.getDatas().getExplain_list().get(i).getFile(),
+                                        list1.getDatas().getExplain_list().get(i).getName(),
+                                        "E"+list1.getDatas().getExplain_list().get(i).getExhibition_id()));
+                            }
                         }
                         for(int i=0;i<list.size();i++){
                             musicList.add(musicutil.SetMusic
                                     (String.valueOf(i+1),
                                             list.get(i).getTitle(),
                                             list.get(i).getAuthor(),
-                                            "导览",
+                                            list.get(i).getId(),
                                             uri+list.get(i).getFilename(),
                                             "无",
                                             "无",
@@ -195,7 +210,7 @@ public class MediaPlaybackService extends MediaBrowserServiceCompat implements M
                                 .setMediaId(musicList.get(i).getMetaID())
                                 .setTitle(musicList.get(i).getTitle())
                                 .setSubtitle(musicList.get(i).getUrl())
-                                .setDescription(musicList.get(i).getDescribe())
+                                .setDescription(musicList.get(i).getType())
                                 .build();
                         MediaBrowserCompat.MediaItem m=new MediaBrowserCompat.MediaItem(des,MediaBrowserCompat.MediaItem.FLAG_PLAYABLE);
                         l.add(m);

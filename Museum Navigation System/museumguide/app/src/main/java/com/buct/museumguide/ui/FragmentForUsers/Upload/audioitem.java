@@ -6,8 +6,9 @@ public class audioitem {
 private String title;
 private String filename;
 private String author;
-    public audioitem(String a, String b,String c){
-        this.title=a;this.filename=b;this.author=c;
+private String id;
+    public audioitem(String a, String b,String c,String d){
+        this.title=a;this.filename=b;this.author=c;id=d;
     }
     public String getTitle() {
         return title;
@@ -37,5 +38,13 @@ private String author;
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }
