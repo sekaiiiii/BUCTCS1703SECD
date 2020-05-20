@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AppSlide"
-            android:label="My Custom AppIntro"></activity>
+            android:label="欢迎使用博物馆服务系统"></activity>
         <activity android:name=".ui.map.MapGuide" />
         <activity android:name=".ui.ClassForNews.WebViewer" />
         <activity

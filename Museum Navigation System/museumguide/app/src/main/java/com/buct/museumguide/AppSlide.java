@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import com.github.appintro.AppIntro;
 import com.github.appintro.AppIntro2;
+import com.github.appintro.AppIntroCustomLayoutFragment;
 import com.github.appintro.AppIntroFragment;
 import com.github.appintro.AppIntroPageTransformerType;
 
@@ -24,23 +25,8 @@ public class AppSlide extends AppIntro {
                          -1.0,
                         2.0
                 ));
-
-                addSlide(AppIntroFragment.newInstance(
-                       "Welcome...",
-                        "This is the first slide of the example"
-                ));
-                addSlide(AppIntroFragment.newInstance(
-                       "...Let's get started!",
-                        "This is the last slide, I won't annoy you more :)"
-                ));
-                addSlide(AppIntroFragment.newInstance(
-                        "...it is page3!",
-                        "This is the last slide, I won't annoy you more :)"
-                ));
-                addSlide(AppIntroFragment.newInstance(
-                        "...it is page4!",
-                        "This is the last slide, I won't annoy you more :)"
-                ));
+                addSlide(AppIntroCustomLayoutFragment.newInstance(R.layout.welcome));
+                setColorDoneText(R.color.colorGreen);
         }
 
         @Override
