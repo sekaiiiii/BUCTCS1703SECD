@@ -63,14 +63,23 @@ public class About extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Element versionElement = new Element();
-        versionElement.setTitle("Version 1.1.5");
+        versionElement.setTitle("Version 1.1.6");
+        Element desc = new Element();
+        desc.setTitle("功能描述\n"+
+        "此软件为计科1703软件工程的课设项目，可以浏览130个博物馆的信息新闻等\n" +
+                "可以上传和播放官方和您上传的讲解\n" +
+                "通过地图浏览您附近的博物馆\n"
+                +"定制化的数据分析");
         return new AboutPage(getContext())
                 .isRTL(false)
+                .setImage(R.drawable.ic_launcher2)
                 .setDescription("博物馆导览和信息服务系统")
-                .addGroup("123456")
-                .addEmail("916196773@qq.com", "Email")
-                .addGroup("12347856")
                 .addItem(versionElement)
+                .addItem(desc)
+                .addGroup("欢迎访问我们的仓库")
+                .addGitHub("https://github.com/Sekaiiiii/BUCTCS1703SECD/tree/group4","计科1703的软件工程仓库")
+                .addGroup("如有任何问题，欢迎发送邮件反馈")
+                .addEmail("916196773@qq.com", "Email")
                 .create();
     }
 }
