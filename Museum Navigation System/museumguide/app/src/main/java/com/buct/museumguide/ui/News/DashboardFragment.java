@@ -111,10 +111,13 @@ public class DashboardFragment extends Fragment implements SwipeRefreshLayout.On
         adapter = new NewsRecyclerAdapter();
         recyclerView.setAdapter(adapter);
         Log.d(TAG, "onCreateView: newList.size" + newsList.size());
-        adapter.addDatas(newsList);
+//        adapter.addDatas(newsList);
         // get and set header
         View header = LayoutInflater.from(getContext()).inflate(R.layout.news_header_banner,recyclerView, false);
         banner = (Banner) header.findViewById(R.id.banner);
+        banner.setAdapter(new NewsBannerAdapter(newsList))
+                .setIndicator(new CircleIndicator(getContext()))
+                .start();
         SearchView searchView = root.findViewById(R.id.searchNews);
         searchView.setOnClickListener(v -> {
             // Toast.makeText(getActivity(),"666",Toast.LENGTH_SHORT).show();
@@ -169,8 +172,8 @@ public class DashboardFragment extends Fragment implements SwipeRefreshLayout.On
             public void onScrolled(@NotNull RecyclerView recyclerView1, int dx, int dy) {
                 super.onScrolled(recyclerView1, dx, dy);
                 //Log.d(TAG, "onScrolled");
+//                mRefreshLayout.setEnabled(recyclerView1.getChildCount() == 0 || recyclerView1.getChildAt(0).getTop() >= 0);
                 lastItemPosition = layoutManager.findLastVisibleItemPosition();
-                mRefreshLayout.setEnabled(recyclerView1.getChildCount() == 0 || recyclerView1.getChildAt(0).getTop() >= 0);
             }
         });
         return root;
@@ -196,17 +199,17 @@ public class DashboardFragment extends Fragment implements SwipeRefreshLayout.On
             Log.d(TAG, "handleMessage: handler收到，" + msg.arg1);
             if(msg.arg1 == 0) {
                 adapter.clearAndAddDatas(newsList);
-                ArrayList<News> tmpNews = new ArrayList<>(newsList.subList(newsList.size() -4, newsList.size()));
-                // 使用setDatas方法要传入新的对象，不要使用全局变量
+                ArrayList<News> tmpNews = new ArrayList<>(adapter.getData().subList(adapter.getData().size() -4, adapter.getData().size()));
+//                // 使用setDatas方法要传入新的对象，不要使用全局变量
                 banner.setDatas(tmpNews);
             }
             else if(msg.arg1 == 1)
                 adapter.addDatas(newsList);
             else if(msg.arg1 == 2) {
                 adapter.clearAndAddDatas(newsList);
-                banner.setAdapter(new NewsBannerAdapter(newsList.subList(newsList.size()-4, newsList.size())))
-                        .setIndicator(new CircleIndicator(getContext()))
-                        .start();
+                ArrayList<News> tmpNews = new ArrayList<>(adapter.getData().subList(adapter.getData().size() -4, adapter.getData().size()));
+//                // 使用setDatas方法要传入新的对象，不要使用全局变量
+                banner.setDatas(tmpNews);
             }
             return false;
         }
@@ -248,14 +251,19 @@ public class DashboardFragment extends Fragment implements SwipeRefreshLayout.On
                             JSONObject tmp_obj = jsonArray.getJSONObject(i);
                             tmp_list.add(new News(tmp_obj));
                         }
-                        newsList = tmp_list;
-                        Message msg = Message.obtain();
-                        msg.arg1 = type;
-                        Log.d(TAG, "onResponse: 要传handler");
-                        mHandler.sendMessage(msg);
-                        Log.d(TAG, "onResponse: 已传handler");
+                        if(tmp_list.size() > 0) {
+                            newsList = tmp_list;
+                            Message msg = Message.obtain();
+                            msg.arg1 = type;
+                            Log.d(TAG, "onResponse: 要传handler");
+                            mHandler.sendMessage(msg);
+                            Log.d(TAG, "onResponse: 已传handler");
+                        }
+                        else
+                            currentPage = 1;
                     } else {
                         Log.d(DashboardFragment.TAG, "null");
+                        currentPage = 1;
                     }
                 } catch (JSONException e) {
                     Log.e(DashboardFragment.TAG, "onResponse: ", e);

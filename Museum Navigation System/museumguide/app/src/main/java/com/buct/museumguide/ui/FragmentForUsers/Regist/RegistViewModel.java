@@ -70,11 +70,13 @@ public class RegistViewModel extends ViewModel {
                         String sessionID = session.substring(0, session.indexOf(";"));
                         System.out.println(sessionID);
                         cookie=sessionID;
+                        liveData1.postValue(state);
                     }
                     else{
+                        String error = jsonobject3.getString("error_code");
+                        liveData1.postValue(error);
                         System.out.println("null");
                     }
-                    liveData1.postValue(state);
                 }catch (Exception e){
                     Log.e(Regist.TAG, "onResponse: ", e);
                 }

@@ -42,6 +42,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /*
 * 好像fragment比较麻烦，就直接activity了
@@ -53,6 +54,7 @@ public class MapGuide extends AppCompatActivity {
     ArrayList<MuseumMapInfo>mapinfo=new ArrayList<>();
     ArrayList<Marker>markers=new ArrayList<>();mapinfomation map;
     ArrayList<MarkerOptions>markers1=new ArrayList<>();
+    ConcurrentHashMap<String,String> hashMap=new ConcurrentHashMap<>();
     private String markerid="";
     protected View getMyView(String name) {
         View view=getLayoutInflater().inflate(R.layout.mapmarker, null);
@@ -92,6 +94,7 @@ public class MapGuide extends AppCompatActivity {
                     @Override
                     public void run() {
                         for(int i=0;i<map.getDatas().getList().size();i++){
+                            hashMap.put(map.getDatas().getList().get(i).getName(),map.getDatas().getList().get(i).getId());
                             Double Latitude=Double.valueOf(map.getDatas().getList().get(i).getLatitude());
                             Double logitude=Double.valueOf(map.getDatas().getList().get(i).getLongitude());
                             String name=map.getDatas().getList().get(i).getName();
@@ -111,6 +114,7 @@ public class MapGuide extends AppCompatActivity {
                 System.out.println(marker.getId().equals(markerid)+" "+count);
                     Intent intent=new Intent(MapGuide.this, MainActivity.class);
                     intent.putExtra("info",marker.getTitle());
+                    intent.putExtra("museumid_map",hashMap.get(marker.getTitle()));
                     startActivity(intent);
                 return true;
             }

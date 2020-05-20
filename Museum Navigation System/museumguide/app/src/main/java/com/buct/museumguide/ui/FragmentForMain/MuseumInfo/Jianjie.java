@@ -141,7 +141,7 @@ private ShowUploadAdapter adapter;
         System.out.println("数据刷新");
         l.clear();
         for(int i=0;i<s.list.size();i++){
-            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
+            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览", (String) s.list.get(i).getDescription().getDescription()));
         }
         System.out.println("list"+l.size());
         System.out.println(recyclerView);
