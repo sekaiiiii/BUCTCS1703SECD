@@ -50,6 +50,7 @@ public class MuseumList extends Fragment {
         MuseumPagerAdapter adapter = new MuseumPagerAdapter(getChildFragmentManager(), fragments);
         final ViewPager viewPager=view.findViewById(R.id.museum_viewpager);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

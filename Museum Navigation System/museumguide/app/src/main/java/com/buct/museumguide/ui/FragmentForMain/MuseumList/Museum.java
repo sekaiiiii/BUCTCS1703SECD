@@ -1,7 +1,9 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumList;
 
-public class Museum {
-    private int imageId;
+import java.io.Serializable;
+
+public class Museum implements Serializable {
+    private int Id;
     private String name;
     private String level;
     private String number;
@@ -75,16 +77,16 @@ public class Museum {
         this.number = number;
     }
 
-    public int getImageId() {
-        return imageId;
+    public int getId() {
+        return Id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public void setName(String name) {
