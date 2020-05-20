@@ -103,6 +103,14 @@ public class MuseumDefaultAdapter extends RecyclerView.Adapter<MuseumDefaultAdap
         Museum museum = mMuseumList.get(position);
         return museum.getId();
     }
+    public String getLatitude(int position) {
+        Museum museum = mMuseumList.get(position);
+        return museum.getLatitude();
+    }
+    public String getLongtitude(int position){
+        Museum museum = mMuseumList.get(position);
+        return museum.getLongtitude();
+    }
 
     public void updata(List<Museum> list){
         mMuseumList.clear();

@@ -62,6 +62,8 @@ public class CommentFragment extends Fragment {
                 int id = museumAdapter.getID(position);
                 String x = ""+id;
                 editor.putString("museumid_map",x).apply();
+                editor.putString("Latitude",museumAdapter.getLatitude(position)).apply();
+                editor.putString("Longtitude",museumAdapter.getLongtitude(position)).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -131,7 +133,7 @@ public class CommentFragment extends Fragment {
                         service= "服务：" + service;
                     }
 
-                    temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",exhibition,environment,service));
+                    temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",exhibition,environment,service,showMuseum.getId(),showMuseum.getLatitude(),showMuseum.getLongitude()));
                 }
                 museumList.clear();
                 museumList.addAll(temp_list);

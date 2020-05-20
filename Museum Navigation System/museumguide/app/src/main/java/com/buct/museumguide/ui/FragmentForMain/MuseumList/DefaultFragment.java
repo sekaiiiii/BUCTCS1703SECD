@@ -24,13 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
-import com.buct.museumguide.Service.CommandRequest;
-import com.buct.museumguide.Service.MuseumInfoResultMsg;
-import com.buct.museumguide.Service.MuseumListDefaultResultMsg;
-import com.buct.museumguide.Service.ResultMessage;
-import com.buct.museumguide.Service.StateBroadCast;
-import com.buct.museumguide.bean.Collection;
-import com.buct.museumguide.bean.Museum_Info_Full;
 import com.buct.museumguide.util.PinyinUtil;
 import com.buct.museumguide.util.RequestHelper;
 import com.buct.museumguide.util.StreamUtils;
@@ -46,11 +39,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
@@ -106,6 +95,7 @@ public class DefaultFragment extends Fragment {
                 ObjectInputStream in = new ObjectInputStream(inputStream);
                 Museum[] obj = (Museum[]) in.readObject();
                 List<Museum> cache = Arrays.asList(obj);
+                System.out.println("cache大小"+cache.size());
                 if(cache.size()!=0){
                     museumList = cache;
                     System.out.println("读取缓存数据");
@@ -181,6 +171,8 @@ public class DefaultFragment extends Fragment {
                 int id = museumAdapter.getID(position);
                 String x = ""+id;
                 editor.putString("museumid_map",x).apply();
+                editor.putString("Latitude",museumAdapter.getLatitude(position)).apply();
+                editor.putString("Longtitude",museumAdapter.getLongtitude(position)).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -201,6 +193,8 @@ public class DefaultFragment extends Fragment {
 
 
     private List<Museum> filledData(List<com.buct.museumguide.bean.Museum> museums) throws JSONException {
+        List<String> latitude = new ArrayList<>();
+        List<String> longtitude = new ArrayList<>();
         List<Integer> Id = new ArrayList<>();
         List<String> imgUrl = new ArrayList<>();
         List<String> data = new ArrayList<>();
@@ -217,6 +211,8 @@ public class DefaultFragment extends Fragment {
             }
             Id.add(museums.get(i).getId());
             data.add(museums.get(i).getName());
+            latitude.add(museums.get(i).getLatitude());
+            longtitude.add(museums.get(i).getLongitude());
 
         }
         List<Museum> mMuseumList = new ArrayList<>();
@@ -226,6 +222,8 @@ public class DefaultFragment extends Fragment {
             museum.setName(data.get(i));
             museum.setImgUrl(imgUrl.get(i));
             museum.setId(Id.get(i));
+            museum.setLatitude(latitude.get(i));
+            museum.setLongtitude(longtitude.get(i));
             museum.setLevel("国家一级博物馆");
             //汉字转化为拼音
             String pinyin = PinyinUtil.getPingYin(data.get(i));
