@@ -57,6 +57,9 @@ public class TimeFragment extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 System.out.println(museumNumberAdapter.getTitle(position));
                 editor.putString("info", museumNumberAdapter.getTitle(position)).apply();
+                int id = museumNumberAdapter.getID(position);
+                String x = ""+id;
+                editor.putString("museumid_map",x).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -96,7 +99,6 @@ public class TimeFragment extends Fragment {
 
                     //System.out.println(imgurl);
                     String exhibition = object.getString("exhibition_num");
-                    System.out.println("%%%%%%"+exhibition);
                     temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",exhibition,1));
                 }
                 System.out.println(temp_list.size());
