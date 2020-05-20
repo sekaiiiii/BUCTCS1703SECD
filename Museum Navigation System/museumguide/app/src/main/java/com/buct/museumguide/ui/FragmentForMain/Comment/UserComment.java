@@ -134,9 +134,28 @@ public class UserComment extends Fragment {
 
         info=getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
         SharedPreferences sharedPreferences= getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
-        String serScore=sharedPreferences.getString("servScore","1.0");serScore=serScore.substring(0,3);
-        String exhScore=sharedPreferences.getString("exhiScore","1.0");exhScore=exhScore.substring(0,3);
-        String envScore=sharedPreferences.getString("enviScore","1.0");envScore=envScore.substring(0,3);
+
+        String serScore=sharedPreferences.getString("servScore","1.0");
+        if(serScore.equals("null")||serScore.equals("")){
+            serScore="3.0";
+        }else{
+            serScore=serScore.substring(0,3);
+        }
+
+        String exhScore=sharedPreferences.getString("exhiScore","1.0");
+        if(exhScore.equals("null")||exhScore.equals("")){
+            exhScore="3.0";
+        }else{
+            exhScore=exhScore.substring(0,3);
+        }
+
+        String envScore=sharedPreferences.getString("enviScore","1.0");
+        if(envScore.equals("null")||envScore.equals("")){
+            envScore="3.0";
+        }
+        else{
+            envScore=envScore.substring(0,3);
+        }
         Log.d("getCommenttt",sharedPreferences.getString("servScore","1.0"));
         show4.setText("展览: "+exhScore);
         show5.setText("服务: "+serScore);
@@ -148,7 +167,7 @@ public class UserComment extends Fragment {
         recyclerView=root.findViewById(R.id.comment_recyclerview_commit);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        
+
         return root;
     }
 
@@ -224,15 +243,28 @@ public class UserComment extends Fragment {
 
         info=getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
         SharedPreferences sharedPreferences= getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
-        String serScore=sharedPreferences.getString("servScore","1.0");serScore=serScore.substring(0,3);
-        String exhScore=sharedPreferences.getString("exhiScore","1.0");exhScore=exhScore.substring(0,3);
-        String envScore=sharedPreferences.getString("enviScore","1.0");envScore=envScore.substring(0,3);
-        show4.setText("展览: "+exhScore);
-        show5.setText("服务: "+serScore);
-        show6.setText("环境: "+envScore);
-        rating4.setRating(Float.valueOf(exhScore));
-        rating5.setRating(Float.valueOf(serScore));
-        rating6.setRating(Float.valueOf(envScore));
+
+        String serScore=sharedPreferences.getString("servScore","1.0");
+        if(serScore.equals("null")||serScore.equals("")){
+            serScore="3.0";
+        }else{
+            serScore=serScore.substring(0,3);
+        }
+
+        String exhScore=sharedPreferences.getString("exhiScore","1.0");
+        if(exhScore.equals("null")||exhScore.equals("")){
+            exhScore="3.0";
+        }else{
+            exhScore=exhScore.substring(0,3);
+        }
+
+        String envScore=sharedPreferences.getString("enviScore","1.0");
+        if(envScore.equals("null")||envScore.equals("")){
+            envScore="3.0";
+        }
+        else{
+            envScore=envScore.substring(0,3);
+        }
 
     }
 
