@@ -60,6 +60,9 @@ public class NumberFragment extends Fragment {
                 int id = museumNumberAdapter.getID(position);
                 String x = ""+id;
                 editor.putString("museumid_map",x).apply();
+                System.out.println("经纬度"+museumNumberAdapter.getLatitude(position));
+                editor.putString("Latitude",museumNumberAdapter.getLatitude(position)).apply();
+                editor.putString("Longtitude",museumNumberAdapter.getLongtitude(position)).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -97,7 +100,7 @@ public class NumberFragment extends Fragment {
                         imgurl = "http://192.144.239.176:8080/"+imgurl;
                     }
                     String collection = object.getString("collection_num");
-                    temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",collection,1,1));
+                    temp_list.add(new Museum(imgurl,showMuseum.getName(),"国家一级博物馆",collection,showMuseum.getId(),showMuseum.getLatitude(),showMuseum.getLongitude(),1));
                 }
                 museumList.clear();
                 museumList.addAll(temp_list);
