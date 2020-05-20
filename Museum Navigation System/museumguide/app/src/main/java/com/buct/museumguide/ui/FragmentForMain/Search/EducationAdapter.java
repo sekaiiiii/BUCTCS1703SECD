@@ -62,9 +62,9 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
 //        holder.tag.setText("标签： "+exhibition.getTag());
         holder.content.setText(exhibition.getContent());
         holder.cooperator.setText(" 合作机构： "+exhibition.getCooperator());
-        Glide.with(holder.itemView)
-                .load(exhibition.getImgUrl())
-                .into(holder.image);
+//        Glide.with(holder.itemView)
+//                .load(exhibition.getImgUrl())
+//                .into(holder.image);
     }
 
     @Override
