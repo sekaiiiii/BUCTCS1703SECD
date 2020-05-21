@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -44,6 +46,9 @@ import com.buct.museumguide.bean.Education;
 import com.buct.museumguide.bean.Exhibition;
 import com.buct.museumguide.bean.News;
 import com.buct.museumguide.ui.ClassForNews.WebViewer;
+import com.buct.museumguide.ui.FragmentForMain.CollectionDetailsViewModel;
+import com.buct.museumguide.ui.FragmentForMain.EducationDetailsViewModel;
+import com.buct.museumguide.ui.FragmentForMain.ExhibitionDetailsViewModel;
 import com.buct.museumguide.ui.News.NewsRecyclerAdapter;
 import com.google.gson.JsonObject;
 
@@ -60,6 +65,9 @@ import java.util.Objects;
 public class CommonList extends Fragment {
     public static final String TAG ="CommonList" ;
     private CommonListViewModel commonListViewModel;
+    private ExhibitionDetailsViewModel exhibitionDetailsViewModel;
+    private CollectionDetailsViewModel collectionDetailsViewModel;
+    private EducationDetailsViewModel educationDetailsViewModel;
     private ArrayList<Exhibition> exhiList = new ArrayList<>();
     private ArrayList<Collection> collList = new ArrayList<>();
     private ArrayList<News> newsList = new ArrayList<>();
@@ -82,6 +90,9 @@ public class CommonList extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
         commonListViewModel = ViewModelProviders.of(this).get(CommonListViewModel.class);
+        exhibitionDetailsViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(ExhibitionDetailsViewModel.class);
+        collectionDetailsViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CollectionDetailsViewModel.class);
+        educationDetailsViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(EducationDetailsViewModel.class);
         Bundle bundle = getArguments();
         assert bundle != null;
         int showType = bundle.getInt("showType");
@@ -89,6 +100,7 @@ public class CommonList extends Fragment {
 
         View root = inflater.inflate(R.layout.common_list_fragment, container, false);
         TextView notFind = root.findViewById(R.id.notFind);
+        ImageView commonListNotFind = root.findViewById(R.id.commonListNotFind);
         ImageButton topNavReturn = (ImageButton) root.findViewById(R.id.topNavReturn);
         topNavReturn.setOnClickListener(view -> Navigation.findNavController(view).popBackStack());
         TextView topNavTitle = root.findViewById(R.id.topNavTitle);
@@ -115,6 +127,8 @@ public class CommonList extends Fragment {
                 exhiAdapter.setOnItemClickListener(new ExhiRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        Log.d(TAG, "onItemClick: " + exhiList.get(position).getName());
+                        exhibitionDetailsViewModel.setExhiLivaData(exhiList.get(position));
                         Navigation.findNavController(getView()).navigate(R.id.action_commonList_to_exhibitionDetails);
                     }
                     @Override
@@ -130,6 +144,7 @@ public class CommonList extends Fragment {
                 collAdapter.setOnItemClickListener(new CollRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        collectionDetailsViewModel.setCollLivaData(collList.get(position));
                         Navigation.findNavController(root).navigate(R.id.action_commonList_to_collectionDetails);
                     }
                     @Override
@@ -166,7 +181,15 @@ public class CommonList extends Fragment {
                 eduAdapter.setOnItemClickListener(new EduRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Navigation.findNavController(getView()).navigate(R.id.action_commonList_to_educationDetails);
+                        if(eduList.get(position).getUrl().equals("")) {
+                            Toast.makeText(getActivity(), "暂无详细信息", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Intent intent = new Intent(getActivity(), WebViewer.class);
+                            intent.putExtra("uri", eduList.get(position).getUrl());
+                            startActivity(intent);
+                        }
+//                        Navigation.findNavController(getView()).navigate(R.id.action_commonList_to_educationDetails);
                     }
                     @Override
                     public void onItemLongClick(View view, int position) {
@@ -177,8 +200,10 @@ public class CommonList extends Fragment {
         if(showType == 1 && exhiList.size() == 0 || showType == 2 && collList.size() ==0 || showType == 3 && newsList.size() == 0 || showType == 4 && eduList.size() == 0) {
             commonList.setVisibility(View.GONE);
         }
-        else
+        else {
             notFind.setVisibility(View.GONE);
+            commonListNotFind.setVisibility(View.GONE);
+        }
         return root;
     }
 
