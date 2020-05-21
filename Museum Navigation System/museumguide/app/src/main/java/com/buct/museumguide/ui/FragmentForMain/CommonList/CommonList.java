@@ -96,7 +96,7 @@ public class CommonList extends Fragment {
         Bundle bundle = getArguments();
         assert bundle != null;
         int showType = bundle.getInt("showType");
-        Toast.makeText(getActivity(), "" + showType,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "" + showType,Toast.LENGTH_SHORT).show();
 
         View root = inflater.inflate(R.layout.common_list_fragment, container, false);
         TextView notFind = root.findViewById(R.id.notFind);
@@ -158,11 +158,12 @@ public class CommonList extends Fragment {
                 commonList.setAdapter(newsAdapter);
 //                newsList = News.getTestData();
                 newsAdapter.addDatas(newsList);
+                newsAdapter.setShowFooter(false);
                 newsAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         //MainActivity.url=
-                        Toast.makeText(getActivity(),newsList.get(position).getUrl(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(),newsList.get(position).getUrl(), Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(getActivity(), WebViewer.class);
                         intent.putExtra("uri",newsList.get(position).getUrl());
                         startActivity(intent);

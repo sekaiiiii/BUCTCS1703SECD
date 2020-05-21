@@ -73,7 +73,8 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                 Exhibition exhibition = data.getExhibition();
                 if(exhibition != null) {
                     exHolder.exhiTitle.setText(exhibition.getName());
-                    exHolder.exhiContent.setText(exhibition.getContent());
+                    if(!exhibition.getContent().equals("")&&!exhibition.getContent().equals("null"))
+                        exHolder.exhiContent.setText(exhibition.getContent());
                     //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
                     try {
                         Glide.with(exHolder.itemView)

@@ -65,7 +65,7 @@ public class NewsSAdapter extends RecyclerView.Adapter<NewsSAdapter.ViewHolder> 
                 Intent intent=new Intent(mContext, WebViewer.class);
                 intent.putExtra("uri",url);
                 mContext.startActivity(intent);
-                Toast.makeText(mContext, "我被点击了", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "我被点击了", Toast.LENGTH_SHORT).show();
             }
         });
 

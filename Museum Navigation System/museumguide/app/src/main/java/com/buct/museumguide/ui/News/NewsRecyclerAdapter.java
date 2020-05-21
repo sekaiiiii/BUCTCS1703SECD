@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<News> news = new ArrayList<>();
     private NewsRecyclerAdapter.OnItemClickListener onItemClickListener;
+    private boolean showFooter = true;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_NORMAL = 1;
@@ -37,6 +39,10 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int mLoadMoreStatus = 0;
 
     private View mHeaderView;
+
+    public void setShowFooter(boolean isShow) {
+        showFooter = isShow;
+    }
 
     public void setHeaderView(View headerView) {
         mHeaderView = headerView;
@@ -131,9 +137,11 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return true;
             });
         }
-        else {
+        else if(showFooter){
             ((FootHolder) viewHolder).mTip.setText("正在努力加载中...");
         }
+        else
+            ((FootHolder) viewHolder).footer.setVisibility(View.GONE);
     }
 
     private int getRealPosition(RecyclerView.ViewHolder holder) {
@@ -178,10 +186,12 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
     class FootHolder extends RecyclerView.ViewHolder {
+        public LinearLayout footer;
         public TextView mTip;
         public FootHolder(View itemView) {
             super(itemView);
             mTip = itemView.findViewById(R.id.tv_tip);
+            footer = itemView.findViewById(R.id.footer);
         }
     }
 

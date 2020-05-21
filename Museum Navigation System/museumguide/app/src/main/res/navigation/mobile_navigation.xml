@@ -312,6 +312,15 @@
         <action
             android:id="@+id/action_searchResultShow_to_test"
             app:destination="@id/test" />
+        <action
+            android:id="@+id/action_searchResultShow_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_searchResultShow_to_collectionDetails3"
+            app:destination="@id/collectionDetails" />
+        <action
+            android:id="@+id/action_searchResultShow_to_exhibitionDetails"
+            app:destination="@id/exhibitionDetails" />
     </fragment>
     <fragment
         android:id="@+id/test"
