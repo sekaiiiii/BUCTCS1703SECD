@@ -4,7 +4,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -32,6 +35,7 @@ import com.buct.museumguide.bean.Audiolist;
 import com.buct.museumguide.ui.FragmentForUsers.Upload.ShowUploadAdapter;
 import com.buct.museumguide.ui.FragmentForUsers.Upload.audioitem;
 import com.buct.museumguide.ui.home.HomeViewModel;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,10 +53,14 @@ public class Jianjie extends Fragment {
     private List<audioitem>l=new ArrayList<>();
     private int currentpos=-1;
     private int count=0;
+    TextView textView8;
     public static Jianjie newInstance() {
         return new Jianjie();
     }
     private ShowUploadAdapter adapter;
+    private int museumid;
+    String tmpIntro;
+    String name;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -60,19 +68,22 @@ public class Jianjie extends Fragment {
             EventBus.getDefault().register(this);
         }
         View view=inflater.inflate(R.layout.jianjie_fragment, container, false);
-        TextView textView8 = view.findViewById(R.id.textView8);
+         textView8 =view.findViewById(R.id.textView8);
         homeViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(HomeViewModel.class);
         homeViewModel.getMuseumLivaData().observe(getViewLifecycleOwner(), museum->{
-            String tmpIntro = museum.getIntroduction();
+             tmpIntro = museum.getIntroduction();
+             name=museum.getName();
+            museumid=museum.getId();
             if(tmpIntro.equals("")||tmpIntro.equals("null")) {
                 textView8.setText("这里还没有内容");
                 textView8.setGravity(Gravity.CENTER);
             }
             else {
                 textView8.setText(tmpIntro);
-                textView8.setTextSize(15);
+                //textView8.setTextSize(15);
             }
         });
+
         recyclerView=view.findViewById(R.id.showaudio_jianjie);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -109,6 +120,17 @@ public class Jianjie extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        textView8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("被点击了");
+                /*此处应有一个对话框*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(name);
+                builder.setMessage(tmpIntro);
+                builder.create().show();// 使用show()方法显示对话框
+            }
+        });
     }
 
     @Override
@@ -160,12 +182,19 @@ public class Jianjie extends Fragment {
         AudioMessage s=msg;
         System.out.println("数据刷新");
         l.clear();
+        System.out.println(String.valueOf(museumid));
         for(int i=0;i<s.list.size();i++){
-            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览", (String) s.list.get(i).getDescription().getDescription()));
+            String id=(String) s.list.get(i).getDescription().getDescription();
+            String exrid=id.substring(1);
+            if(id.charAt(0)=='M'&&Integer.valueOf(exrid).equals(museumid))
+                l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览", (String) s.list.get(i).getDescription().getDescription()));
+        }
+        if(l.size()==0){
+            Toast.makeText(getActivity(),"此博物馆暂无讲解",Toast.LENGTH_LONG).show();
         }
         System.out.println("list"+l.size());
         System.out.println(recyclerView);
         adapter.notifyDataSetChanged();
-        Toast.makeText(getActivity(),s.list.get(0).getDescription().getTitle(),Toast.LENGTH_SHORT).show();
+
     }
 }
