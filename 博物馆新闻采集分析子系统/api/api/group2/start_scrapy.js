@@ -1,7 +1,7 @@
 /*
- * author:谢奇
- * create_day:2020-05-07
- * modified_day:2020-05-07
+ * author:Jeffrey
+ * create_day:2020-05-20
+ * modified_day:2020-05-20
  * function:已登录用户发评论
  */
 'use strict'
