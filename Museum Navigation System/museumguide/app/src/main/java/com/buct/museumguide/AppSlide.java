@@ -25,6 +25,7 @@ public class AppSlide extends AppIntro {
                          -1.0,
                         2.0
                 ));
+
                 addSlide(AppIntroCustomLayoutFragment.newInstance(R.layout.welcome));
                 setColorDoneText(R.color.colorGreen);
         }
