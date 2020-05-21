@@ -140,7 +140,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        // 这里可能有问题?
+        homeViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         museumName = root.findViewById(R.id.museumList_button);
         introContent = root.findViewById(R.id.introContent);
@@ -177,6 +178,7 @@ public class HomeFragment extends Fragment {
                 JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("museum_list")));
                 JSONObject resMuseum = jsonArray.getJSONObject(0);
                 showMuseum = new Museum(resMuseum);
+                homeViewModel.setMuseumLivaData(showMuseum);
                 museumName.setText(showMuseum.getName().equals("")?"这里还没有内容":showMuseum.getName());
                 introContent.setText(showMuseum.getIntroduction().equals("")?"这里还没有内容":showMuseum.getIntroduction());
                 visitContent.setText((showMuseum.getTime() + showMuseum.getAttention()).equals("")?"这里还没有内容":showMuseum.getTime()+showMuseum.getAttention());
@@ -190,6 +192,7 @@ public class HomeFragment extends Fragment {
                 editor.putString("exhiScore",showMuseum.getExhibition_score()).apply();
                 editor.putString("enviScore",showMuseum.getEnvironment_score()).apply();
                 editor.putString("servScore",showMuseum.getService_score()).apply();
+                editor.putString("museumIntro",showMuseum.getIntroduction()).apply();
             } else {
                 Log.d(HomeFragment.TAG, "museumInfor null");
             }
