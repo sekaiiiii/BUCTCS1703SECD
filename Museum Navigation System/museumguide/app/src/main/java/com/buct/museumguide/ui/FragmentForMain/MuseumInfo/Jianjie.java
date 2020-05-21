@@ -158,7 +158,6 @@ public class Jianjie extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         System.out.println("jianjieresume");
         EventBus.getDefault().post(new StringMessage("0"));
     }
