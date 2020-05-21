@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/museumList_card_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="113dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="10dp"
@@ -44,7 +44,7 @@
                     android:layout_weight="1"
                     android:id="@+id/museum_name"
                     android:gravity="center"
-                    android:textSize="17sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"/>
                 <TextView
                     android:layout_width="match_parent"

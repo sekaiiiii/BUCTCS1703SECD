@@ -65,7 +65,7 @@ public class MuseumCommentAdapter extends RecyclerView.Adapter<MuseumCommentAdap
         Glide.with(holder.itemView)
                 .load(museum.getImgUrl())
                 .into(holder.museumImage);
-        holder.museumLevel.setText(museum.getLevel());
+        holder.museumLevel.setText("国家一级"+"\n"+"博物馆");
         //holder.museumNumber.setText(museum.getNumber());
         //holder.museumTest.setText(museum.getTest());
         holder.cardView.setOnClickListener(view -> {

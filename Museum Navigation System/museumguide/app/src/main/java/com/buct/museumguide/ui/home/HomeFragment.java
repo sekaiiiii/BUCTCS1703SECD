@@ -108,8 +108,8 @@ public class HomeFragment extends Fragment {
             Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onAttach: fromMap name"+ info);
             System.out.println(info);
-        }
-        SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+    }
+    SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
         assert museumId != null;
         if(!museumId.equals("")) {
             curMuseumId = Integer.parseInt(museumId);
