@@ -1,5 +1,8 @@
 package com.buct.museumguide.ui.FragmentForMain.Search;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,12 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Museum;
+import com.buct.museumguide.ui.ClassForNews.WebViewer;
+import com.buct.museumguide.ui.home.HomeFragment;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 
@@ -25,7 +32,7 @@ import java.util.List;
 public class MuseumSAdapter extends RecyclerView.Adapter< MuseumSAdapter.ViewHolder> {
 
     private List<Museum> mMuseumList;
-
+    private Context mContext;
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView open_time;
@@ -53,7 +60,8 @@ public class MuseumSAdapter extends RecyclerView.Adapter< MuseumSAdapter.ViewHol
 
 
 
-    public MuseumSAdapter(List<Museum> museumList){
+    public MuseumSAdapter(List<Museum> museumList,Context context){
+        mContext=context;
         mMuseumList=museumList;
     }
 
@@ -62,6 +70,20 @@ public class MuseumSAdapter extends RecyclerView.Adapter< MuseumSAdapter.ViewHol
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.search_museum_item,parent,false);
         final ViewHolder holder=new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position=holder.getAdapterPosition();
+                SharedPreferences.Editor editor=mContext.getSharedPreferences("data",Context.MODE_PRIVATE).edit();
+                editor.putString("info",mMuseumList.get(position).getName()).apply();
+                editor.putString("museumid_map",mMuseumList.get(position).getId()+"").apply();
+                SharedPreferences sharedPreferences= mContext.getSharedPreferences("data", Context .MODE_PRIVATE);
+                Log.d("putString",sharedPreferences.getString("info","1"));
+                Log.d("putString",sharedPreferences.getString("museumid_map","s"));
+                Navigation.findNavController(view).navigate(R.id.action_searchResultShow_to_navigation_home);
+                Toast.makeText(mContext, "正在为您跳转", Toast.LENGTH_SHORT).show();
+            }
+        });
         return  holder;
     }
 

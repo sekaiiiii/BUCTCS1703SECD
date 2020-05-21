@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -36,6 +37,8 @@ import com.buct.museumguide.bean.Education;
 import com.buct.museumguide.bean.Exhibition;
 import com.buct.museumguide.bean.Museum;
 import com.buct.museumguide.bean.News;
+import com.buct.museumguide.ui.FragmentForMain.CollectionDetailsViewModel;
+import com.buct.museumguide.ui.FragmentForMain.ExhibitionDetailsViewModel;
 import com.buct.museumguide.ui.News.DashboardViewModel;
 import com.buct.museumguide.ui.News.NewsRecyclerAdapter;
 import com.buct.museumguide.util.RequestHelper;
@@ -57,6 +60,8 @@ public class SearchResultShow extends Fragment {
     private TextView textView;
     private String content;
     private String type;
+    private CollectionDetailsViewModel mCollectionDetailsViewModel;
+    private ExhibitionDetailsViewModel mExhibitionDetailsViewModel;
     private SearchResultShowViewModel searchResultShowViewModel;
     RequestHelper requestHelper;
 
@@ -95,6 +100,8 @@ public class SearchResultShow extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mExhibitionDetailsViewModel =new ViewModelProvider(Objects.requireNonNull(getActivity())).get(ExhibitionDetailsViewModel.class);
+        mCollectionDetailsViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(CollectionDetailsViewModel.class);
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.search_result_show, container, false);
 
@@ -132,6 +139,19 @@ public class SearchResultShow extends Fragment {
                     else
                     {
                         exhibitionAdapter =new ExhibitionAdapter(exhibitionList);
+                        exhibitionAdapter.setOnItemClickListener(new ExhibitionAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                mExhibitionDetailsViewModel.setExhiLivaData(exhibitionList.get(position));
+                                Navigation.findNavController(view).navigate(R.id.action_searchResultShow_to_exhibitionDetails);
+                                Toast.makeText(getActivity(),"了解详情",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onItemLongClick(View view, int position) {
+
+                            }
+                        });
                         recyclerView.setAdapter(exhibitionAdapter);
                     }
             Log.d("getContent",String.valueOf(exhibitionList.size()));
@@ -145,7 +165,7 @@ public class SearchResultShow extends Fragment {
                 recyclerView.setAdapter(noInfoAdapter);
             }
             else{
-                educationAdapter =new EducationAdapter(educationList);
+                educationAdapter =new EducationAdapter(educationList,getContext());
                 recyclerView.setAdapter(educationAdapter);
             }
             Log.d("getContent",String.valueOf(educationList.size()));
@@ -159,7 +179,20 @@ public class SearchResultShow extends Fragment {
                 recyclerView.setAdapter(noInfoAdapter);
             }
             else{
-                collectionAdapter= new CollectionAdapter(collectionList);
+                collectionAdapter= new CollectionAdapter(collectionList,getActivity());
+                collectionAdapter.setOnItemClickListener(new CollectionAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        mCollectionDetailsViewModel.setCollLivaData(collectionList.get(position));
+                        Navigation.findNavController(view).navigate(R.id.action_searchResultShow_to_collectionDetails3);
+                        Toast.makeText(getActivity(),"了解详情",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
                 recyclerView.setAdapter(collectionAdapter);
             }
             Log.d("getContent",String.valueOf(collectionList.size()));
@@ -172,7 +205,7 @@ public class SearchResultShow extends Fragment {
                 recyclerView.setAdapter(noInfoAdapter);
             }
             else{
-                museumSAdapter=new MuseumSAdapter(museumList);
+                museumSAdapter=new MuseumSAdapter(museumList,getActivity());
                 recyclerView.setAdapter(museumSAdapter);
             }
             Log.d("getContent",String.valueOf(museumList.size()));

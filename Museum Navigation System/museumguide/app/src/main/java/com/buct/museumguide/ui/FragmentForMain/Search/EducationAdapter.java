@@ -1,5 +1,7 @@
 package com.buct.museumguide.ui.FragmentForMain.Search;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Education;
+import com.buct.museumguide.ui.ClassForNews.WebViewer;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
@@ -23,6 +27,7 @@ import java.util.List;
 public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.ViewHolder> {
 
     private List<Education> mEducationList;
+    private Context mContext;
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView name;
         TextView content;
@@ -46,14 +51,27 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
 
     }
 
-    public EducationAdapter(List<Education> educationList) {
+    public EducationAdapter(List<Education> educationList,Context context) {
+
         mEducationList = educationList;
+        mContext=context;
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.search_enducation_item,parent,false);
         final ViewHolder holder=new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position=holder.getAdapterPosition();//5.
+                String url=mEducationList.get(position).getUrl();
+                Intent intent=new Intent(mContext, WebViewer.class);
+                intent.putExtra("uri",url);
+                mContext.startActivity(intent);
+                Toast.makeText(mContext, "正在为您跳转", Toast.LENGTH_SHORT).show();
+            }
+        });
         return  holder;
     }
 
