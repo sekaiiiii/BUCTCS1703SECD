@@ -11,4 +11,14 @@ import scrapy
 class MuseumNewsSpiderItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    author = scrapy.Field()
+    time = scrapy.Field()
+    content = scrapy.Field()
+    description = scrapy.Field()
+    url = scrapy.Field()
+    tag = scrapy.Field()
+    news_id = scrapy.Field()
+    main_content = scrapy.Field()
+    content_list = scrapy.Field()
+    museum_id = scrapy.Field()
