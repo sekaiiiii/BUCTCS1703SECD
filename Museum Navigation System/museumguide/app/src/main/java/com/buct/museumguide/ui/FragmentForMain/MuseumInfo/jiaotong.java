@@ -83,10 +83,10 @@ public class jiaotong extends Fragment {
         TextView textView=getActivity().findViewById(R.id.textView4);
         // TODO: Use the ViewModel
         infos=getActivity().getSharedPreferences("data",Context.MODE_PRIVATE);
-        String lat=infos.getString("Latitude","0");
-        String log=infos.getString("Longtitude","0");
+        String lat=infos.getString("Latitude","39.929518");
+        String log=infos.getString("Longtitude","116.378653");
         String msname=infos.getString("info","中国地质博物馆");
-        System.out.println("博物馆地图的名字"+msname);
+        System.out.println("博物馆地图的名字"+msname+lat+" "+log);
         LatLng latLng = new LatLng(Double.valueOf(lat),Double.valueOf(log));
         final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title(msname));
         aMap. moveCamera(CameraUpdateFactory.changeLatLng(latLng));
