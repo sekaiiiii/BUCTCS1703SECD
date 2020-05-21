@@ -3,11 +3,13 @@ package com.buct.museumguide.ui.FragmentForMain.MuseumList;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.nfc.Tag;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,15 +24,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buct.museumguide.R;
-import com.buct.museumguide.Service.CommandRequest;
-import com.buct.museumguide.Service.MuseumInfoResultMsg;
-import com.buct.museumguide.Service.MuseumListDefaultResultMsg;
-import com.buct.museumguide.Service.ResultMessage;
-import com.buct.museumguide.Service.StateBroadCast;
-import com.buct.museumguide.bean.Collection;
 import com.buct.museumguide.util.PinyinUtil;
 import com.buct.museumguide.util.RequestHelper;
+import com.buct.museumguide.util.StreamUtils;
 import com.example.sidebar.WaveSideBarView;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,9 +37,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +70,8 @@ public class DefaultFragment extends Fragment {
     private RecyclerView recyclerView;
     private TitleItemDecoration titleItemDecoration;
     private MuseumListViewModel museumListViewModel;
+    private View view;
+    private List<Museum> cache;
     public static DefaultFragment newInstance() {return new DefaultFragment();}
 
     @Override
@@ -79,19 +90,58 @@ public class DefaultFragment extends Fragment {
 
         // Inflate the layout for this fragment
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info"));
-        View view = inflater.inflate(R.layout.museum_default_layout, container, false);
-        museumListViewModel = new ViewModelProvider(this).get(MuseumListViewModel.class);
+        view = inflater.inflate(R.layout.museum_default_layout, container, false);
         try {
-            museumListViewModel.getMuseums(getContext()).observe(getViewLifecycleOwner(), new Observer<ArrayList<com.buct.museumguide.bean.Museum>>() {
-                @Override
-                public void onChanged(ArrayList<com.buct.museumguide.bean.Museum> museums) {
-                    mMuseums = museums;
-                    System.out.println("+++++++"+mMuseums.size());
+            createFile();
+            FileInputStream inputStream = Objects.requireNonNull(getActivity()).openFileInput("MuseumDefaultCache");
+            System.out.println("文件内容"+inputStream.getChannel().size());
+            if(inputStream.getChannel().size() != 0){
+                ObjectInputStream in = new ObjectInputStream(inputStream);
+                Museum[] obj = (Museum[]) in.readObject();
+                List<Museum> cache = Arrays.asList(obj);
+                museumList = cache;
+                System.out.println("读取缓存数据");
+            }
+            else {
+                museumListViewModel = new ViewModelProvider(this).get(MuseumListViewModel.class);
+                try {
+                    museumListViewModel.getMuseums(getContext()).observe(getViewLifecycleOwner(), new Observer<ArrayList<com.buct.museumguide.bean.Museum>>() {
+                        @Override
+                        public void onChanged(ArrayList<com.buct.museumguide.bean.Museum> museums) {
+                            mMuseums = museums;
+                            try {
+                                museumList=filledData(mMuseums);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Collections.sort(museumList,pinyinComparator);
+                            museumAdapter.updata(museumList);
+                            try {
+                                Cache(museumList);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                } catch (JSONException | IOException e){
+                    e.printStackTrace();
                 }
-            });
-        } catch (JSONException | IOException e){
+                System.out.println("第一次加载，存入缓存MuseumDefault");
+            }
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+//        System.out.println("cache到底多大！"+cache.size());
+//        if(cache.size() != 0){
+//            museumList = cache;
+//            System.out.println("加载缓存MuseumDefault");
+//
+//        }
+//        else {
+//        }
 
         pinyinComparator = new PinyinComparator();
         waveSideBarView = (WaveSideBarView) view.findViewById(R.id.museum_default_sidebar);
@@ -106,14 +156,6 @@ public class DefaultFragment extends Fragment {
             }
         });
         recyclerView = view.findViewById(R.id.museumList_recyclerview0);
-        try {
-            museumList = filledData(mMuseums);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("default123", "onCreateView: "+museumList.size());
-        Collections.sort(museumList,pinyinComparator);
-
         manage = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         recyclerView.setLayoutManager(manage);
@@ -127,6 +169,11 @@ public class DefaultFragment extends Fragment {
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 System.out.println(museumAdapter.getTitle(position));
                 editor.putString("info", museumAdapter.getTitle(position)).apply();
+                int id = museumAdapter.getID(position);
+                String x = ""+id;
+                editor.putString("museumid_map",x).apply();
+                editor.putString("Latitude",museumAdapter.getLatitude(position)).apply();
+                editor.putString("Longtitude",museumAdapter.getLongtitude(position)).apply();
                 Navigation.findNavController(view).navigate(R.id.navigation_home);
             }
 
@@ -141,17 +188,15 @@ public class DefaultFragment extends Fragment {
         recyclerView.addItemDecoration(titleItemDecoration);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                museumAdapter.notifyDataSetChanged();
-            }
-        });
+        System.out.println("oncreateview");
         return view;
     }
 
 
     private List<Museum> filledData(List<com.buct.museumguide.bean.Museum> museums) throws JSONException {
+        List<String> latitude = new ArrayList<>();
+        List<String> longtitude = new ArrayList<>();
+        List<Integer> Id = new ArrayList<>();
         List<String> imgUrl = new ArrayList<>();
         List<String> data = new ArrayList<>();
         for (int i=0; i<museums.size(); i++){
@@ -165,7 +210,10 @@ public class DefaultFragment extends Fragment {
                 str = "http://192.144.239.176:8080/"+str;
                 imgUrl.add(str);
             }
+            Id.add(museums.get(i).getId());
             data.add(museums.get(i).getName());
+            latitude.add(museums.get(i).getLatitude());
+            longtitude.add(museums.get(i).getLongitude());
 
         }
         List<Museum> mMuseumList = new ArrayList<>();
@@ -174,7 +222,9 @@ public class DefaultFragment extends Fragment {
             Museum museum = new Museum();
             museum.setName(data.get(i));
             museum.setImgUrl(imgUrl.get(i));
-
+            museum.setId(Id.get(i));
+            museum.setLatitude(latitude.get(i));
+            museum.setLongtitude(longtitude.get(i));
             museum.setLevel("国家一级博物馆");
             //汉字转化为拼音
             String pinyin = PinyinUtil.getPingYin(data.get(i));
@@ -233,5 +283,30 @@ public class DefaultFragment extends Fragment {
     public void onPause() {
         super.onPause();
         System.out.println("onpause");
+    }
+
+    public void Cache(List<Museum> museum) throws IOException {
+        Museum[] obj = new Museum[museum.size()];
+        museum.toArray(obj);
+//        for (int i=0; i<museum.size();i++){
+//            data.put(i+1,museum.get(i));
+//            System.out.println("缓存数据" + museum.get(i).getName());
+//        }
+        FileOutputStream outputStream = Objects.requireNonNull(getActivity()).openFileOutput("MuseumDefaultCache",Context.MODE_PRIVATE);
+        ObjectOutput out = new ObjectOutputStream(outputStream);
+        out.writeObject(obj);
+        outputStream.close();
+        System.out.println("已缓存MuseumDefault");
+    }
+    public void createFile() throws IOException {
+        File[] files=getActivity().getFilesDir().listFiles();
+        for(File file:files){
+            if(file.getName().equals("MuseumDefaultCache")){
+                System.out.println("MuseumDefaultCache已有缓存");
+                return;
+            }
+        }
+        FileOutputStream outputStream = getActivity().openFileOutput("MuseumDefaultCache",Context.MODE_PRIVATE);
+        outputStream.close();
     }
 }

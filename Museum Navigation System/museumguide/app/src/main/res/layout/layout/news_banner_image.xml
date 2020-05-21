@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/bannerNewsImage"
-            android:layout_width="170dp"
-            android:layout_height="120dp"
-            android:layout_margin="20dp"
-            android:scaleType="fitXY"
-            android:contentDescription="TODO" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="160dp">
-            <TextView
-                android:id="@+id/bannerNewsTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:maxLines="3"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"/>
-            <TextView
-                android:id="@+id/bannerNewsTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:textSize="10sp"
-                android:layout_marginBottom="20dp"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/bannerNewsTitle"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="20dp"/>
+        <TextView
+            android:id="@+id/bannerNewsContent"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/bannerNewsTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
 <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
 <!--xmlns:tools="http://schemas.android.com/tools"-->
