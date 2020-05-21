@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class AppSlide extends AppIntro {
                 super.onDonePressed(currentFragment);
                 SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
                 Infos.edit().putBoolean("start",true).apply();
+                Intent intent2=new Intent(AppSlide.this,MainActivity.class);
+                startActivity(intent2);
                 finish();
         }
 
@@ -43,6 +46,8 @@ public class AppSlide extends AppIntro {
                 super.onSkipPressed(currentFragment);
                 SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
                 Infos.edit().putBoolean("start",true).apply();
+                Intent intent2=new Intent(AppSlide.this,MainActivity.class);
+                startActivity(intent2);
                 finish();
         }
 }
