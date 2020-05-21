@@ -192,7 +192,6 @@ public class HomeFragment extends Fragment {
                 editor.putString("exhiScore",showMuseum.getExhibition_score()).apply();
                 editor.putString("enviScore",showMuseum.getEnvironment_score()).apply();
                 editor.putString("servScore",showMuseum.getService_score()).apply();
-                editor.putString("museumIntro",showMuseum.getIntroduction()).apply();
             } else {
                 Log.d(HomeFragment.TAG, "museumInfor null");
             }
