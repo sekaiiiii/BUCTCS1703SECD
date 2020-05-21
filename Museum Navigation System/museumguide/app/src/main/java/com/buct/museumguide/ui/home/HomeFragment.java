@@ -114,10 +114,10 @@ public class HomeFragment extends Fragment {
         if(!museumId.equals("")) {
             curMuseumId = Integer.parseInt(museumId);
             editor.putInt("curMuseumId",curMuseumId).apply();
-            Log.d(TAG, "onAttach: fromMap id = " + curMuseumId);
         }
         else
             editor.putInt("curMuseumId", 3).apply();
+        Log.d(TAG, "onAttach: fromMap id = " + curMuseumId);
     }
 
     @Override
@@ -140,7 +140,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        // 这里可能有问题?
+        homeViewModel = new ViewModelProvider(Objects.requireNonNull(getActivity())).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         museumName = root.findViewById(R.id.museumList_button);
         introContent = root.findViewById(R.id.introContent);
@@ -177,16 +178,21 @@ public class HomeFragment extends Fragment {
                 JSONArray jsonArray = new JSONArray(String.valueOf(jsonObject.getJSONObject("data").get("museum_list")));
                 JSONObject resMuseum = jsonArray.getJSONObject(0);
                 showMuseum = new Museum(resMuseum);
+                homeViewModel.setMuseumLivaData(showMuseum);
                 museumName.setText(showMuseum.getName().equals("")?"这里还没有内容":showMuseum.getName());
                 introContent.setText(showMuseum.getIntroduction().equals("")?"这里还没有内容":showMuseum.getIntroduction());
                 visitContent.setText((showMuseum.getTime() + showMuseum.getAttention()).equals("")?"这里还没有内容":showMuseum.getTime()+showMuseum.getAttention());
-                homeExhiScore.setText(showMuseum.getExhibition_score().equals("")?"无":showMuseum.getExhibition_score().substring(0, 4));
-                homeEnviScore.setText(showMuseum.getEnvironment_score().equals("")?"无":showMuseum.getEnvironment_score().substring(0, 4));
-                homeServScore.setText(showMuseum.getService_score().equals("")?"无":showMuseum.getService_score().substring(0, 4));
+                String exhi_score = showMuseum.getExhibition_score().length() >= 4 ? showMuseum.getExhibition_score().substring(0, 4):showMuseum.getExhibition_score();
+                String envi_score = showMuseum.getEnvironment_score().length() >= 4 ? showMuseum.getEnvironment_score().substring(0, 4):showMuseum.getEnvironment_score();
+                String serv_score = showMuseum.getService_score().length() >= 4 ? showMuseum.getService_score().substring(0, 4):showMuseum.getService_score();
+                homeExhiScore.setText(showMuseum.getExhibition_score().equals("")?"无":exhi_score);
+                homeEnviScore.setText(showMuseum.getEnvironment_score().equals("")?"无":envi_score);
+                homeServScore.setText(showMuseum.getService_score().equals("")?"无":serv_score);
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 editor.putString("exhiScore",showMuseum.getExhibition_score()).apply();
                 editor.putString("enviScore",showMuseum.getEnvironment_score()).apply();
                 editor.putString("servScore",showMuseum.getService_score()).apply();
+                editor.putString("museumIntro",showMuseum.getIntroduction()).apply();
             } else {
                 Log.d(HomeFragment.TAG, "museumInfor null");
             }

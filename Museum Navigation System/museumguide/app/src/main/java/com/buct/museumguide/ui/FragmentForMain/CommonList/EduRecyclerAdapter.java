@@ -14,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Education;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -74,9 +77,14 @@ public class EduRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         myHolder.eduTitle.setText(edu.getName());
         myHolder.eduContent.setText(edu.getContent());
         myHolder.eduTime.setText(edu.getTime());
-        Glide.with(myHolder.itemView)
-                .load(edu.getImgUrl())
-                .into(myHolder.eduImg);
+        try {
+            Glide.with(myHolder.itemView)
+                    .load(getImageUrl(edu.getImage_list()))
+                    .apply(new RequestOptions().error(R.drawable.emptyimage2))
+                    .into(myHolder.eduImg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         myHolder.eduCardView.setOnClickListener(v -> {
             if(onItemClickListener != null) {
                 int pos1 = getRealPosition(myHolder);
@@ -119,5 +127,15 @@ public class EduRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             eduImg=itemView.findViewById(R.id.eduImg);
             eduCardView=itemView.findViewById(R.id.eduCardView);
         }
+    }
+    public String getImageUrl(JSONArray imgList) throws JSONException {
+        String imgurl = "";
+        if(imgList.length()==0){
+            imgurl = "";
+        }
+        else {
+            imgurl = "http://192.144.239.176:8080/" + imgList.get(0).toString();
+        }
+        return imgurl;
     }
 }

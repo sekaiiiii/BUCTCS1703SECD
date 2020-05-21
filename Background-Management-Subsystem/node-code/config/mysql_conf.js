@@ -13,6 +13,8 @@ module.exports = {
     database: "db",
     connectionLimit: 100,
     queueLimit: 0,
-    acquireTimeout:10000,
-    waitForConnections:true
+    acquireTimeout: 10000,
+    waitForConnections: true,
+    timezone: "+08:00",
+    dateStrings: true
 }

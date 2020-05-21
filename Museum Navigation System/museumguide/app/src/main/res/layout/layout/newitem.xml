@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:baselineAligned="false">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -36,9 +37,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginBottom="5dp"
-                    android:text="newsTitle"
+                    android:maxLines="2"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -60,16 +60,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_margin="5dp"
                     android:text="newsTime"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/newsImg"
-                android:layout_width="100dp"
-                android:layout_height="130dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
