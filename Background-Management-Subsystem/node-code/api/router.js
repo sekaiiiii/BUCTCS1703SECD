@@ -13,5 +13,5 @@ const router = express.Router();
 //路由配置
 router.use("/android",require("./android/router.js"));
 router.use("/web",require("./web/router.js"));
-
+router.use("/group2",require("./group2/router.js"));
 module.exports = router;

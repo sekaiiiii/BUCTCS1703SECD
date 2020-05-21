@@ -10,6 +10,8 @@ const express = require("express");
 
 const router = express.Router();
 
-router.use("/api",require("./api/router"));
 
+//路由配置
+router.use("/api",require("./api/router"));
+router.use("/file",require("./file.js"));
 module.exports = router;
