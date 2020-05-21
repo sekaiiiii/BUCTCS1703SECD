@@ -144,7 +144,7 @@ public class SearchResultShow extends Fragment {
                             public void onItemClick(View view, int position) {
                                 mExhibitionDetailsViewModel.setExhiLivaData(exhibitionList.get(position));
                                 Navigation.findNavController(view).navigate(R.id.action_searchResultShow_to_exhibitionDetails);
-                                Toast.makeText(getActivity(),"了解详情",Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getActivity(),"了解详情",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -185,7 +185,7 @@ public class SearchResultShow extends Fragment {
                     public void onItemClick(View view, int position) {
                         mCollectionDetailsViewModel.setCollLivaData(collectionList.get(position));
                         Navigation.findNavController(view).navigate(R.id.action_searchResultShow_to_collectionDetails3);
-                        Toast.makeText(getActivity(),"了解详情",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(),"了解详情",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

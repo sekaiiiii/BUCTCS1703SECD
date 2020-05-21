@@ -81,7 +81,7 @@ public class MuseumSAdapter extends RecyclerView.Adapter< MuseumSAdapter.ViewHol
                 Log.d("putString",sharedPreferences.getString("info","1"));
                 Log.d("putString",sharedPreferences.getString("museumid_map","s"));
                 Navigation.findNavController(view).navigate(R.id.action_searchResultShow_to_navigation_home);
-                Toast.makeText(mContext, "正在为您跳转", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "正在为您跳转", Toast.LENGTH_SHORT).show();
             }
         });
         return  holder;

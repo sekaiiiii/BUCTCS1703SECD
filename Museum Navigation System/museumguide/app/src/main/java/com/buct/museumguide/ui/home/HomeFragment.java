@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
         String info = Infos.getString("info", "");
         String museumId = Infos.getString("museumid_map", "");
         if (!info.equals("")) {
-            Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onAttach: fromMap name"+ info);
             System.out.println(info);
     }

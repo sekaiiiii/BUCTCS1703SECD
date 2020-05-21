@@ -69,7 +69,7 @@ public class EducationAdapter extends RecyclerView.Adapter<EducationAdapter.View
                 Intent intent=new Intent(mContext, WebViewer.class);
                 intent.putExtra("uri",url);
                 mContext.startActivity(intent);
-                Toast.makeText(mContext, "正在为您跳转", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "正在为您跳转", Toast.LENGTH_SHORT).show();
             }
         });
         return  holder;
