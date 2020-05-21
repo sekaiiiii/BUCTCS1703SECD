@@ -89,11 +89,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("主活动创建");
         super.onCreate(savedInstanceState);
         SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
-        boolean isfirst=Infos.getBoolean("start",false);
-        if(!isfirst){
-            Intent intent2=new Intent(MainActivity.this,AppSlide.class);
-            startActivity(intent2);
-        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         EventBus.getDefault().register(this);
         mediaBrowser=new MediaBrowserCompat(this,new ComponentName(this, MediaPlaybackService.class),callback,null);
