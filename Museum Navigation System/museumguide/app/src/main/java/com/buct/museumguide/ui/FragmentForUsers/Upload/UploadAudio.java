@@ -50,12 +50,18 @@ import android.widget.Toast;
 import com.buct.museumguide.MainActivity;
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Museum_Info_Full;
+import com.buct.museumguide.bean.get_collection_info;
+import com.buct.museumguide.bean.get_exhibition_info;
+import com.buct.museumguide.bean.selectType;
+import com.buct.museumguide.bean.selectTyperes;
 import com.buct.museumguide.util.CountingRequestBody;
 import com.buct.museumguide.util.FileHelper;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,9 +86,14 @@ public class UploadAudio extends Fragment {
     private String title;//音频标题
     private String describtion;//音频描述
     private TextView textView;//显示音乐文件
+    private int select_type=-1;
     private Spinner spinner;//下拉选择
     private Button searchfile;//选择文件
+    private HashMap<Integer,Integer>itemidget;
+    ArrayList<String>items123;
     private Spinner betterSpinner;//博物馆选择器
+    private final String[]items={"藏品讲解","博物馆讲解","展览讲解"};
+    private final String[]nodata={"暂无数据"};
     private final String[]selectid={"collection_id","museum_id","exhibition_id"};
     private int museumid;
     private ProgressDialog dialog;
@@ -106,7 +117,13 @@ public class UploadAudio extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.upload_audio_fragment, container, false);
         textView = root.findViewById(R.id.textView15);
-        betterSpinner=root.findViewById(R.id.betterSpinner);
+        betterSpinner=root.findViewById(R.id.betterSpinner);//具体的
+        spinner=root.findViewById(R.id.spinner3);//藏品、讲解、还是博物馆
+        spinner2=root.findViewById(R.id.spinner2);//博物馆列表
+        submit = root.findViewById(R.id.bt_submit_newfile);
+        searchfile = root.findViewById(R.id.bt_upload_vioce);
+        final ArrayAdapter<String> adapter
+                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         Button myupload=root.findViewById(R.id.button12);//查看自己的上传
         myupload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,26 +131,19 @@ public class UploadAudio extends Fragment {
                 Navigation.findNavController(getView()).navigate(R.id.action_uploadAudio_to_showUploadState);
             }
         });
-        spinner=root.findViewById(R.id.spinner3);
-        spinner2=root.findViewById(R.id.spinner2);
-        final String[]items={"藏品讲解","博物馆讲解","展览讲解"};
-        final ArrayAdapter<String> adapter
-                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner2.setAdapter(adapter);
-        searchfile = root.findViewById(R.id.bt_upload_vioce);
         searchfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println();
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    startActivityForResult(intent, REQUEST_CODE);
-                }
-            });
-        submit = root.findViewById(R.id.bt_submit_newfile);
+            @Override
+            public void onClick(View v) {
+                System.out.println();
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("*/*");
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,16 +156,31 @@ public class UploadAudio extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        itemidget=new HashMap<>();
+        HashMap<Integer, Museum_Info_Full.museuminfo.realdata>map=FileHelper.GetHashMap(getActivity());
+        ArrayList<String>museumname=new ArrayList<>();
+        System.out.println("缓存的博物馆数量"+map.size());
+        for(int i=1;i<=map.size();i++){
+            museumname.add(map.get(i).getName());
+        }
+        ArrayAdapter<String>  adapterB= new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, nodata);
+        spinner2.setAdapter(adapterB);
+        final ArrayAdapter<String> adapter1
+                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, museumname);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UploadAudio.this.itemid=selectid[position];
+                UploadAudio.this.select_type=position;
                 if(position==0){
                     spinner2.setVisibility(View.VISIBLE);
+                    betterSpinner.setAdapter(adapter1);
                 }else if(position==1){
                     spinner2.setVisibility(View.INVISIBLE);
+                    betterSpinner.setAdapter(adapter1);
                 }else{
                     spinner2.setVisibility(View.VISIBLE);
+                    betterSpinner.setAdapter(adapter1);
                 }
                 Toast.makeText(getActivity(), UploadAudio.this.itemid,Toast.LENGTH_SHORT).show();
             }
@@ -165,20 +190,39 @@ public class UploadAudio extends Fragment {
 
             }
         });
-        HashMap<Integer, Museum_Info_Full.museuminfo.realdata>map=FileHelper.GetHashMap(getActivity());
-        ArrayList<String>museumname=new ArrayList<>();
-        System.out.println("缓存的博物馆数量"+map.size());
-        for(int i=1;i<=map.size();i++){
-            museumname.add(map.get(i).getName());
-        }
-        final ArrayAdapter<String> adapter1
-                = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, museumname);
-        betterSpinner.setAdapter(adapter1);
-        betterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+        betterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {//选择博物馆
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                /*
+                * 在这里要判断spinner的是什么，如果是博物馆则直接结束，否则进行网络请求
+                * */
                 UploadAudio.this.museumid=position+1;
-                Toast.makeText(getActivity(), String.valueOf(UploadAudio.this.museumid),Toast.LENGTH_SHORT).show();
+                if(select_type==1){
+                    Toast.makeText(getActivity(), String.valueOf(UploadAudio.this.museumid),Toast.LENGTH_SHORT).show();
+                }else if(select_type==0){//藏品
+                    EventBus.getDefault().post(new selectType(UploadAudio.this.museumid,0));
+                }else{//展览
+                    EventBus.getDefault().post(new selectType(UploadAudio.this.museumid,1));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println(itemidget.get(position));
+                if(itemidget.get(position)!=null){
+                    UploadAudio.this.museumid=itemidget.get(position);
+                }else{
+                    UploadAudio.this.museumid=-1;
+                }
             }
 
             @Override
@@ -209,9 +253,22 @@ public class UploadAudio extends Fragment {
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("上传的id号", "onClick: "+UploadAudio.this.itemid+ String.valueOf(UploadAudio.this.museumid));
+                    if(UploadAudio.this.museumid==-1){
+                        Toast.makeText(getActivity(),"您选择的是无效项目",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(UploadAudio.this.filepath.equals("")){
+                        Toast.makeText(getActivity(),"您还没有选择文件",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     try {
                         File file = new File(UploadAudio.this.filepath);
                         UploadAudio.this.title=settitle.getText().toString();
+                        if(UploadAudio.this.title.equals("")){
+                            Toast.makeText(getActivity(),"您还没有输入标题",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         UploadAudio.this.describtion="";
                         SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
                         String cookie = Infos.getString("cookie", "");
@@ -319,5 +376,66 @@ public class UploadAudio extends Fragment {
         System.out.println(data.toString());
         this.uri=data.getData();
         this.filepath = FileHelper.getFilePathForN(this.uri, getActivity());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+    @Subscribe
+    public void ondataget(selectTyperes res){
+        itemidget.clear();
+        System.out.println("回调数据");
+        if(res.type!=-1){
+            Gson gson=new Gson();
+            items123=new ArrayList<>();
+            if(res.type==0){//藏品
+                int count=0;
+                get_collection_info infos=gson.fromJson(res.res,get_collection_info.class);
+                for(int i=0;i<infos.getData().getCollection_list().size();i++){
+                    System.out.println(infos.getData().getCollection_list().get(i).getName());
+                    if(infos.getData().getCollection_list().get(i).getName()!=null){
+                        items123.add(infos.getData().getCollection_list().get(i).getName());
+                        itemidget.put(count++,
+                                infos.getData().getCollection_list().get(i).getId());
+                    }
+                }
+            }else{//展览
+                int count=0;
+                get_exhibition_info infos=gson.fromJson(res.res,get_exhibition_info.class);
+                for(int i=0;i<infos.getData().getExhibition_list().size();i++){
+                    System.out.println(infos.getData().getExhibition_list().get(i).getName());
+                    if(infos.getData().getExhibition_list().get(i).getName()!=null){
+                        items123.add(infos.getData().getExhibition_list().get(i).getName());
+                        itemidget.put(count++,
+                                infos.getData().getExhibition_list().get(i).getId());
+                    }
+                }
+            }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayAdapter<String>  adapterA= new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items123);
+                    spinner2.setAdapter(adapterA);
+                    spinner2.setClickable(true);
+                }
+            });
+        }else{
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayAdapter<String>  adapterA= new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, nodata);
+                    spinner2.setAdapter(adapterA);
+                    spinner2.setClickable(false);
+                }
+            });
+        }
     }
 }

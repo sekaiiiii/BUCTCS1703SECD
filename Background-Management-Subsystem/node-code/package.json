@@ -1,6 +1,11 @@
 {
   "dependencies": {
+    "async": "^3.2.0",
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "express-session": "^1.17.1",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.4.6"
   }
 }
