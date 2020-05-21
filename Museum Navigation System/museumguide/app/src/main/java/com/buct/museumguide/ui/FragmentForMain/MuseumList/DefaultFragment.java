@@ -39,6 +39,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
@@ -90,45 +92,44 @@ public class DefaultFragment extends Fragment {
         //EventBus.getDefault().post(new CommandRequest("http://192.144.239.176:8080/api/android/get_museum_info"));
         view = inflater.inflate(R.layout.museum_default_layout, container, false);
         try {
+            createFile();
             FileInputStream inputStream = Objects.requireNonNull(getActivity()).openFileInput("MuseumDefaultCache");
-            if(inputStream !=null){
+            System.out.println("文件内容"+inputStream.getChannel().size());
+            if(inputStream.getChannel().size() != 0){
                 ObjectInputStream in = new ObjectInputStream(inputStream);
                 Museum[] obj = (Museum[]) in.readObject();
                 List<Museum> cache = Arrays.asList(obj);
-                System.out.println("cache大小"+cache.size());
-                if(cache.size()!=0){
-                    museumList = cache;
-                    System.out.println("读取缓存数据");
-                }
-                else {
-                    museumListViewModel = new ViewModelProvider(this).get(MuseumListViewModel.class);
-                    try {
-                        museumListViewModel.getMuseums(getContext()).observe(getViewLifecycleOwner(), new Observer<ArrayList<com.buct.museumguide.bean.Museum>>() {
-                            @Override
-                            public void onChanged(ArrayList<com.buct.museumguide.bean.Museum> museums) {
-                                mMuseums = museums;
-                                try {
-                                    museumList=filledData(mMuseums);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Collections.sort(museumList,pinyinComparator);
-                                museumAdapter.updata(museumList);
-                                try {
-                                    Cache(museumList);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        });
-                    } catch (JSONException | IOException e){
-                        e.printStackTrace();
-                    }
-                    System.out.println("第一次加载，存入缓存MuseumDefault");
-                }
-
+                museumList = cache;
+                System.out.println("读取缓存数据");
             }
+            else {
+                museumListViewModel = new ViewModelProvider(this).get(MuseumListViewModel.class);
+                try {
+                    museumListViewModel.getMuseums(getContext()).observe(getViewLifecycleOwner(), new Observer<ArrayList<com.buct.museumguide.bean.Museum>>() {
+                        @Override
+                        public void onChanged(ArrayList<com.buct.museumguide.bean.Museum> museums) {
+                            mMuseums = museums;
+                            try {
+                                museumList=filledData(mMuseums);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            Collections.sort(museumList,pinyinComparator);
+                            museumAdapter.updata(museumList);
+                            try {
+                                Cache(museumList);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                } catch (JSONException | IOException e){
+                    e.printStackTrace();
+                }
+                System.out.println("第一次加载，存入缓存MuseumDefault");
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -291,10 +292,21 @@ public class DefaultFragment extends Fragment {
 //            data.put(i+1,museum.get(i));
 //            System.out.println("缓存数据" + museum.get(i).getName());
 //        }
-        OutputStream outputStream = Objects.requireNonNull(getActivity()).openFileOutput("MuseumDefaultCache",Context.MODE_PRIVATE);
+        FileOutputStream outputStream = Objects.requireNonNull(getActivity()).openFileOutput("MuseumDefaultCache",Context.MODE_PRIVATE);
         ObjectOutput out = new ObjectOutputStream(outputStream);
         out.writeObject(obj);
         outputStream.close();
         System.out.println("已缓存MuseumDefault");
+    }
+    public void createFile() throws IOException {
+        File[] files=getActivity().getFilesDir().listFiles();
+        for(File file:files){
+            if(file.getName().equals("MuseumDefaultCache")){
+                System.out.println("MuseumDefaultCache已有缓存");
+                return;
+            }
+        }
+        FileOutputStream outputStream = getActivity().openFileOutput("MuseumDefaultCache",Context.MODE_PRIVATE);
+        outputStream.close();
     }
 }

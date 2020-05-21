@@ -36,23 +36,26 @@ public class NewsBannerAdapter extends BannerAdapter<News, NewsBannerAdapter.New
     @Override
     public void onBindView(NewsBannerContentHolder holder, News data, int position, int size) {
         //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
-        Glide.with(holder.itemView)
-                .load(data.getImgUrl())
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                .into(holder.bannerNewsImage);
+//        Glide.with(holder.itemView)
+//                .load(data.getImgUrl())
+//                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+//                .into(holder.bannerNewsImage);
         holder.bannerNewsTitle.setText(data.getTitle());
         holder.bannerNewsTime.setText(data.getTime().substring(0,10));
+        holder.bannerNewsContent.setText(data.getContent());
     }
     static class NewsBannerContentHolder extends RecyclerView.ViewHolder {
-        ImageView bannerNewsImage;
+//        ImageView bannerNewsImage;
         TextView bannerNewsTitle;
         TextView bannerNewsTime;
+        TextView bannerNewsContent;
 
         NewsBannerContentHolder(@NonNull View view) {
             super(view);
-            this.bannerNewsImage = (ImageView) view.findViewById(R.id.bannerNewsImage);
+//            this.bannerNewsImage = (ImageView) view.findViewById(R.id.bannerNewsImage);
             this.bannerNewsTitle = (TextView) view.findViewById(R.id.bannerNewsTitle);
             this.bannerNewsTime = (TextView) view.findViewById(R.id.bannerNewsTime);
+            this.bannerNewsContent = (TextView) view.findViewById(R.id.bannerNewsContent);
         }
     }
 }
