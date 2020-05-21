@@ -24,7 +24,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:background="@color/colorGreen"
-            android:src="@drawable/ic_fanhui" />
+            app:srcCompat="@drawable/ic_fanhui" />
 
         <TextView
             android:id="@+id/topNavTitle"
@@ -45,14 +45,21 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
-
-    <TextView
-        android:id="@+id/notFind"
+    <ImageView
+        android:id="@+id/commonListNotFind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="这里还没有内容"
+        android:src="@mipmap/search_nothing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/notFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="这里空空如也~"
+        app:layout_constraintTop_toBottomOf="@id/commonListNotFind"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
