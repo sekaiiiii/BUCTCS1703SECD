@@ -1,5 +1,6 @@
 package com.buct.museumguide.ui.FragmentForMain.Search;
 
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,9 +60,10 @@ public class CollectionAdapter extends RecyclerView.Adapter< CollectionAdapter.V
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Collection exhibition=mCollectionList.get(position);
-        holder.name.setText("  "+exhibition.getName());
-        holder.materials.setText("  材质： "+exhibition.getMaterial());
-        holder.museum.setText("  博物馆： "+"故宫博物院");
+        holder.name.setText(exhibition.getName());
+        TextPaint tp=holder.name.getPaint();tp.setFakeBoldText(true);
+        holder.materials.setText("材质： "+exhibition.getMaterial());
+        holder.museum.setText("博物馆： "+"故宫博物院");
 //        holder.tag.setText("标签： "+exhibition.getTag());
 //        holder.content.setText("内容： "+exhibition.getContent());
 //        Uri uri = Uri.fromFile(new File(exhibition.getImgUrl()));
