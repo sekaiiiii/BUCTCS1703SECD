@@ -20,6 +20,9 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerAdapter;
 import com.youth.banner.util.BannerUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,10 +75,15 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                     exHolder.exhiTitle.setText(exhibition.getName());
                     exHolder.exhiContent.setText(exhibition.getContent());
                     //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
-                    Glide.with(exHolder.itemView)
-                            .load(exhibition.getImgUrl())
-                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                            .into(exHolder.exhiImg);
+                    try {
+                        Glide.with(exHolder.itemView)
+                                .load(getImageUrl(exhibition.getImage_list()))
+                                .apply(new RequestOptions().error(R.drawable.emptyimage2))
+                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                                .into(exHolder.exhiImg);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else {
                     Log.d("HomeBanner", "onBindView: 展览无数据");
@@ -93,14 +101,24 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                 if(collection1 != null && collection2 != null) {
                     coHolder.collName1.setText(collection1.getName());
                     coHolder.collName2.setText(collection2.getName());
-                    Glide.with(coHolder.itemView)
-                            .load(collection1.getImgUrl())
-                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                            .into(coHolder.collImg1);
-                    Glide.with(coHolder.itemView)
-                            .load(collection2.getImgUrl())
-                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                            .into(coHolder.collImg2);
+                    try {
+                        Glide.with(coHolder.itemView)
+                                .load(getImageUrl(collection1.getImage_list()))
+                                .apply(new RequestOptions().error(R.drawable.emptyimage2))
+                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                                .into(coHolder.collImg1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Glide.with(coHolder.itemView)
+                                .load(getImageUrl(collection2.getImage_list()))
+                                .apply(new RequestOptions().error(R.drawable.emptyimage2))
+                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                                .into(coHolder.collImg2);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else {
                     Log.d("HomeBanner", "onBindView: 藏品无数据");
@@ -117,10 +135,6 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                     neHolder.newsTitle.setText(news.getTitle());
                     neHolder.newsContent.setText(news.getContent());
                     neHolder.newsTime.setText(news.getTime());
-                    Glide.with(neHolder.itemView)
-                            .load(news.getImgUrl())
-                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                            .into(neHolder.newsImg);
                 }
                 else {
                     Log.d("HomeBanner", "onBindView: 新闻无数据");
@@ -128,7 +142,6 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                     neHolder.newsTitle.setVisibility(View.INVISIBLE);
                     neHolder.newsContent.setVisibility(View.INVISIBLE);
                     neHolder.newsTime.setVisibility(View.INVISIBLE);
-                    neHolder.newsImg.setVisibility(View.INVISIBLE);
                 }
                 break;
             case 4:
@@ -139,10 +152,15 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                     edHolder.eduTitle.setText(education.getName());
                     edHolder.eduContent.setText(education.getContent());
                     //通过图片加载器实现圆角，你也可以自己使用圆角的imageview，实现圆角的方法很多，自己尝试哈
-                    Glide.with(edHolder.itemView)
-                            .load(education.getImgUrl())
-                            .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                            .into(edHolder.eduImg);
+                    try {
+                        Glide.with(edHolder.itemView)
+                                .load(getImageUrl(education.getImage_list()))
+                                .apply(new RequestOptions().error(R.drawable.emptyimage2))
+                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
+                                .into(edHolder.eduImg);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else {
                     Log.d("HomeBanner", "onBindView: 展览无数据");
@@ -153,5 +171,15 @@ public class HomeBannerAdapter extends BannerAdapter<MuseumItem, RecyclerView.Vi
                 }
                 break;
         }
+    }
+    public String getImageUrl(JSONArray imgList) throws JSONException {
+        String imgurl = "";
+        if(imgList.length()==0){
+            imgurl = "";
+        }
+        else {
+            imgurl = "http://192.144.239.176:8080/" + imgList.get(0).toString();
+        }
+        return imgurl;
     }
 }
