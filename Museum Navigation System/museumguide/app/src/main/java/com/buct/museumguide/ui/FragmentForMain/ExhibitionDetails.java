@@ -144,7 +144,7 @@ public class ExhibitionDetails extends Fragment {
                 l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览", (String) s.list.get(i).getDescription().getDescription()));
         }
         if(l.size()==0){
-            Toast.makeText(getActivity(),"此博物馆暂无讲解",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"此展览暂无讲解",Toast.LENGTH_LONG).show();
         }
         System.out.println("list"+l.size());
         System.out.println(recyclerView);

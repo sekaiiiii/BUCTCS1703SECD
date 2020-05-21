@@ -116,6 +116,11 @@ public class DashboardFragment extends Fragment implements SwipeRefreshLayout.On
         View header = LayoutInflater.from(getContext()).inflate(R.layout.news_header_banner,recyclerView, false);
         banner = (Banner) header.findViewById(R.id.banner);
         banner.setAdapter(new NewsBannerAdapter(newsList))
+                .setOnBannerListener((data, position) -> {
+                    Intent intent=new Intent(getActivity(),WebViewer.class);
+                    intent.putExtra("uri",newsList.get(position).getUrl());
+                    startActivity(intent);
+                })
                 .setIndicator(new CircleIndicator(getContext()))
                 .start();
         SearchView searchView = root.findViewById(R.id.searchNews);
@@ -145,7 +150,7 @@ public class DashboardFragment extends Fragment implements SwipeRefreshLayout.On
             @Override
             public void onItemClick(View view, int position) {
                 //MainActivity.url=
-                Toast.makeText(getActivity(),adapter.getData().get(position).getUrl(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),adapter.getData().get(position).getUrl(), Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getActivity(),WebViewer.class);
                 intent.putExtra("uri",adapter.getData().get(position).getUrl());
                 startActivity(intent);

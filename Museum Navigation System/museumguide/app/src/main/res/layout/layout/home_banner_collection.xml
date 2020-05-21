@@ -43,36 +43,47 @@
             <LinearLayout
                 android:id="@+id/coll1Wrap"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/strut"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:layout_centerVertical="true">
                 <ImageView
                     android:id="@+id/collImg1"
                     android:layout_width="100dp"
-                    android:layout_height="170dp"/>
+                    android:layout_gravity="center"
+                    android:layout_height="140dp"/>
                 <TextView
                     android:id="@+id/collName1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="黄玉"/>
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:text="黄玉"
+                    android:maxLines="1"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/coll2Wrap"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/strut"
                 android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_centerVertical="true">
                 <ImageView
                     android:id="@+id/collImg2"
                     android:layout_width="100dp"
-                    android:layout_height="170dp"/>
+                    android:layout_height="140dp"
+                    android:layout_gravity="center"/>
                 <TextView
                     android:id="@+id/collName2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="黄玉"/>
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:text="黄玉"
+                    android:maxLines="1"/>
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
