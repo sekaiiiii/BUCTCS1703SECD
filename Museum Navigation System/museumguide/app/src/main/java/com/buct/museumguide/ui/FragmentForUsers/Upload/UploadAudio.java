@@ -58,7 +58,6 @@ import com.buct.museumguide.util.CountingRequestBody;
 import com.buct.museumguide.util.FileHelper;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
-import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -182,7 +181,7 @@ public class UploadAudio extends Fragment {
                     spinner2.setVisibility(View.VISIBLE);
                     betterSpinner.setAdapter(adapter1);
                 }
-                Toast.makeText(getActivity(), UploadAudio.this.itemid,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), UploadAudio.this.itemid,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -200,7 +199,7 @@ public class UploadAudio extends Fragment {
                 * */
                 UploadAudio.this.museumid=position+1;
                 if(select_type==1){
-                    Toast.makeText(getActivity(), String.valueOf(UploadAudio.this.museumid),Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActivity(), String.valueOf(UploadAudio.this.museumid),Toast.LENGTH_SHORT).show();
                 }else if(select_type==0){//藏品
                     EventBus.getDefault().post(new selectType(UploadAudio.this.museumid,0));
                 }else{//展览

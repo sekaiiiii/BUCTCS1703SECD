@@ -60,9 +60,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'com.race604.waveloading:library:1.1.1'
-    implementation('com.weiwangcn.betterspinner:library:1.1.0') {
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-    }
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -89,5 +86,4 @@ dependencies {
     implementation 'com.gjiazhe:wavesidebar:1.0.1'
     implementation files('libs\\pinyin4j-2.5.0.jar')
     // 可折叠TextView
-    implementation 'com.ms-square:expandableTextView:0.1.4'
 }
