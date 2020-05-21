@@ -2,6 +2,7 @@ package com.buct.museumguide.ui.FragmentForMain.Search;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class NewsSAdapter extends RecyclerView.Adapter<NewsSAdapter.ViewHolder> 
         TextView museum;
         TextView tag;
         TextView time;
-        ImageView image;
+//        ImageView image;
 
         public  ViewHolder (View view){
             super(view);
@@ -38,7 +39,7 @@ public class NewsSAdapter extends RecyclerView.Adapter<NewsSAdapter.ViewHolder> 
             museum=view.findViewById(R.id.search_news_museum);
             tag=view.findViewById(R.id.search_news_tag);
             time=view.findViewById(R.id.search_news_time);
-            image=view.findViewById(R.id.search_news_iamge);
+//            image=view.findViewById(R.id.search_news_iamge);
         }
     }
 
@@ -75,9 +76,10 @@ public class NewsSAdapter extends RecyclerView.Adapter<NewsSAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         News exhibition=mNewsList.get(position);
         holder.title.setText(exhibition.getTitle());
+        TextPaint tv=holder.title.getPaint();tv.setFakeBoldText(true);
         holder.author.setText(exhibition.getContent());
-        holder.museum.setText("博物馆： "+exhibition.getAuthor());
-        holder.time.setText("时间： "+exhibition.getTime());
+        holder.museum.setText("————"+exhibition.getAuthor());
+        holder.time.setText("  "+exhibition.getTime());
 //        holder.tag.setText("标签： "+exhibition.getTag());
 //        Uri uri = Uri.fromFile(new File(exhibition.getImgUrl()));
 //        holder.image.setImageURI(uri);

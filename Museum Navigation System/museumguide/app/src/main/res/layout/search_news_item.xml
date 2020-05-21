@@ -22,14 +22,19 @@
             android:layout_width="match_parent"
             android:layout_height="180dp">
         <LinearLayout
-            android:layout_width="220dp"
+            android:layout_width="match_parent"
             android:orientation="vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_height="180dp">
             <TextView
                 android:id="@+id/search_news_title"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:textSize="18dp"
+                android:textStyle="bold"
                 android:height="50dp"
+                android:textColor="#000000"
                 android:text="博物馆"
                 android:layout_height="wrap_content"/>
 
@@ -38,17 +43,21 @@
                 android:layout_width="wrap_content"
                 android:gravity="top"
                 android:text="博物馆"
-                android:height="70dp"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/search_news_time"
-                android:layout_width="wrap_content"
+                android:height="72dp"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/search_news_museum"
                 android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/search_news_time"
+                android:layout_width="wrap_content"
+                android:text="time"
+                android:textSize="13dp"
+                android:textStyle="bold"
                 android:layout_height="wrap_content"/>
 
             <TextView
@@ -57,12 +66,6 @@
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
-        <ImageView
-            android:id="@+id/search_news_iamge"
-            android:src="@drawable/emptyimage2"
-            android:background="@drawable/ic_search_exhibition"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"/>
 </LinearLayout>
 
     </androidx.cardview.widget.CardView>

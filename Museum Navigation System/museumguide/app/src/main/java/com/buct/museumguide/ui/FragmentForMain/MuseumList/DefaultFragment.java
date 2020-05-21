@@ -134,6 +134,14 @@ public class DefaultFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        System.out.println("cache到底多大！"+cache.size());
+//        if(cache.size() != 0){
+//            museumList = cache;
+//            System.out.println("加载缓存MuseumDefault");
+//
+//        }
+//        else {
+//        }
 
         pinyinComparator = new PinyinComparator();
         waveSideBarView = (WaveSideBarView) view.findViewById(R.id.museum_default_sidebar);
