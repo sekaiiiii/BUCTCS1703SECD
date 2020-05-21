@@ -41,6 +41,7 @@ public class Jianjie extends Fragment {
     private RecyclerView recyclerView;
     private List<audioitem>l=new ArrayList<>();
     private int currentpos=-1;
+    private int count=0;
     public static Jianjie newInstance() {
         return new Jianjie();
     }
@@ -57,7 +58,7 @@ private ShowUploadAdapter adapter;
         recyclerView.setLayoutManager(layoutManager);
         adapter=new ShowUploadAdapter(l,getActivity());
         adapter.setClick(new ShowUploadAdapter.MyClick() {
-            int count=0;
+
             @Override
             public void click(View v) {
                 count++;int pos=recyclerView.getChildAdapterPosition(v);
@@ -100,7 +101,9 @@ private ShowUploadAdapter adapter;
     @Override
     public void onStop() {
         super.onStop();
-
+        if(count%2==1){
+            EventBus.getDefault().post(new PlayMessage(String.valueOf(-1)));
+        }
     }
 
     @Override
@@ -138,7 +141,7 @@ private ShowUploadAdapter adapter;
         System.out.println("数据刷新");
         l.clear();
         for(int i=0;i<s.list.size();i++){
-            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览"));
+            l.add(new audioitem(s.list.get(i).getDescription().getTitle().toString(),s.list.get(i).getDescription().getMediaId(),"导览", (String) s.list.get(i).getDescription().getDescription()));
         }
         System.out.println("list"+l.size());
         System.out.println(recyclerView);

@@ -63,7 +63,7 @@ public class ShowUploadAdapter_showonly extends RecyclerView.Adapter<ShowUploadA
         audioitem item=list.get(position);
         holder.title.setText(item.getTitle());
         holder.name.setText(item.getFilename());
-        holder.author.setText(item.getAuthor());
+        holder.author.setText(item.getId());
     }
     @Override
     public int getItemCount() {

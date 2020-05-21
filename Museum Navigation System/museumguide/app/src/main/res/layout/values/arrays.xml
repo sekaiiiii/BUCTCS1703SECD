@@ -17,4 +17,29 @@
         <item>藏品</item>
         <item>新闻</item>
     </string-array>
+
+    <string-array name="data">
+        <item>爱辉历史陈列馆</item>
+        <item>安徽博物馆</item>
+        <item>八路军太行纪念馆</item>
+        <item>宝鸡青铜器博物馆</item>
+        <item>北京鲁迅博物馆</item>
+        <item>常州博物馆</item>
+        <item>陈云纪念馆</item>
+        <item>成都杜甫草堂博物馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+        <item>爱辉历史陈列馆</item>
+    </string-array>
 </resources>

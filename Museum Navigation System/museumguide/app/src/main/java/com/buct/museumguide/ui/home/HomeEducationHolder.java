@@ -17,6 +17,7 @@ public class HomeEducationHolder extends RecyclerView.ViewHolder {
     public TextView eduTitle;
     public TextView eduContent;
     public ImageView eduImg;
+    public TextView noEdu;
 
     public HomeEducationHolder(Context context, @NonNull View view) {
         super(view);
@@ -26,5 +27,6 @@ public class HomeEducationHolder extends RecyclerView.ViewHolder {
         this.eduTitle = (TextView) view.findViewById(R.id.eduTitle);
         this.eduContent = (TextView) view.findViewById(R.id.eduContent);
         this.eduImg = (ImageView) view.findViewById(R.id.eduImg);
+        this.noEdu = (TextView) view.findViewById(R.id.noEdu);
     }
 }

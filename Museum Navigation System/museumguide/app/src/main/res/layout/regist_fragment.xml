@@ -1,166 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout9"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorBrown"
     tools:context=".ui.FragmentForUsers.Regist.Regist">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#AB9C81">
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/bt_backup"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:background="#00000000"
-            android:drawableRight="@drawable/ic_fanhui"
-            android:drawableEnd="@drawable/ic_fanhui" />
-
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="659dp"
-        android:layout_marginTop="60dp">
-
-        <LinearLayout
-            android:id="@+id/linear"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
-            android:layout_height="487dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="20dp"
-            android:background="#E7DFCF"
-            android:orientation="vertical"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:text="注册"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/text_username"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/modify_psw_edit"
-                android:ems="10"
-                android:hint="\t\t用户名(2-18位)"
-                android:textColorHint="#AB9C81"
-                android:textColor="#AB9C81"
-                android:inputType="textPersonName"
-                android:paddingLeft="3dp"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/text_email"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/modify_psw_edit"
-                android:ems="10"
-                android:hint="\t\t电子邮箱"
-                android:textColorHint="#AB9C81"
-                android:textColor="#AB9C81"
-                android:inputType="textEmailAddress"
-                android:paddingLeft="3dp"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/text_password"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/modify_psw_edit"
-                android:ems="10"
-                android:hint="\t\t密码(6-18位)"
-                android:textColorHint="#AB9C81"
-                android:textColor="#AB9C81"
-                android:inputType="textPassword"
-                android:paddingLeft="3dp"
-                android:textSize="15sp" />
-
-            <EditText
-                android:id="@+id/text_password_correction"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/modify_psw_edit"
-                android:ems="10"
-                android:hint="\t\t确认密码(6-18位)"
-                android:textColorHint="#AB9C81"
-                android:textColor="#AB9C81"
-                android:inputType="textPassword"
-                android:paddingLeft="3dp"
-                android:textSize="15sp" />
+            android:layout_height="wrap_content"
+            tools:layout_conversion_absoluteHeight="566dp"
+            tools:layout_conversion_absoluteWidth="411dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="25dp"
-                android:orientation="horizontal">
+                android:id="@+id/linear"
+                android:layout_width="0dp"
+                android:layout_height="600dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="20dp"
+                android:background="#E7DFCF"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_conversion_absoluteHeight="487dp"
+                tools:layout_conversion_absoluteWidth="371dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:text="注册"
+                    android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/text_code"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:id="@+id/text_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="2"
                     android:background="@drawable/modify_psw_edit"
                     android:ems="10"
-                    android:hint="\t\t验证码"
-                    android:textColorHint="#AB9C81"
-                    android:inputType="textEmailAddress"
-                    android:textColor="#AB9C81"
+                    android:hint="\t\t用户名(2-18位)"
+                    android:inputType="textPersonName"
                     android:paddingLeft="3dp"
+                    android:textColor="#AB9C81"
+                    android:textColorHint="#AB9C81"
                     android:textSize="15sp" />
 
-                <Button
-                    android:id="@+id/bt_gaincode"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                <EditText
+                    android:id="@+id/text_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
                     android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:text="获取验证码"
-                    android:background="#AB9C81"
-                    android:textSize="15sp"/>
+                    android:background="@drawable/modify_psw_edit"
+                    android:ems="10"
+                    android:hint="\t\t电子邮箱"
+                    android:inputType="textEmailAddress"
+                    android:paddingLeft="3dp"
+                    android:textColor="#AB9C81"
+                    android:textColorHint="#AB9C81"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/text_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/modify_psw_edit"
+                    android:ems="10"
+                    android:hint="\t\t密码(6-18位)"
+                    android:inputType="textPassword"
+                    android:paddingLeft="3dp"
+                    android:textColor="#AB9C81"
+                    android:textColorHint="#AB9C81"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/text_password_correction"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/modify_psw_edit"
+                    android:ems="10"
+                    android:hint="\t\t确认密码(6-18位)"
+                    android:inputType="textPassword"
+                    android:paddingLeft="3dp"
+                    android:textColor="#AB9C81"
+                    android:textColorHint="#AB9C81"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/text_code"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/modify_psw_edit"
+                        android:ems="10"
+                        android:hint="\t\t验证码"
+                        android:inputType="textEmailAddress"
+                        android:paddingLeft="3dp"
+                        android:textColor="#AB9C81"
+                        android:textColorHint="#AB9C81"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/bt_gaincode"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="#AB9C81"
+                        android:text="获取验证码"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="85dp"
+                    android:layout_marginTop="50dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_register"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:background="#4C525F"
+                        android:text="确认"
+                        android:textSize="18sp"
+                        tools:ignore="MissingConstraints"
+                        tools:layout_conversion_absoluteHeight="48dp"
+                        tools:layout_conversion_absoluteWidth="371dp" />
+                </LinearLayout>
+
             </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/button_register"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="20dp"
-            android:background="#4C525F"
-            android:text="确认"
-            app:layout_constraintTop_toBottomOf="@id/linear"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="24dp"
-            tools:layout_editor_absoluteY="493dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

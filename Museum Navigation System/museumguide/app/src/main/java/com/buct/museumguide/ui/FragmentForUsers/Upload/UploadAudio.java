@@ -97,6 +97,7 @@ public class UploadAudio extends Fragment {
             }
         }
     };
+    private Spinner spinner2;
     public static UploadAudio newInstance() {
         return new UploadAudio();
     }
@@ -114,11 +115,13 @@ public class UploadAudio extends Fragment {
             }
         });
         spinner=root.findViewById(R.id.spinner3);
+        spinner2=root.findViewById(R.id.spinner2);
         final String[]items={"藏品讲解","博物馆讲解","展览讲解"};
         final ArrayAdapter<String> adapter
                 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner2.setAdapter(adapter);
         searchfile = root.findViewById(R.id.bt_upload_vioce);
         searchfile.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,6 +150,13 @@ public class UploadAudio extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UploadAudio.this.itemid=selectid[position];
+                if(position==0){
+                    spinner2.setVisibility(View.VISIBLE);
+                }else if(position==1){
+                    spinner2.setVisibility(View.INVISIBLE);
+                }else{
+                    spinner2.setVisibility(View.VISIBLE);
+                }
                 Toast.makeText(getActivity(), UploadAudio.this.itemid,Toast.LENGTH_SHORT).show();
             }
 
