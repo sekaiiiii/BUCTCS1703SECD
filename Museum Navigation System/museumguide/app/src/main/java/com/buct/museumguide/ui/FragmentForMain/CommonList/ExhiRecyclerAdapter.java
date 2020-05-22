@@ -24,11 +24,16 @@ import java.util.ArrayList;
 
 public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Exhibition> exhis = new ArrayList<>();
+    private String museumName = "";
     private ExhiRecyclerAdapter.OnItemClickListener onItemClickListener;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_NORMAL = 1;
     private View mHeaderView;
+
+    public void setMuseumName(String name) {
+        museumName = name;
+    }
 
     public void setHeaderView(View headerView) {
         mHeaderView = headerView;
@@ -75,8 +80,11 @@ public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Exhibition exhi = exhis.get(pos);
         final ExhiHolder myHolder = (ExhiHolder) viewHolder;
         myHolder.exhiTitle.setText(exhi.getName());
-        myHolder.exhiTime.setText(exhi.getTime());
-        myHolder.exhiMuseumName.setText(exhi.getName());
+        if(!exhi.getTime().equals("")&&!exhi.getTime().equals("null"))
+            myHolder.exhiTime.setText(exhi.getTime());
+        else
+            myHolder.exhiTime.setText("暂无");
+        myHolder.exhiMuseumName.setText(museumName.equals("") ?"暂无":museumName);
         try {
             Glide.with(myHolder.itemView)
                     .load(getImageUrl(exhi.getImage_list()))

@@ -185,9 +185,9 @@ public class HomeFragment extends Fragment {
                 String exhi_score = showMuseum.getExhibition_score().length() >= 4 ? showMuseum.getExhibition_score().substring(0, 4):showMuseum.getExhibition_score();
                 String envi_score = showMuseum.getEnvironment_score().length() >= 4 ? showMuseum.getEnvironment_score().substring(0, 4):showMuseum.getEnvironment_score();
                 String serv_score = showMuseum.getService_score().length() >= 4 ? showMuseum.getService_score().substring(0, 4):showMuseum.getService_score();
-                homeExhiScore.setText(showMuseum.getExhibition_score().equals("")?"无":exhi_score);
-                homeEnviScore.setText(showMuseum.getEnvironment_score().equals("")?"无":envi_score);
-                homeServScore.setText(showMuseum.getService_score().equals("")?"无":serv_score);
+                homeExhiScore.setText((exhi_score.equals("")||exhi_score.equals("null"))?"无":exhi_score);
+                homeEnviScore.setText((envi_score.equals("")||envi_score.equals("null"))?"无":envi_score);
+                homeServScore.setText((serv_score.equals("")||serv_score.equals("null"))?"无":serv_score);
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 editor.putString("exhiScore",showMuseum.getExhibition_score()).apply();
                 editor.putString("enviScore",showMuseum.getEnvironment_score()).apply();

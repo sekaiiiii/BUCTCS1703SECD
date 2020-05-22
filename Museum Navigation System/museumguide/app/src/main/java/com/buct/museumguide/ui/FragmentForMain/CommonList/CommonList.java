@@ -123,6 +123,9 @@ public class CommonList extends Fragment {
                 topNavTitle.setText("展览");
                 ExhiRecyclerAdapter exhiAdapter = new ExhiRecyclerAdapter();
                 commonList.setAdapter(exhiAdapter);
+                SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+                String info = Infos.getString("info", "");
+                exhiAdapter.setMuseumName(info);
                 exhiAdapter.addDatas(exhiList);
                 exhiAdapter.setOnItemClickListener(new ExhiRecyclerAdapter.OnItemClickListener() {
                     @Override

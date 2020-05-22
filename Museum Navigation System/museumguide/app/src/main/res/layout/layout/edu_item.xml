@@ -37,6 +37,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginBottom="5dp"
                     android:text="eduTitle"
+                    android:maxLines="2"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -57,7 +58,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="5dp"
-                    android:text="eduTime"
+                    android:text="暂无时间"
                     android:textSize="10sp" />
             </RelativeLayout>
 
