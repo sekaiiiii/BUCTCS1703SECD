@@ -192,6 +192,10 @@ public class HomeFragment extends Fragment {
                 editor.putString("exhiScore",showMuseum.getExhibition_score()).apply();
                 editor.putString("enviScore",showMuseum.getEnvironment_score()).apply();
                 editor.putString("servScore",showMuseum.getService_score()).apply();
+                /*if(Infos.getString("Latitude","").equals("")==false){
+                    editor.putString("Latitude","39.929518").apply();
+                    editor.putString("Longtitude","116.378653").apply();
+                }*/
             } else {
                 Log.d(HomeFragment.TAG, "museumInfor null");
             }
