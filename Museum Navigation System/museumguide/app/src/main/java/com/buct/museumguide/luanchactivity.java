@@ -37,5 +37,8 @@ public class luanchactivity extends AppCompatActivity {
         SharedPreferences Infos = getSharedPreferences("data", Context.MODE_PRIVATE);
         isfirst=Infos.getBoolean("start",false);
         handler.sendEmptyMessageDelayed(0x666, 2000);
+        SharedPreferences.Editor editor = getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+        editor.putString("Latitude","39.929518").apply();
+        editor.putString("Longtitude","116.378653").apply();
     }
 }
