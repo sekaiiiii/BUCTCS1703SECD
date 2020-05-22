@@ -125,7 +125,8 @@ public class CommonList extends Fragment {
                 commonList.setAdapter(exhiAdapter);
                 SharedPreferences Infos = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
                 String info = Infos.getString("info", "");
-                exhiAdapter.setMuseumName(info);
+                assert info != null;
+                exhiAdapter.setMuseumName(info.equals("")?"中国地质博物馆":info);
                 exhiAdapter.addDatas(exhiList);
                 exhiAdapter.setOnItemClickListener(new ExhiRecyclerAdapter.OnItemClickListener() {
                     @Override
