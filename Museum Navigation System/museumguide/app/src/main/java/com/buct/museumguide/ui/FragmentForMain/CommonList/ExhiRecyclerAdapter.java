@@ -84,7 +84,7 @@ public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             myHolder.exhiTime.setText(exhi.getTime());
         else
             myHolder.exhiTime.setText("暂无");
-        myHolder.exhiMuseumName.setText(museumName.equals("") ?"暂无":museumName);
+        myHolder.exhiMuseumName.setText(museumName.equals("") ?"中国地质博物馆":museumName);
         try {
             Glide.with(myHolder.itemView)
                     .load(getImageUrl(exhi.getImage_list()))
