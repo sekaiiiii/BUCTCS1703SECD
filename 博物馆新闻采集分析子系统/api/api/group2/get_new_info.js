@@ -18,8 +18,8 @@ router.get("/", function (req, res, next) {
     let page_reg = new RegExp("^\\d+$");
     let ppn_reg = new RegExp("^\\d+$");
     let tag_reg = new RegExp("^\\d+$");
-    var start_date_reg = new RegExp("/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
-    var end_date_reg = new RegExp("/^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/");
+    var start_date_reg = new RegExp("^[1-9]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$");
+    var end_date_reg = new RegExp("^[1-9]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$");
     if (req.query.id != undefined) {
         if (!id_reg.test(req.query.id)) {
             return next(new Error("101"));
@@ -47,17 +47,13 @@ router.get("/", function (req, res, next) {
         }
     }
     if (req.query.start_date != undefined) {
-        if (!tag_reg.test(req.query.tag)) {
-            // if (req.query.ppn < 0) {
-            //     return next(new Error("101"));
-            // }
+        if (!start_date_reg.test(req.query.start_date)) {
+            return next(new Error("101"));
         }
     }
     if (req.query.end_date != undefined) {
-        if (!tag_reg.test(req.query.tag)) {
-            // if (req.query.ppn < 0) {
-            //     return next(new Error("101"));
-            // }
+        if (!end_date_reg.test(req.query.end_date)) {
+            return next(new Error("101"));
         }
     }
     next();
@@ -84,8 +80,8 @@ router.get("/", function (req, res, next) {
                 new.id >= 1
                 ${req.query.id ? `and museum_has_new.museum_id = ? ` : ``}
                 ${req.query.tag ? `and new.tag = ? ` : ``}
-                ${req.query.start_date ? `and new.time > ?` : ``}
-                ${req.query.end_date ? `and new.time < ?` : ``}
+                ${req.query.start_date ? `and new.time >= ?` : ``}
+                ${req.query.end_date ? `and new.time <= ?` : ``}
             order by
                 new.time asc
             limit ?
