@@ -14,24 +14,87 @@
 - MuseumNews为实现新闻简略信息爬取的项目
 - demoSpider为实现新闻详细文本爬取并进行文本分析的爬虫项目
 
-## 5月5日更新
+## 开发情况
 
-由于更新了项目的文件结构，文件更新的时间有些分别。将两个子项目从原先的第x周的文件夹中独立提取了出来。
+- 具体开发情况详见周记
+    - [博物馆新闻采集分析子系统开发周记](https://github.com/Ice-Jeffrey/BUCTCS1703SECD/blob/master/%E5%8D%9A%E7%89%A9%E9%A6%86%E6%96%B0%E9%97%BB%E9%87%87%E9%9B%86%E5%88%86%E6%9E%90%E5%AD%90%E7%B3%BB%E7%BB%9F/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E5%91%A8%E8%AE%B0.md)
 
-## 5月6日更新
+## 最终交付项目
 
-更新了demoSpider项目中的文本分析代码。使用jieba进行分词，统计出TF-IDF频率与TextRank权值，根据其结果范围对新闻进行情感分析。
+- 数据获取、数据加工、数据分析功能，合并到了一个Scrapy项目中，即museum_news_spider项目中
+- api中封装了数据定制api/group2/get_new_info.js文件，使用node.js架构，通过后端接口向前端返回json格式的数据，以完成数据定制服务。
 
-## 5月14日更新
 
-由于百度新闻api并没有将新闻与博物馆做关联，故从各博物馆官网爬取了有关的新闻，并将博物馆与新闻相关联放入数据库中。
+## 数据库表的具体形式
 
-## 5月17日更新
+  新闻表-new
 
-尝试进行监督式机器学习进行文本分析。使用CCF大数据比赛中的新闻情感正负数据集作为训练集进行训练，对爬取到的新闻进行文本分析。
-但由于数据维度的不同，代码报错，分析失败。
+  | 序号 | 字段    | 类型         | 默认值 | 是否NULL | PK   | FK   | 描述     |
+  | ---- | ------- | ------------ | ------ | -------- | ---- | ---- | -------- |
+  | 1    | id      | int(11)      |        |          | 是   | 是   | 新闻id   |
+  | 2    | title   | varchar(255) |        |          | 否   | 否   | 新闻标题 |
+  | 3    | author  | varchar(255) |        |          | 否   | 否   | 新闻作者 |
+  | 4    | time    | datetime     |        |          | 否   | 否   | 新闻时间 |
+  | 5    | content | longtext     |        |          | 否   | 否   | 新闻摘要 |
+  | 6    | url     | longtext     |        |          | 否   | 否   | 新闻url  |
+  | 7    | tag     | int(11)      | 1      |          | 否   | 否   | 新闻正负 |
 
-## 5月19日更新
 
-- 新增了对主流新闻网站即博物馆网页新闻的xpath解析，并通过代码更新了Museum_has_new数据库。
-- 将爬取多个新闻网站的爬虫合并到一个Scrapy项目中。
+  新闻与博物馆关系表-museum_has_new
+
+  | 序号 | 字段      | 类型    | 默认值 | 是否NULL | PK   | FK   | 描述     |
+  | ---- | --------- | ------- | ------ | -------- | ---- | ---- | -------- |
+  | 1    | new_id    | int(11) |        | 否       | 是   | 是   | 新闻id   |
+  | 2    | museum_id | int(11) |        | 否       | 是   | 是   | 博物馆id |
+
+
+## 使用说明
+
+#### 5.1.1 newspider.py爬虫
+
+- 该爬虫用来从网页爬取新闻
+
+- 本地运行：
+  - `scrapy crawl newspider` :默认输入爬取的是 **博物馆** 新闻 在所有时间范围内
+  - `scrapy crawl newspider -a startTime=2020-05-17 -a endTime=2020-05-18`：爬取的是 **博物馆** 在指定时间内的新闻
+  - `scrapy crawl newspider -a museum=故宫博物馆`：爬取的是 **故宫博物馆** 在所有时间范围的新闻
+  - `scrapy crawl newspider -a museum=故宫博物馆 -a startTime=2020-05-17 -a endTime=2020-05-18`: 爬取的是 **故宫博物馆** 在指定时间范围内的新闻
+
+- 服务器运行
+  - `curl http://192.144.239.176:6800/schedule.json -d project=museum_news_spider -d spider=newspider` :默认输入爬取的是 **博物馆** 新闻 在所有时间范围内
+  - `curl http://192.144.239.176:6800/schedule.json -d project=museum_news_spider -d spider=newspider -d startTime=2020-05-17 -d endTime=2020-05-18`：爬取的是 **博物馆** 在指定时间内的新闻
+  - `curl http://192.144.239.176:6800/schedule.json -d project=museum_news_spider -d spider=newspider -d museum=故宫博物馆`：爬取的是 **故宫博物馆** 在所有时间范围的新闻
+  - `curl http://192.144.239.176:6800/schedule.json -d project=museum_news_spider -d spider=newspider -d museum=故宫博物馆 -d startTime=2020-05-17 -d endTime=2020-05-18`: 爬取的是 **故宫博物馆** 在指定时间范围内的新闻
+
+> 运行时参数为 `museum  startTime  endTime`不要写错，博物馆名称不用加引号，时间格式为：`%Y-%m-%d`
+
+> startTime和endTime可以指定其中一个，也可以全部指定
+
+#### 5.1.2 NewsTest.py爬虫
+
+- 该爬虫用来提取新闻原文，从中筛选出与该新闻有关的博物馆，同时进行新闻文本分析
+
+- 本地运行：
+  - `scrapy crawl NewsTest`: 从数据库中取出新闻原文，并进行文本分析
+  - `scrapy crawl -o output.json`: 从数据库中取出新闻原文进行文本分析，将结果输出到output.json文件中
+
+- 服务器运行
+  - `curl http://192.144.239.176:6800/schedule.json -d project=museum_news_spider -d spider=NewsTest`: 从数据库中取出新闻原文，并进行文本分析
+  
+
+### 5.1.3 服务器爬虫项目操作（仅供开发人员参考）
+
+  - `curl http://192.144.239.176:6800/listjobs.json?project=museum_news_spider`: 获取服务器上**museum_news_spider**项目中正在运行的爬虫信息
+  - `curl http://192.144.239.176:6800/cancel.json -d project=museum_news_spider -d job=8c9f5d769b8711eaab2a5254000fd2ba`: 停止服务器中**museum_news_spider**项目中id为**8c9f5d769b8711eaab2a5254000fd2ba**的爬虫
+  - `curl http://192.144.239.176:6800/listspiders.json?project=museum_news_spider`: 获取服务器上**museum_news_spider**中的所有爬虫项目名称
+  - `curl http://192.144.239.176:6800/delete.json -d project=MuseumNews`: 删除服务器上名字为**museum_news_spider**中的爬虫项目
+
+### 5.2 接口调用
+
+- 浏览器输入或postman请求：`http://192.144.239.176:8080/api/group2/get_new_info?id=1&start_date=2000-10-01&end_date=2020-05-21&tag=2&page=1&ppn=1000`
+    - id代表数据库中博物馆的id
+    - start_date与end_date为日期
+    - tag为新闻的正负，0代表负面，1代表中性，2代表正面
+    - ppn代表分页请求时每页的新闻条数，默认为10
+    - page代表分页式显示信息的页数，默认为1
+    - 所有参数均为可选参数
