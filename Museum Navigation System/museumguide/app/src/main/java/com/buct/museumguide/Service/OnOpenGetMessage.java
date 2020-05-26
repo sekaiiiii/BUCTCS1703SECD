@@ -2,16 +2,14 @@ package com.buct.museumguide.Service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
-import android.widget.Switch;
 
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.PostResultMessage;
 import com.buct.museumguide.bean.WebRequestMessage;
-import com.buct.museumguide.ui.FragmentForMain.CommonList.CommonList;
+import com.buct.museumguide.bean.selectType;
+import com.buct.museumguide.bean.selectTyperes;
 import com.buct.museumguide.util.WebHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -20,7 +18,6 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import androidx.annotation.Nullable;
 import okhttp3.RequestBody;
@@ -334,5 +331,33 @@ public class OnOpenGetMessage extends Service {
             fixedThreadPool.execute(command);
            // http://192.144.239.176:8080/api/android/get_version_num
         }
+    }
+    @Subscribe
+    public void getdata(selectType selectType){
+        //type=0为藏品，type=1为展览
+        System.out.println(selectType.id+" "+selectType.type);
+        String exhibition_info_url="http://192.144.239.176:8080/api/android/get_exhibition_info?id="+selectType.id;
+        String collection_info_url= "http://192.144.239.176:8080/api/android/get_collection_info?id="+selectType.id;
+       fixedThreadPool.execute(new Runnable() {
+           String res;
+           @Override
+           public void run() {
+               try{
+                   if(selectType.type==0){
+                       res=WebHelper.getInfo(collection_info_url);
+                   }else{
+                       res=WebHelper.getInfo(exhibition_info_url);
+                   }
+                   System.out.println(res);
+                   if(res.charAt(10)=='0'){
+                       EventBus.getDefault().post(new selectTyperes("", -1));
+                   }else{
+                       EventBus.getDefault().post(new selectTyperes(res, selectType.type));
+                   }
+
+               }catch (Exception e){
+                   e.printStackTrace();
+               }
+           }});
     }
 }

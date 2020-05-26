@@ -3,6 +3,8 @@ package com.buct.museumguide.ui.FragmentForMain.Comment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,10 @@ import androidx.navigation.Navigation;
 import com.buct.museumguide.R;
 import com.buct.museumguide.util.WebHelper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,6 +51,22 @@ public class myComment extends Fragment {
     private TextView show1,show2,show3;
     private Button submit;
     private String museumID;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==100){
+                String status_meg;
+                status_meg=(String)msg.obj;
+                if(status_meg.equals("1")){
+                    Toast.makeText(getContext(),"评论成功",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(),"抱歉，您没有评论权限",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
     public myComment() {
         // Required empty public constructor
     }
@@ -138,14 +160,24 @@ public class myComment extends Fragment {
                                         .post(body)
                                         .build();
                                 Response response = client.newCall(request).execute();
-                                Log.d("PostComment",response.body().string());
+                                String response_string=response.body().string();
+                                JSONObject jsonObject_data = new JSONObject(response_string);
+                                String status=jsonObject_data.getString("status");
+                                Log.d("PostComment",status);
+                                Message message=new Message();
+                                message.what=100;
+                                message.obj=status;
+                                handler.sendMessage(message);
                             }
                             catch (IOException e){
                                 Log.d("PostComment",e.toString());
                             }
+                            catch (JSONException e){
+                                Log.d("PostComment",e.toString());
+                            }
                         }
                     }).start();
-                    Toast.makeText(getContext(),"评论成功",Toast.LENGTH_SHORT).show();
+
 
                 }
             }

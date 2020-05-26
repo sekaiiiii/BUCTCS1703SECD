@@ -132,47 +132,48 @@ public class UserComment extends Fragment {
         show5=root.findViewById(R.id.RatingShow5);
         show6=root.findViewById(R.id.ratingShow6);
 
-        rating4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                String tmp="展览: ";String tmp2=String.valueOf(v);
-                tmp=tmp+tmp2+"  ";
-                show4.setText(tmp);
-            }
-        });
+        info=getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
 
-        rating5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                String tmp="环境: ";String tmp2=String.valueOf(v);
-                tmp=tmp+tmp2+"  ";
-                show5.setText(tmp);
-            }
-        });
+        String serScore=sharedPreferences.getString("servScore","1.0");
+        if(serScore.equals("null")||serScore.equals("")){
+            serScore="3.0";
+        }else{
+            serScore=serScore.length()>=3?serScore.substring(0,3):serScore;
+        }
 
-        rating6.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                String tmp="服务: ";String tmp2=String.valueOf(v);
-                tmp=tmp+tmp2+"  ";
-                show6.setText(tmp);
-            }
-        });
+        String exhScore=sharedPreferences.getString("exhiScore","1.0");
+        if(exhScore.equals("null")||exhScore.equals("")){
+            exhScore="3.0";
+        }else{
+            exhScore=exhScore.length()>=3?exhScore.substring(0,3):exhScore;
+        }
+
+        String envScore=sharedPreferences.getString("enviScore","1.0");
+        if(envScore.equals("null")||envScore.equals("")){
+            envScore="3.0";
+        }
+        else{
+            envScore=envScore.length()>=3?envScore.substring(0,3):envScore;
+        }
+        Log.d("getCommenttt",sharedPreferences.getString("servScore","1.0"));
+        show4.setText("展览: "+exhScore);
+        show5.setText("服务: "+serScore);
+        show6.setText("环境: "+envScore);
+        rating4.setRating(Float.parseFloat(exhScore));
+        rating5.setRating(Float.parseFloat(serScore));
+        rating6.setRating(Float.parseFloat(envScore));
 
         recyclerView=root.findViewById(R.id.comment_recyclerview_commit);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-//        CommentAdapter commentAdapter=new CommentAdapter(CommentList,getContext());
-//        recyclerView.setAdapter(commentAdapter);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        info = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
         String url="http://192.144.239.176:8080/api/android/get_museum_comment?id=";
         String uri=url+info.getInt("curMuseumId",1)+"";
         OkHttpClient client=new OkHttpClient();
@@ -239,7 +240,34 @@ public class UserComment extends Fragment {
                 }
             }
         }).start();
-//        onRecieve(res);
+
+        info=getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences("data", Context .MODE_PRIVATE);
+
+        String serScore=sharedPreferences.getString("servScore","1.0");
+        assert serScore != null;
+        if(serScore.equals("null")||serScore.equals("")){
+            serScore="3.0";
+        }else{
+            serScore=serScore.length()>=3?serScore.substring(0,3):serScore;
+        }
+
+        String exhScore=sharedPreferences.getString("exhiScore","1.0");
+        assert exhScore != null;
+        if(exhScore.equals("null")||exhScore.equals("")){
+            exhScore="3.0";
+        }else{
+            exhScore=exhScore.length()>=3?exhScore.substring(0,3):exhScore;
+        }
+
+        String envScore=sharedPreferences.getString("enviScore","1.0");
+        assert envScore != null;
+        if(envScore.equals("null")||envScore.equals("")){
+            envScore="3.0";
+        }
+        else{
+            envScore=envScore.length()>=3?envScore.substring(0,3):envScore;
+        }
 
     }
 

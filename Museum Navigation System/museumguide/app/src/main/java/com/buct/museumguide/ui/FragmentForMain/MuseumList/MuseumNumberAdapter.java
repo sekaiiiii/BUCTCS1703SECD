@@ -120,4 +120,16 @@ public class MuseumNumberAdapter extends RecyclerView.Adapter<MuseumNumberAdapte
         }
         return -1;
     }
+    public int getID(int position) {
+        Museum museum = mMuseumList.get(position);
+        return museum.getId();
+    }
+    public String getLatitude(int position) {
+        Museum museum = mMuseumList.get(position);
+        return museum.getLatitude();
+    }
+    public String getLongtitude(int position){
+        Museum museum = mMuseumList.get(position);
+        return museum.getLongtitude();
+    }
 }
