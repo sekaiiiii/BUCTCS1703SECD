@@ -175,7 +175,7 @@ public class SearchResult extends Fragment {
         hot2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editText.setText("后母戊鼎");
+                editText.setText("纹盘");
             }
         });
 
@@ -184,7 +184,7 @@ public class SearchResult extends Fragment {
         hot3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editText.setText("故宫博物院");
+                editText.setText("五彩");
             }
         });
 
@@ -192,7 +192,7 @@ public class SearchResult extends Fragment {
         hot4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editText.setText("黄玉夔龙纹扁壶");
+                editText.setText("仿石纹釉笔筒");
             }
         });
 

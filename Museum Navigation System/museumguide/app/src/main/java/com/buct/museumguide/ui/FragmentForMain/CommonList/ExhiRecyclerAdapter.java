@@ -14,18 +14,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.buct.museumguide.R;
 import com.buct.museumguide.bean.Exhibition;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
 public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Exhibition> exhis = new ArrayList<>();
+    private String museumName = "";
     private ExhiRecyclerAdapter.OnItemClickListener onItemClickListener;
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_NORMAL = 1;
     private View mHeaderView;
+
+    public void setMuseumName(String name) {
+        museumName = name;
+    }
 
     public void setHeaderView(View headerView) {
         mHeaderView = headerView;
@@ -72,11 +80,19 @@ public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Exhibition exhi = exhis.get(pos);
         final ExhiHolder myHolder = (ExhiHolder) viewHolder;
         myHolder.exhiTitle.setText(exhi.getName());
-        myHolder.exhiTime.setText(exhi.getTime());
-        myHolder.exhiMuseumName.setText(exhi.getName());
-        Glide.with(myHolder.itemView)
-                .load(exhi.getImgUrl())
-                .into(myHolder.exhiImg);
+        if(!exhi.getTime().equals("")&&!exhi.getTime().equals("null"))
+            myHolder.exhiTime.setText(exhi.getTime());
+        else
+            myHolder.exhiTime.setText("暂无");
+        myHolder.exhiMuseumName.setText(museumName.equals("") ?"中国地质博物馆":museumName);
+        try {
+            Glide.with(myHolder.itemView)
+                    .load(getImageUrl(exhi.getImage_list()))
+                    .apply(new RequestOptions().error(R.drawable.emptyimage2))
+                    .into(myHolder.exhiImg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         myHolder.exhiCardView.setOnClickListener(v -> {
             if(onItemClickListener != null) {
                 int pos1 = getRealPosition(myHolder);
@@ -119,5 +135,15 @@ public class ExhiRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             exhiImg=itemView.findViewById(R.id.exhiImg);
             exhiCardView=itemView.findViewById(R.id.exhiCardView);
         }
+    }
+    public String getImageUrl(JSONArray imgList) throws JSONException {
+        String imgurl = "";
+        if(imgList.length()==0){
+            imgurl = "";
+        }
+        else {
+            imgurl = "http://192.144.239.176:8080/" + imgList.get(0).toString();
+        }
+        return imgurl;
     }
 }

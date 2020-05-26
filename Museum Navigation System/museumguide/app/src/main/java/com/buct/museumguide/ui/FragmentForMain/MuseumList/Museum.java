@@ -1,7 +1,10 @@
 package com.buct.museumguide.ui.FragmentForMain.MuseumList;
 
-public class Museum {
-    private int imageId;
+import java.io.Serializable;
+
+public class Museum implements Serializable {
+    private static final long serialVersionUID = 3544092248974402737L;
+    private int Id;
     private String name;
     private String level;
     private String number;
@@ -12,17 +15,26 @@ public class Museum {
     String service_score;
     String exhibition_num;
     String collection_num;
-    public Museum(String imgUrl, String name, String level, String exhibition_num,int id){
+    private String latitude;
+    private String longtitude;
+    public Museum(String imgUrl, String name, String level, String exhibition_num,int id,String latitude,String longtitude){
         this.imgUrl =imgUrl;
         this.name = name;
         this.level =level;
         this.exhibition_num = exhibition_num;
+        this.Id =id;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
     }
-    public Museum(String imgUrl, String name, String level, String collection_num,int id,int x){
+    public Museum(String imgUrl, String name, String level, String collection_num,int id,String latitude,String longtitude,int x){
         this.imgUrl =imgUrl;
         this.name = name;
         this.level =level;
         this.collection_num = collection_num;
+        this.Id = id;
+        this.latitude =latitude;
+        this.longtitude = longtitude;
+
     }
     public Museum(){
 
@@ -40,13 +52,16 @@ public class Museum {
         this.number = number;
         this.letters = letters;
     }
-    public Museum(String imgUrl, String name, String level, String exhibition_score, String environment_score, String service_score){
+    public Museum(String imgUrl, String name, String level, String exhibition_score, String environment_score, String service_score,int id, String latitude,String longtitude){
         this.imgUrl = imgUrl;
         this.name = name;
         this.level = level;
         this.exhibition_score = exhibition_score;
         this.environment_score =environment_score;
         this.service_score =service_score;
+        this.Id = id;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
     }
 
     public String getImgUrl() {return  imgUrl ;}
@@ -75,16 +90,16 @@ public class Museum {
         this.number = number;
     }
 
-    public int getImageId() {
-        return imageId;
+    public int getId() {
+        return Id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public void setName(String name) {
@@ -130,4 +145,21 @@ public class Museum {
     public void setCollection_num(String collection_num) {
         this.collection_num = collection_num;
     }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
+    }
+
 }

@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.RecursiveTask;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,5 +45,21 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HomeViewModel extends ViewModel {
-
+    private MutableLiveData<Museum> mMuseumLivaData = new MutableLiveData<>();
+    public LiveData<Museum> getMuseumLivaData() {
+        if(mMuseumLivaData == null) {
+            mMuseumLivaData = new MutableLiveData<>();
+        }
+        return mMuseumLivaData;
+    }
+    public void setMuseumLivaData(Museum museum) {
+        if(mMuseumLivaData!=null) {
+            mMuseumLivaData.setValue(museum);
+        }
+    }
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mMuseumLivaData=null;
+    }
 }

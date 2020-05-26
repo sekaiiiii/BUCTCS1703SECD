@@ -97,7 +97,7 @@
         android:id="@+id/toolbar"
         android:layout_width="409dp"
         android:layout_height="60dp"
-        android:background="#009688"
+        android:background="@color/colorGreen"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintStart_toStartOf="parent"
